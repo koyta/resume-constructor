@@ -1,0 +1,101 @@
+@import './components/content/TipPanel/TipPanel.css';
+
+#root {
+  min-height: 100vh;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 32px;
+  line-height: 1;
+  font-size: 160%;
+  text-transform: uppercase;
+  text-align: center;
+  color: #ccc;
+  margin: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+  height: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.App-logo > * {
+  margin: auto auto;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.group {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+}
+
+.form {
+  
+}
+
+
+
+.panel {
+  margin-bottom: 15px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.panel--white {
+  background-color: white;
+}
+
+.panel__heading {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  font-size: 105%;
+  padding: 15px 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel__body {
+  padding: 15px;
+}
+
+.panel__body-row {
+  margin-bottom: 16px;
+}
+
+.push--left{
+  float:left;
+}
+.push--right {
+  float: right;
+}
