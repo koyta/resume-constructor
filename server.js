@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const jwt = require('jsonwebtoken')
 
 const uristring = /*process.env.MONGOLAB_URI || */ 'mongodb://heroku_47zcn25r:25l8np37nbpfdoqq28dv42n69b@ds147518.mlab.com:47518/heroku_47zcn25r'
 
@@ -28,7 +29,60 @@ app.delete('/api/eraseDB', (req, res) => {res.sendStatus(501)})
 app.get('/', (req, res) => {
   console.log('/');
   res.sendStatus(200);
-}) 
+})
+app.get('/welcome', (req, res) => {
+  res.json({
+    message: "welcome to /welcome"
+  })
+})
+app.post('/welcome/post', verifyToken, (req, res) => {
+  jwt.verify(req.token, 'secretkey', (error, authData) => {
+    if (error) {
+      res.sendStatus(403)
+    } else {
+      res.json({
+        message: "post created",
+        authData: authData
+      })
+    }
+  })
+
+})
+app.post('/welcome/login', (req, res) => {
+  // mock user
+  const user = {
+    id: 1,
+    username: 'andrey',
+    email: 'kek@mail.ru'
+  }
+  jwt.sign({user: user}, 'secretkey', (err, token) => {
+    res.json({
+      token: token
+    })
+  })
+})
+
+/* FORMAT TOKEN
+* Authorization: Bearer <access_token>
+*/
+
+function verifyToken (req, res, next) {
+  // get auth header value
+  const bearerHeader = req.headers['authorization']
+  if (typeof bearerHeader !== 'undefined') {
+    // Split at the space
+    const bearer = bearerHeader.split(' ')
+    // Get token from array
+    const bearerToken = bearer[1]
+    // Set token
+    req.token = bearerToken
+    next()
+  } else {
+    // Forbidden
+    res.sendStatus(403)
+  }
+
+}
 
 //присоединямся к бд
 mongoose.connect(uristring, function(error, response) {
