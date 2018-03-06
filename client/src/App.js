@@ -4,8 +4,10 @@ import './App.css';
 import 'antd/dist/antd.css';
 import { Layout, Menu, Icon, Form, Input, Col, Row, Button } from 'antd';
 import TipPanel from './containers/content/TipPanel/';
+import { inject, observer } from 'mobx-react';
 const { Header, Content, Sider } = Layout;
 const { Item } = Menu;
+
 
 class App extends Component {
   state = {
@@ -31,6 +33,7 @@ class App extends Component {
   }
 
   render() {
+    const { location, push, goBack } = this.props.routing;
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
@@ -62,7 +65,7 @@ class App extends Component {
             backgroundColor: 'white',
             boxShadow: '0 0 1px 0 black'
           }}>
-            <Button type="primary">Sign in</Button><Button>Log in</Button>
+            <Button type="primary">Sign in</Button><Button onClick={() => push('/login')}>Log in</Button>
           </Header>
           <Content style={{ padding: 20 }}>
             <div className="wrapper">
@@ -109,4 +112,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default inject('routing')(observer(App))
