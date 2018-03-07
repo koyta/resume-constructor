@@ -8,6 +8,7 @@ import { RouterStore, syncHistoryWithStore } from 'mobx-react-router'
 import { Route, Router } from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
 import UserStore from './stores/userStore'
+import Wrapper from './Wrapper'
 
 const browserHistory = createBrowserHistory()
 const routingStore = new RouterStore()
@@ -23,7 +24,7 @@ const history = syncHistoryWithStore(browserHistory, routingStore)
 render(
   <Provider {...stores}>
     <Router history={history}>
-      <Route exact path='/' component={App}/>
+      <Wrapper />
     </Router>
   </Provider>,
   document.getElementById('root'))
