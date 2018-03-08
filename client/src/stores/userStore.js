@@ -4,13 +4,13 @@ import { loadIdToken, setIdToken } from '../utils/apiUtils'
 import axios from 'axios'
 
 class UserStore {
-  isAuth = observable()
+  @observable isAuth
 
   constructor () {
     this.isAuth = !!loadIdToken()
   }
 
-  authentication = action(async function(login, password) {
+  @action authentication = async (login, password) => {
     console.log('Authentication...')
     const request = await axios.post(`${API_ROOT}/api/login`, {
       body: {
@@ -19,7 +19,7 @@ class UserStore {
       }
     })
     setIdToken(request.data);
-  })
+  }
 
 }
 
