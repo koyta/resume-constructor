@@ -5,35 +5,34 @@ import { Route, withRouter } from 'react-router'
 import App from './App'
 import Login from './containers/login'
 
+@withRouter
+@inject('routing', 'user') @observer
 class Wrapper extends Component {
-  // componentWillMount () {
-  //   this.checkLocation(this.props)
-  // }
-  //
-  // componentWillUpdate (nextProps) {
-  //   this.checkLocation(nextProps)
-  // }
-  //
-  // checkLocation () {
-  //
-  //   const { history, location } = this.props.routing
-  //   if (!this.props.user.isAuth && location.pathname !== '/login') {
-  //     history.push('/login')
-  //   }
-  //   if (this.props.user.isAuth && location.pathname === '/login') {
-  //     history.push('/')
-  //   }
-  // }
+  componentWillMount () {
+    this.checkLocation(this.props)
+  }
+
+  componentWillUpdate (nextProps) {
+    this.checkLocation(nextProps)
+  }
+
+  checkLocation () {
+
+    const { history, location } = this.props.routing
+    if (!this.props.user.isAuth && location.pathname !== '/login') {
+      history.push('/login')
+    }
+    if (this.props.user.isAuth && location.pathname === '/login') {
+      history.push('/')
+    }
+  }
 
   render () {
-    const { user } = this.props
-    if (!user.isAuth) {
-      return <Login/>
-    }
-    else {
-      return <Route exact path="/" component={App}/>
-    }
+    return [
+      <Route exact path={'/'} component={App} key={0}/>,
+      <Route path={'/login'} component={Login} key={1}/>
+    ]
   }
 }
 
-export default inject('routing', 'user')(observer(Wrapper))
+export default Wrapper
