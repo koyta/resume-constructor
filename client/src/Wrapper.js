@@ -6,26 +6,27 @@ import App from './App'
 import Login from './containers/login'
 
 class Wrapper extends Component {
-  componentWillMount () {
-    this.checkLocation(this.props)
-  }
-
-  componentWillUpdate (nextProps) {
-    this.checkLocation(nextProps)
-  }
-
-  checkLocation (props) {
-    const {user, history, location} = props
-    if (!user.isAuth && location.pathname !== '/login') {
-      history.push('/login')
-    }
-    if (user.isAuth && location.pathname === '/login') {
-      history.push('/')
-    }
-  }
+  // componentWillMount () {
+  //   this.checkLocation(this.props)
+  // }
+  //
+  // componentWillUpdate (nextProps) {
+  //   this.checkLocation(nextProps)
+  // }
+  //
+  // checkLocation () {
+  //
+  //   const { history, location } = this.props.routing
+  //   if (!this.props.user.isAuth && location.pathname !== '/login') {
+  //     history.push('/login')
+  //   }
+  //   if (this.props.user.isAuth && location.pathname === '/login') {
+  //     history.push('/')
+  //   }
+  // }
 
   render () {
-    const {user} = this.props
+    const { user } = this.props
     if (!user.isAuth) {
       return <Login/>
     }
@@ -35,4 +36,4 @@ class Wrapper extends Component {
   }
 }
 
-export default withRouter(inject('user')(observer(Wrapper)))
+export default inject('routing', 'user')(observer(Wrapper))
