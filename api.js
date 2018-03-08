@@ -72,7 +72,6 @@ exports.findByGithubAccount = (req, res) => {
     })
     .exec()
     .then(result => {
-      console.log(result);
       if (result) {
         res.status(200).send(result)
       } else {

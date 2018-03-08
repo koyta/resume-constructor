@@ -48,7 +48,7 @@ app.post('/welcome/post', verifyToken, (req, res) => {
   })
 
 })
-app.post('/welcome/login', (req, res) => {
+app.post('/api/login', (req, res) => {
   // mock user
   const user = {
     id: 1,
@@ -56,9 +56,7 @@ app.post('/welcome/login', (req, res) => {
     email: 'kek@mail.ru'
   }
   jwt.sign({user: user}, 'secretkey', (err, token) => {
-    res.json({
-      token: token
-    })
+    res.send(token)
   })
 })
 
