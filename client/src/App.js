@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import AccountRowContainer from "./containers/content/AccountRow";
+import Header from './containers/header'
 import './App.css';
 import 'antd/dist/antd.css';
 import { Layout, Menu, Icon, Form, Input, Col, Row, Button } from 'antd';
 import TipPanel from './containers/content/TipPanel/';
-const { Header, Content, Sider } = Layout;
+import { inject, observer } from 'mobx-react';
+const { Content, Sider } = Layout;
 const { Item } = Menu;
+
 
 class App extends Component {
   state = {
@@ -31,6 +34,7 @@ class App extends Component {
   }
 
   render() {
+    const { location, push, goBack } = this.props.routing;
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
@@ -38,6 +42,7 @@ class App extends Component {
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}>
           <div className="App-logo"><span>logo</span></div>
+          {this.props.user.isAuth &&
           <Menu theme="dark" defaultSelectedKeys={['1']}>
             <Item key={1}>
               <Icon type="user" />
@@ -55,19 +60,13 @@ class App extends Component {
               <Icon type="star-o" />
               <span>Навыки</span>
             </Item>
-          </Menu>
+          </Menu>}
         </Sider>
         <Layout>
-          <Header style={{
-            backgroundColor: 'white',
-            boxShadow: '0 0 1px 0 black'
-          }}>
-            <Button type="primary">Sign in</Button><Button>Log in</Button>
-          </Header>
+          <Header/>
           <Content style={{ padding: 20 }}>
             <div className="wrapper">
               <TipPanel />
-
               <div className="panel panel--white">
                 <div className="panel__body">
                   <div className="form">
@@ -109,4 +108,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default inject('routing, user')(observer(App))
