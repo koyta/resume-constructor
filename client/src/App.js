@@ -1,42 +1,42 @@
-import React, { Component } from 'react';
-import AccountRowContainer from "./containers/content/AccountRow";
+import React, { Component } from 'react'
+import AccountRowContainer from './containers/content/AccountRow'
 import Header from './containers/header'
-import './App.css';
-import 'antd/dist/antd.css';
-import { Layout, Menu, Icon, Form, Input, Col, Row, Button } from 'antd';
-import TipPanel from './containers/content/TipPanel/';
-import { inject, observer } from 'mobx-react';
-const { Content, Sider } = Layout;
-const { Item } = Menu;
+import './App.css'
+import 'antd/dist/antd.css'
+import { Col, Icon, Input, Layout, Menu } from 'antd'
+import TipPanel from './containers/content/TipPanel/'
+import { inject, observer } from 'mobx-react'
 
+const {Content, Sider} = Layout
+const {Item} = Menu
 
 class App extends Component {
   state = {
-    collapsed: false
+    collapsed: false,
   }
 
   onCollapse = (collapsed) => {
-    this.setState({ collapsed })
+    this.setState({collapsed})
   }
 
   removeRow = (e) => {
-    const rows = document.querySelectorAll(".panel__body-row")
+    const rows = document.querySelectorAll('.panel__body-row')
     for (let i = 0; i < rows.length; i++) {
-      let row = rows[i];
-      let buttonInRow = row.getElementsByTagName("button")
+      let row = rows[i]
+      let buttonInRow = row.getElementsByTagName('button')
       if (buttonInRow[0] === e.target) {
         rows[i].remove()
-        return;
+        return
       } else {
         console.log('next')
       }
     }
   }
 
-  render() {
-    const { location, push, goBack } = this.props.routing;
+  render () {
+    const {location, push, goBack} = this.props.routing
     return (
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout style={{minHeight: '100vh'}}>
         <Sider
           collapsible={true}
           collapsed={this.state.collapsed}
@@ -45,41 +45,41 @@ class App extends Component {
           {this.props.user.isAuth &&
           <Menu theme="dark" defaultSelectedKeys={['1']}>
             <Item key={1}>
-              <Icon type="user" />
+              <Icon type="user"/>
               <span>Личная информация</span>
             </Item>
             <Item key={2}>
-              <Icon type="profile" />
+              <Icon type="profile"/>
               <span>Кратко о себе</span>
             </Item>
             <Item key={3}>
-              <Icon type="github" />
+              <Icon type="github"/>
               <span>Анализ GitHub</span>
             </Item>
             <Item key={4}>
-              <Icon type="star-o" />
+              <Icon type="star-o"/>
               <span>Навыки</span>
             </Item>
           </Menu>}
         </Sider>
         <Layout>
           <Header/>
-          <Content style={{ padding: 20 }}>
+          <Content style={{padding: 20}}>
             <div className="wrapper">
-              <TipPanel />
+              <TipPanel/>
               <div className="panel panel--white">
                 <div className="panel__body">
                   <div className="form">
                     <Input.Group>
                       <Col span={12}>
-                        <Input placeholder="Иван" size="large" />
+                        <Input placeholder="Иван" size="large"/>
                       </Col>
                       <Col span={12}>
-                        <Input placeholder="Иванов" size="large" />
+                        <Input placeholder="Иванов" size="large"/>
                       </Col>
                     </Input.Group>
-                    <br />
-                    <Input placeholder="React-разработчик" size="large" />
+                    <br/>
+                    <Input placeholder="React-разработчик" size="large"/>
                   </div>
                 </div>
               </div>
@@ -92,9 +92,10 @@ class App extends Component {
                 <div className="panel__body">
                   <div className="form">
 
-                    <AccountRowContainer icon="github" placeholder="username" />
-                    <AccountRowContainer icon="inbox" placeholder="mail@inbox.com" />
-                    <AccountRowContainer icon="medium" placeholder="@username" />
+                    <AccountRowContainer icon="github" placeholder="username"/>
+                    <AccountRowContainer icon="inbox"
+                                         placeholder="mail@inbox.com"/>
+                    <AccountRowContainer icon="medium" placeholder="@username"/>
 
                   </div>
                 </div>
@@ -104,8 +105,8 @@ class App extends Component {
           </Content>
         </Layout>
       </Layout>
-    );
+    )
   }
 }
 
-export default inject('routing, user')(observer(App))
+export default inject('routing', 'user')(observer(App))

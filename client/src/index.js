@@ -4,7 +4,7 @@ import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 import { Provider } from 'mobx-react'
 import { RouterStore, syncHistoryWithStore } from 'mobx-react-router'
-import { Route, Router } from 'react-router'
+import { Router } from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
 import UserStore from './stores/userStore'
 import Wrapper from './Wrapper'
@@ -15,7 +15,7 @@ const userStore = new UserStore()
 
 const stores = {
   user: userStore,
-  routing: routingStore
+  routing: routingStore,
 }
 
 const history = syncHistoryWithStore(browserHistory, routingStore)
@@ -23,7 +23,7 @@ const history = syncHistoryWithStore(browserHistory, routingStore)
 render(
   <Provider {...stores}>
     <Router history={history}>
-      <Wrapper />
+      <Wrapper/>
     </Router>
   </Provider>,
   document.getElementById('root'))
