@@ -15,12 +15,7 @@ exports.signup = function (req, res) {
   })
   registration.save()
     .then(reg => {
-      res
-        .status(200)
-        .json({
-          message: 'Registration is successfull',
-          newRegistration: reg,
-        })
+      res.status(200)
     })
     .catch(err => default500Error(res, err))
 }
