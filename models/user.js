@@ -7,68 +7,69 @@ const userSchema = new Schema({
   name: {
     first: {
       type: String,
-      required: true
+      required: true,
     },
     second: {
       type: String,
-      required: true
+      required: true,
     },
   },
   profession: {
     type: String,
-    required: true
+    required: true,
   },
   date_of_birth: {
     type: Number, //Unix time
   },
   email: {
     type: String,
-    trim: true
+    trim: true,
   },
   phone: {
-    type: Number
+    type: Number,
   },
   accounts: {
     github: {
       type: String,
-      trim: true
+      trim: true,
     },
     medium: {
       type: String,
-      trim: true
+      trim: true,
     },
     vk: {
       type: String,
-      trim: true
+      trim: true,
     },
     linkedin: {
       type: String,
-      trim: true
+      trim: true,
     },
     twitter: {
       type: String,
-      trim: true
+      trim: true,
     },
     facebook: {
       type: String,
-      trim: true
+      trim: true,
     },
     skype: {
       type: String,
-      trim: true
+      trim: true,
     },
     telegram: {
       type: String,
-      trim: true
-    }
-  }
+      trim: true,
+    },
+  },
+  owner: {type: String, required: true},
 })
 
 userSchema.pre('validate', function (next) {
   if (this.email || this.phone) {
-    next();
+    next()
   } else {
-    next(new Error('Email or Phone should be required.'));
+    next(new Error('Email or Phone: you must specify one of the options'))
   }
 })
 
