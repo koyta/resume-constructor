@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Form, Icon, Input, Layout } from 'antd'
+import { Link } from 'react-router-dom'
 
 const {Content} = Layout
 
@@ -12,6 +13,7 @@ const ContentStyles = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  flexDirection: 'column'
 }
 
 const FormStyles = {
@@ -23,6 +25,7 @@ const Login = ({routing, user, ...props}) => {
   return (
     <Layout style={LayoutStyles}>
       <Content style={ContentStyles}>
+        <h1>Sign in</h1>
         <Form hideRequiredMark={true} onSubmit={(e) => props.handleSubmit(e)}
               style={FormStyles} layout='vertical'>
           <Form.Item>
@@ -38,11 +41,12 @@ const Login = ({routing, user, ...props}) => {
               type="password" placeholder="Password"/>
           </Form.Item>
           <Form.Item>
-            <Button onClick={props.loginClick} type="primary" htmlType="submit"
-                    className="login-form-button">
-              Log in
-            </Button>
-            <span> Or <a href="">register now!</a></span>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <Button type="primary" htmlType="submit" className="login-form-button">
+                Sign in
+              </Button>
+              <span>If you don't have an account, <Link to='/signup'>sign up now!</Link></span>
+            </div>
           </Form.Item>
         </Form>
       </Content>
