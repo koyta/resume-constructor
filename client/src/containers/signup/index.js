@@ -1,46 +1,42 @@
 import React, { Component } from 'react'
-import LoginComponent from '../../components/login'
+import SinginComponent from '../../components/signup'
 import { inject, observer } from 'mobx-react'
 
-class Login extends Component {
+class Singin extends Component {
 
   constructor (props) {
     super(props)
     this.state = {
       login: '',
-      password: ''
-    }
-  }
-
-  componentWillMount() {
-    if(this.props.user.isAuth) {
-      this.props.routing.push('/')
+      password: '',
+      loading: false,
     }
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.user.authentication(
+    this.props.user.registration(
       this.state.login,
-      this.state.password
+      this.state.password,
     )
+    console.log(this.state.login + this.state.password)
   }
 
   handleLoginChange = e => {
     this.setState({
-      login: e.target.value
+      login: e.target.value,
     })
   }
 
   handlePasswordChange = e => {
     this.setState({
-      password: e.target.value
+      password: e.target.value,
     })
   }
 
   render () {
     return (
-      <LoginComponent
+      <SinginComponent
         user={this.props.user}
         routing={this.props.routing}
         loginClick={this.login}
@@ -49,9 +45,10 @@ class Login extends Component {
         handleSubmit={this.handleSubmit}
         login={this.state.login}
         password={this.state.password}
+        loading={this.state.loading}
       />
     )
   }
 }
 
-export default inject('routing', 'user')(observer(Login))
+export default inject('routing', 'user')(observer(Singin))

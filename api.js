@@ -13,16 +13,16 @@ exports.signup = function (req, res) {
     login: req.body.login,
     password: req.body.password,
   })
+  console.log(req.body)
   registration.save()
     .then(reg => {
-      res.status(200)
+      res.sendStatus(200)
     })
     .catch(err => default500Error(res, err))
 }
 
 exports.login = function (req, res) {
   Registration.findOne({login: req.body.login})
-    .select('_id login')
     .exec()
     .then(user => {
       if (!user) {
@@ -35,11 +35,10 @@ exports.login = function (req, res) {
         bcrypt.compare(req.body.password, user.password)
           .then(answer => {
             if (answer) {
-              const token = jwt.sign(user, secretKey,
+              const token = jwt.sign({id: user._id, login: user.login}, secretKey,
                 {expiresIn: '24h'})
               res.status(200)
                 .json({
-                  message: 'OK',
                   token: token,
                 })
             } else {

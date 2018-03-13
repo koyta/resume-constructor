@@ -16,9 +16,8 @@ app.use(morgan('dev'))
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.raw())
-
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
-  extended: true,
+  extended: false,
 }))
 
 const api = require('./api.js')

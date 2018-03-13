@@ -3,25 +3,19 @@ import { render } from 'react-dom'
 import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 import { Provider } from 'mobx-react'
-import { RouterStore, syncHistoryWithStore } from 'mobx-react-router'
+import { syncHistoryWithStore } from 'mobx-react-router'
 import { Router } from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
-import UserStore from './stores/userStore'
+import RootStore from './stores/rootStore'
 import Wrapper from './Wrapper'
 
+
+const rootStore = new RootStore()
 const browserHistory = createBrowserHistory()
-const routingStore = new RouterStore()
-const userStore = new UserStore()
-
-const stores = {
-  user: userStore,
-  routing: routingStore,
-}
-
-const history = syncHistoryWithStore(browserHistory, routingStore)
+const history = syncHistoryWithStore(browserHistory, rootStore.routing)
 
 render(
-  <Provider {...stores}>
+  <Provider {...rootStore}>
     <Router history={history}>
       <Wrapper/>
     </Router>
