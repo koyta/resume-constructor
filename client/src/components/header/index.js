@@ -6,12 +6,7 @@ const Header = (routing, user, ...props) => {
     backgroundColor: 'white',
     boxShadow: '0 0 1px 0 black'
   }}>
-    {user.isAuth && <span>{user.firstname} {user.secondname}</span>}
-    {!user.isAuth && <Button type="primary">Sign in</Button>}
-    {!user.isAuth && <Button onClick={() => {
-      routing.history.push('/login')
-    }}>Log in</Button>}
-
+    <span className='header-username'>{`${user.profile.login}(${user.profile.id})`}</span>
   </Layout.Header>
 }
 
