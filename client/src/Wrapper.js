@@ -9,26 +9,23 @@ import Signup from './containers/signup'
 @withRouter
 @inject('routing', 'user') @observer
 class Wrapper extends Component {
+
   componentWillMount () {
     this.checkLocation(this.props)
   }
 
   componentWillUpdate (nextProps) {
-    // this.checkLocation(nextProps)
+    this.checkLocation(nextProps)
   }
 
-  checkLocation () {
-    const { history, location } = this.props.routing
-    // if (!this.props.user.isAuth && (location.pathname !== '/login')) {
-    //   history.push('/login')
-    // }
-    // if (this.props.user.isAuth &&
-    //   (location.pathname === '/login' || location.pathname === '/signup')) {
-    //   history.push('/')
-    // }
-    // if (this.props.user.isAuth && (location.pathname === '/login' || location.pathname === '/signup')) {
-    //   alert('You are already logged in')
-    // }
+  checkLocation (props) {
+    const { location, push } = props.routing
+    const { isAuth } = props.user
+    if (isAuth && (location.pathname === '/login' || location.pathname === '/signup')) {
+      push('/')
+    } else if (!isAuth && (location.pathname !== '/signup' && location.pathname !== '/login')) {
+      push('/login')
+    }
   }
 
   render () {
