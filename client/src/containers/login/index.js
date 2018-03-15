@@ -14,16 +14,21 @@ class Login extends Component {
 
   componentWillMount() {
     if(this.props.user.isAuth) {
-      this.props.routing.push('/')
+      this.props.routing.history.push('/login')
     }
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
+    const { user, routing } = this.props
     e.preventDefault()
-    this.props.user.authentication(
+    await user.authentication(
       this.state.login,
       this.state.password
     )
+    console.log(`${this.state.login} ${this.state.password} ${user.statusCode}`)
+    if (user.statusCode >= 200 && user.statusCode < 300) {
+      routing.history.go('/')
+    }
   }
 
   handleLoginChange = e => {
@@ -49,6 +54,7 @@ class Login extends Component {
         handleSubmit={this.handleSubmit}
         login={this.state.login}
         password={this.state.password}
+        loading={this.props.user.isFetching}
       />
     )
   }

@@ -5,11 +5,16 @@ import './App.css'
 import 'antd/dist/antd.css'
 import { Col, Icon, Input, Layout, Menu } from 'antd'
 import TipPanel from './containers/content/TipPanel/'
+import Profile from './components/content/Profile'
 import { inject, observer } from 'mobx-react'
+import { Route, Switch } from 'react-router'
+import ResumeView from './components/content/ResumeView'
 
 const {Content, Sider} = Layout
 const {Item} = Menu
 
+@inject('routing','user')
+@observer
 class App extends Component {
   state = {
     collapsed: false,
@@ -34,7 +39,6 @@ class App extends Component {
   }
 
   render () {
-    const {location, push, goBack} = this.props.routing
     return (
       <Layout style={{minHeight: '100vh'}}>
         <Sider
@@ -65,43 +69,47 @@ class App extends Component {
         <Layout>
           <Header/>
           <Content style={{padding: 20}}>
-            <div className="wrapper">
-              <TipPanel/>
-              <div className="panel panel--white">
-                <div className="panel__body">
-                  <div className="form">
-                    <Input.Group>
-                      <Col span={12}>
-                        <Input placeholder="Иван" size="large"/>
-                      </Col>
-                      <Col span={12}>
-                        <Input placeholder="Иванов" size="large"/>
-                      </Col>
-                    </Input.Group>
-                    <br/>
-                    <Input placeholder="React-разработчик" size="large"/>
-                  </div>
-                </div>
-              </div>
+            <Switch>
+              <Route exact path="/profile" component={Profile}/>
+              <Route path="/resume/:resumesId" component={ResumeView}/>
+            </Switch>
+            {/*<div className="wrapper">*/}
+              {/*<TipPanel/>*/}
+              {/*<div className="panel panel--white">*/}
+                {/*<div className="panel__body">*/}
+                  {/*<div className="form">*/}
+                    {/*<Input.Group>*/}
+                      {/*<Col span={12}>*/}
+                        {/*<Input placeholder="Иван" size="large"/>*/}
+                      {/*</Col>*/}
+                      {/*<Col span={12}>*/}
+                        {/*<Input placeholder="Иванов" size="large"/>*/}
+                      {/*</Col>*/}
+                    {/*</Input.Group>*/}
+                    {/*<br/>*/}
+                    {/*<Input placeholder="React-разработчик" size="large"/>*/}
+                  {/*</div>*/}
+                {/*</div>*/}
+              {/*</div>*/}
 
-              <div className="panel panel--white">
-                <div className="panel__heading">
-                  <span>Внешние ресурсы, которые помогут работодателю узнать о Вас больше</span>
-                  {/* <span className="push--right"><Button size="small" onClick={() => this.addRow()}>Добавить ссылку</Button></span> */}
-                </div>
-                <div className="panel__body">
-                  <div className="form">
+              {/*<div className="panel panel--white">*/}
+                {/*<div className="panel__heading">*/}
+                  {/*<span>Внешние ресурсы, которые помогут работодателю узнать о Вас больше</span>*/}
+                  {/*/!* <span className="push--right"><Button size="small" onClick={() => this.addRow()}>Добавить ссылку</Button></span> *!/*/}
+                {/*</div>*/}
+                {/*<div className="panel__body">*/}
+                  {/*<div className="form">*/}
 
-                    <AccountRowContainer icon="github" placeholder="username"/>
-                    <AccountRowContainer icon="inbox"
-                                         placeholder="mail@inbox.com"/>
-                    <AccountRowContainer icon="medium" placeholder="@username"/>
+                    {/*<AccountRowContainer icon="github" placeholder="username"/>*/}
+                    {/*<AccountRowContainer icon="inbox"*/}
+                                         {/*placeholder="mail@inbox.com"/>*/}
+                    {/*<AccountRowContainer icon="medium" placeholder="@username"/>*/}
 
-                  </div>
-                </div>
-              </div>
+                  {/*</div>*/}
+                {/*</div>*/}
+              {/*</div>*/}
 
-            </div>
+            {/*</div>*/}
           </Content>
         </Layout>
       </Layout>
@@ -109,4 +117,4 @@ class App extends Component {
   }
 }
 
-export default inject('routing', 'user')(observer(App))
+export default App

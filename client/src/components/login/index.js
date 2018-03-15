@@ -21,24 +21,40 @@ const FormStyles = {
   maxWidth: '80%',
 }
 
-const Login = ({routing, user, ...props}) => {
+const Login_ = ({routing, user, form, ...props}) => {
   return (
     <Layout style={LayoutStyles}>
       <Content style={ContentStyles}>
         <h1>Sign in</h1>
-        <Form hideRequiredMark={true} onSubmit={(e) => props.handleSubmit(e)}
+        <Form hideRequiredMark={false} onSubmit={(e) => props.handleSubmit(e)}
               style={FormStyles} layout='vertical'>
           <Form.Item>
-            <Input
-              onChange={e => props.handleLoginChange(e)}
-              prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
-              placeholder="Username"/>
+            {form.getFieldDecorator('username', {
+              rules: [
+                {
+                  required: true, message: 'Please input your username',
+                },
+              ],
+            })(
+              <Input
+                onChange={e => props.handleLoginChange(e)}
+                addonBefore={<Icon type="user"/>}
+                placeholder="Username"/>,
+            )}
           </Form.Item>
           <Form.Item>
-            <Input
-              onChange={e => props.handlePasswordChange(e)}
-              prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
-              type="password" placeholder="Password"/>
+            {form.getFieldDecorator('password', {
+              rules: [
+                {
+                  required: true, message: 'Please input your password',
+                },
+              ],
+            })(
+              <Input
+                onChange={e => props.handlePasswordChange(e)}
+                addonBefore={<Icon type="lock"/>}
+                type="password" placeholder="Password"/>,
+            )}
           </Form.Item>
           <Form.Item>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -54,6 +70,44 @@ const Login = ({routing, user, ...props}) => {
   )
 }
 
-const WrappedLoginForm = Form.create()(Login)
+const Login = ({routing, user, form, ...props}) => {
+  return (
+    <Layout style={LayoutStyles}>
+      <Content style={ContentStyles}>
+        <h1>Sign in</h1>
+        <Form onSubmit={(e) => props.handleSubmit(e)} style={FormStyles}>
+          <Form.Item>
+            <Input
+              onChange={e => props.handleLoginChange(e)}
+              addonBefore={<Icon type="user"/>}
+              disabled={props.loading}
+              placeholder="Username"/>
+          </Form.Item>
+          <Form.Item>
+            <Input
+              onChange={e => props.handlePasswordChange(e)}
+              addonBefore={<Icon type="lock"/>}
+              disabled={user.isFetching}
+              type="password" placeholder="Password"/>
+          </Form.Item>
+          <Form.Item>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+              <Button loading={user.isFetching} type="primary" htmlType="submit"
+                      className="login-form-button">Sign in</Button>
+              <span>If you don't have an account, <Link
+                to='/signup'>sign up now!</Link></span>
+            </div>
+          </Form.Item>
+        </Form>
+      </Content>
+    </Layout>
+  )
+}
 
-export default WrappedLoginForm
+// const WrappedLoginForm = Form.create()(Login)
+
+export default Login

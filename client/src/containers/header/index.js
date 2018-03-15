@@ -4,8 +4,10 @@ import { inject, observer } from 'mobx-react'
 
 class Header extends Component {
 
-  loginClick = () => {
-    this.props.routing.push('/login')
+  logout = () => {
+    const { user, routing } = this.props
+    user.logout()
+    routing.history.go('/login')
   }
 
   render () {
@@ -13,7 +15,7 @@ class Header extends Component {
       <HeaderComponent
         user={this.props.user}
         routing={this.props.routing}
-        loginClick={this.loginClick}
+        logout={this.logout}
       />
     )
   }

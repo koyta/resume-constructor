@@ -43,6 +43,7 @@ const Signin = ({routing, user, form, ...props}) => {
               ],
             })(
               <Input
+                disabled={user.isFetching}
                 onChange={e => props.handleLoginChange(e)}
                 addonBefore={<Icon type="user"/>}
                 placeholder="Username"/>
@@ -57,6 +58,7 @@ const Signin = ({routing, user, form, ...props}) => {
               ],
             })(
               <Input
+                disabled={user.isFetching}
                 onChange={e => props.handlePasswordChange(e)}
                 addonBefore={<Icon type="lock"/>}
                 type="password" placeholder="Password"/>,
@@ -68,16 +70,16 @@ const Signin = ({routing, user, form, ...props}) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-              <Button onClick={props.loginClick} type="primary"
+              <Button type="primary"
                       htmlType="submit"
-                      className="login-form-button">
+                      className="login-form-button"
+                      loading={user.isFetching}>
                 Sign up
               </Button>
               <span>If you have an account, <Link to='/login'>log in now!</Link></span>
             </div>
           </Form.Item>
         </Form>
-        {/*</Spin>*/}
       </Content>
     </Layout>
   )

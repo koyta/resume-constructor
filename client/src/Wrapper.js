@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { Route, withRouter } from 'react-router'
+import { Route, Switch, withRouter } from 'react-router'
 
 import App from './App'
 import Login from './containers/login'
@@ -29,11 +29,11 @@ class Wrapper extends Component {
   }
 
   render () {
-    return [
-      <Route exact path={'/'} component={App} key={0}/>,
-      <Route path={'/login'} component={Login} key={1}/>,
-      <Route path={'/signup'} component={Signup} key={2}/>,
-    ]
+    return <Switch>
+      <Route exact path={'/login'} component={Login}/>
+      <Route exact path={'/signup'} component={Signup}/>
+      <Route path={'/'} component={App}/>
+    </Switch>
   }
 }
 
