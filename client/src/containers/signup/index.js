@@ -2,24 +2,28 @@ import React, { Component } from 'react'
 import SinginComponent from '../../components/signup'
 import { inject, observer } from 'mobx-react'
 
-class Singin extends Component {
+@inject('routing', 'user')
+@observer
+class Signin extends Component {
 
   constructor (props) {
     super(props)
     this.state = {
       login: '',
       password: '',
-      loading: false,
     }
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault()
-    this.props.user.registration(
+    const { user, routing } = this.props
+    await user.registration(
       this.state.login,
       this.state.password,
     )
-    console.log(this.state.login + this.state.password)
+    if (user.statusCode === 200) {
+      routing.go('/login')
+    }
   }
 
   handleLoginChange = e => {
@@ -45,10 +49,9 @@ class Singin extends Component {
         handleSubmit={this.handleSubmit}
         login={this.state.login}
         password={this.state.password}
-        loading={this.state.loading}
       />
     )
   }
 }
 
-export default inject('routing', 'user')(observer(Singin))
+export default Signin
