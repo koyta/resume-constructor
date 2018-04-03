@@ -180,12 +180,9 @@ exports.findResumes = function (req, res) {
     .then(result => {
       if (result.length > 0) {
         res.status(200)
-          .json({
-            count: result.length,
-            data: result,
-          })
+          .json(result)
       } else {
-        res.status(200)
+        res.status(204)
           .json({
             message: 'No entries found',
             data: null,

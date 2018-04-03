@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import AccountRowContainer from './containers/content/AccountRow'
 import Header from './containers/header'
 import './App.css'
@@ -9,6 +10,10 @@ import Profile from './components/content/Profile'
 import { inject, observer } from 'mobx-react'
 import { Route, Switch } from 'react-router'
 import ResumeView from './components/content/ResumeView'
+import CreateResume from './components/content/CreateResume'
+import PersonalInfo from './containers/blocks/PersonalInfo'
+import WelcomePage from './components/blocks/WelcomePage'
+
 
 const {Content, Sider} = Layout
 const {Item} = Menu
@@ -46,35 +51,36 @@ class App extends Component {
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}>
           <div className="App-logo"><span>logo</span></div>
-          {this.props.user.isAuth &&
           <Menu theme="dark" defaultSelectedKeys={['1']}>
             <Item key={1}>
-              <Icon type="user"/>
-              <span>Личная информация</span>
+              <Icon type="user"/><span>Личная информация</span>
+              <Link to='/personal'></Link>
             </Item>
             <Item key={2}>
-              <Icon type="profile"/>
-              <span>Кратко о себе</span>
+              <Icon type="profile"/><span>Кратко о себе</span>
+              <Link to='/about-me'></Link>
             </Item>
             <Item key={3}>
-              <Icon type="github"/>
-              <span>Анализ GitHub</span>
+              <Icon type="github"/><span>Анализ GitHub</span>
+              <Link to='/github-analyser'></Link>
             </Item>
             <Item key={4}>
-              <Icon type="star-o"/>
-              <span>Навыки</span>
+              <Icon type="star-o"/><span>Навыки</span>
+              <Link to='/skills'></Link>
             </Item>
-          </Menu>}
+          </Menu>
         </Sider>
         <Layout>
           <Header/>
           <Content style={{padding: 20}}>
             <Switch>
+              <Route exact path="/" component={WelcomePage}/>
               <Route exact path="/profile" component={Profile}/>
+              <Route exact path="/personal" component={PersonalInfo}/>
+              <Route exact path="/resume/new" component={CreateResume}/>
               <Route path="/resume/:resumesId" component={ResumeView}/>
             </Switch>
             {/*<div className="wrapper">*/}
-              {/*<TipPanel/>*/}
               {/*<div className="panel panel--white">*/}
                 {/*<div className="panel__body">*/}
                   {/*<div className="form">*/}
@@ -92,22 +98,22 @@ class App extends Component {
                 {/*</div>*/}
               {/*</div>*/}
 
-              {/*<div className="panel panel--white">*/}
-                {/*<div className="panel__heading">*/}
-                  {/*<span>Внешние ресурсы, которые помогут работодателю узнать о Вас больше</span>*/}
-                  {/*/!* <span className="push--right"><Button size="small" onClick={() => this.addRow()}>Добавить ссылку</Button></span> *!/*/}
-                {/*</div>*/}
-                {/*<div className="panel__body">*/}
-                  {/*<div className="form">*/}
+            {/*<div className="panel panel--white">*/}
+            {/*<div className="panel__heading">*/}
+            {/*<span>Внешние ресурсы, которые помогут работодателю узнать о Вас больше</span>*/}
+            {/*/!* <span className="push--right"><Button size="small" onClick={() => this.addRow()}>Добавить ссылку</Button></span> *!/*/}
+            {/*</div>*/}
+            {/*<div className="panel__body">*/}
+            {/*<div className="form">*/}
 
-                    {/*<AccountRowContainer icon="github" placeholder="username"/>*/}
-                    {/*<AccountRowContainer icon="inbox"*/}
-                                         {/*placeholder="mail@inbox.com"/>*/}
-                    {/*<AccountRowContainer icon="medium" placeholder="@username"/>*/}
+            {/*<AccountRowContainer icon="github" placeholder="username"/>*/}
+            {/*<AccountRowContainer icon="inbox"*/}
+            {/*placeholder="mail@inbox.com"/>*/}
+            {/*<AccountRowContainer icon="medium" placeholder="@username"/>*/}
 
-                  {/*</div>*/}
-                {/*</div>*/}
-              {/*</div>*/}
+            {/*</div>*/}
+            {/*</div>*/}
+            {/*</div>*/}
 
             {/*</div>*/}
           </Content>

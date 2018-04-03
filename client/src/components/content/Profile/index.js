@@ -1,25 +1,18 @@
 import React from 'react'
+import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-import { API_ROOT } from '../../../config/routes'
+import { Card, Col, Row, Button } from 'antd'
 
 @inject('routing', 'user') @observer
 class Profile extends React.Component {
 
-  state = {
-    resumes: {}
-  }
-
-  getAllResumes = async() => {
+  getAllResumes = async () => {
     const { user } = this.props
-    const request = await axios.get(`${API_ROOT}/api/resume/owner/${user.profile.login}`)
-    const resumes = request.data
-    console.log(resumes)
-    this.setState({ resumes })
+    await user.fetchResumes()
   }
 
-  componentWillMount() {
+  componentDidMount () {
     this.getAllResumes()
   }
 
@@ -28,13 +21,24 @@ class Profile extends React.Component {
     return (
       <section className="profile">
         <h2>Resumes</h2>
+        <Row gutter={16} style={{width: '100%'}}>
+          {
+            user.resumes && user.resumes.toJS().map((resume, i) => {
+              return (
+                <Col key={i} span={6}>
+                  <Card title={resume.profession}
+                        extra={<Link
+                          to={`/resume/${resume._id}`}>Открыть</Link>}>
+                    Описание
+                  </Card>
+                </Col>
+              )
+            })
+          }
+        </Row>
+
         {
-          this.state.resumes.data && this.state.resumes.data.map((resume, i) => {
-            return <div key={resume._id}><Link to={`/resume/${resume._id}`}>{resume.profession}</Link></div>
-          })
-        }
-        {
-          !this.state.resumes.data && <span>{this.state.resumes.message}</span>
+          !user.resumes && <span>{user.resumes.message}</span>
         }
       </section>
     )

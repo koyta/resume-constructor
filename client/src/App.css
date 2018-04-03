@@ -1,10 +1,14 @@
+@import '~bootstrap-4-grid/css/grid.min.css';
 @import './components/content/TipPanel/TipPanel.css';
 @import './components/header/Header.css';
 @import './components/content/Profile/Profile.css';
 @import './components/content/ResumeView/ResumeView.css';
+@import './components/content/CreateResume/CreateResume.css';
+
 
 #root {
   min-height: 100vh;
+  overflow: hidden;
 }
 
 .App {

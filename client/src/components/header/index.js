@@ -10,15 +10,12 @@ const Header = ({routing, user, ...props}) => {
     <div className="header-content">
       <Dropdown overlay={
         <Menu>
-          {/*<Menu.Item><Link to={`/resumes/${user.isAuth && user.profile.login}`}>My resumes</Link></Menu.Item>*/}
-          <Menu.Item><Link to={`/profile`}>My resumes</Link></Menu.Item>
-          <Menu.Item>Another menu item</Menu.Item>
+          <Menu.Item><Link to={'/resume/new'}>Создать резюме</Link></Menu.Item>
+          <Menu.Item><Link to={`/profile`}>Мои резюме</Link></Menu.Item>
         </Menu>
       }>
         <Button type="primary" icon="user"
-                className='header-username'>{user.isAuth
-          ? `${user.profile.login} (${user.profile.id})`
-          : null}</Button>
+                className='header-username'>{`${user.profile.login} (${user.profile.id})`}</Button>
       </Dropdown>
       <Button onClick={() => props.logout()} loading={user.isFetching}
               icon="logout">Logout</Button>
