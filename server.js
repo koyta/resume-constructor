@@ -1,4 +1,7 @@
 // @flow
+if (process.env.NODE_ENV != 'production') {
+  require('dotenv').config()
+}
 
 const express = require('express')
 const mongoose = require('mongoose')
@@ -7,7 +10,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const jwt = require('jsonwebtoken')
 
-const uristring = /*process.env.MONGOLAB_URI || */ 'mongodb://heroku_47zcn25r:25l8np37nbpfdoqq28dv42n69b@ds147518.mlab.com:47518/heroku_47zcn25r'
+const uristring = process.env.MONGODB_URI
 
 const port = process.env.PORT || 5000
 
