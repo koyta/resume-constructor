@@ -11,8 +11,6 @@ export default class AccountRowContainer extends Component {
             if (buttonInRow[0] === e.target) {
                 rows[i].remove()
                 return;
-            } else {
-                console.log('next')
             }
         }
     }

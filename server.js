@@ -29,7 +29,7 @@ app.get('/api/users', api.listUsers)
 app.get('/api/regs', api.listRegs)
 app.get('/api/users/:userId', api.userId)
 app.get('/api/regs/:regId', api.registrationId)
-app.get('/api/resume/owner/:owner', api.findResumes)
+app.get('/api/:owner/resume', api.findResumes)
 
 // app.get('/api/test', verifyToken, (req, res) => {
 //   jwt.verify(req.token, 'secret', (error, user) => {
@@ -65,10 +65,11 @@ function verifyToken (req, res, next) {
 
 mongoose.Promise = global.Promise
 mongoose.connect(uristring, function (error, response) {
-  if (error) {
+  try {
+    if (!error)
+      console.log('Установлено соединение: ' + uristring)
+  } catch (e) {
     console.log('Не смог присоединиться к MongoDB ' + uristring + '. ' + error)
-  } else {
-    console.log('Установлено соединение: ' + uristring)
   }
 })
 

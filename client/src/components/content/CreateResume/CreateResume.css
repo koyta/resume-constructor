@@ -1,0 +1,16 @@
+.form {
+  position: relative;
+}
+.navigate {
+  position: fixed !important;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  padding: 100px;
+}
+.prev {
+  left: calc(200px + 10%) !important;
+}
+.next {
+  right: 10% !important;
+}

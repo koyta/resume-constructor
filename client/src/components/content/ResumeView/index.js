@@ -1,17 +1,19 @@
-import React, { Component }  from 'react'
-import { inject, observer } from 'mobx-react'
+import React, { PureComponent } from 'react'
+import { Col, Row, Avatar, Icon, Table, Timeline, Card, Layout } from 'antd'
 
-@inject ('routing','user') @observer
-class ResumeView extends Component {
-
-  getResume = (id) => {
-
-  }
-
+class ResumeView extends React.PureComponent {
   render() {
+    const {first, second, imgUrl, } = this.props
     return (
       <section className="resume">
-        hello
+        <main>
+          <div className="user">
+            <div className="user-image">
+              <img src={imgUrl} alt=""/>
+            </div>
+            <h1>{first} {second}</h1>
+          </div>
+        </main>
       </section>
     )
   }
