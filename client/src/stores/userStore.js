@@ -12,11 +12,8 @@ class UserStore {
   @observable statusCode //last http code response
   @observable isFetching
   @observable isAuth
-  @observable profile = {
-    // id: '0',
-    // login: 'none',
-  }
-  @observable resumes = {}
+  @observable profile = {}
+  @observable resumes = []
 
   constructor (rootStore) {
     this.isFetching = false
@@ -25,6 +22,42 @@ class UserStore {
     if (this.isAuth) {
       this.profile = loadUserProfile()
     }
+  }
+
+  @action updateProfile = async (data) => {
+    try {
+      this.isFetching = true;
+      const url = `${API_ROOT}/api/update`
+      const request = await axios.post(url, {
+
+      })
+
+      if (request.status === 200) {
+        this.statusCode = 200
+
+      }
+    } catch (err) {
+      console.error(err)
+    }
+    this.isFetching = false
+  }
+
+  @action fetchResumes = async () => {
+    try {
+      this.isFetching = true
+      const url = `${API_ROOT}/api/${this.profile.login}/resume`
+      const request = await axios.get(url)
+      if (request.status === 200) {
+        this.statusCode = 200
+        this.resumes = request.data
+        console.log(this.resumes)
+      } else if (request.status === 204) {
+        this.statusCode = 204
+      }
+    } catch (error) {
+      console.error(error)
+    }
+    this.isFetching = false
   }
 
   @action authentication = async (login, password) => {
@@ -61,13 +94,10 @@ class UserStore {
         login,
         password
       })
-      console.log(request)
-      alert(request)
       if (request.status >= 200 && request.status < 300) {
         this.statusCode = 200
         this.store.routing.push('/login')
       }
-      console.log(request)
     } catch (err) {
       console.error(err)
       this.statusCode = 500
