@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken')
 
 const uristring = process.env.MONGODB_URI
 
-const port = process.env.PORT || 5000
+const port = 5001
 
 const app = express()
 app.use(morgan('dev'))
