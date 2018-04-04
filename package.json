@@ -10,7 +10,8 @@
     "client": "cd client && npm start",
     "server": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "cd client && npm install && npm run build",
+    "postinstall": "npm install --prefix client",
+    "heroku-postbuild": "cd client && npm run build",
     "start": "node server.js && cd client && npm start"
   },
   "dependencies": {
@@ -28,5 +29,9 @@
     "dotenv": "^5.0.1",
     "fs": "0.0.1-security",
     "morgan": "^1.9.0"
-  }
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ]
 }

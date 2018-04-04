@@ -3,6 +3,7 @@ if (process.env.NODE_ENV != 'production') {
   require('dotenv').config()
 }
 
+const path = require('path');
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -12,7 +13,7 @@ const jwt = require('jsonwebtoken')
 
 const uristring = process.env.MONGODB_URI
 
-const port = 5001
+const port = process.env.PORT || 5000
 
 const app = express()
 app.use(morgan('dev'))
@@ -24,6 +25,8 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }))
 
 const api = require('./api.js')
+// Serve static files from client build
+app.use(express.static(path.join(__dirname, "client/build")))
 
 app.post('/api/signup', api.signup)
 app.post('/api/login', api.login)
