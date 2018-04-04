@@ -3,6 +3,7 @@ if (process.env.NODE_ENV != 'production') {
   require('dotenv').config()
 }
 
+const path = require('path');
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -24,6 +25,8 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }))
 
 const api = require('./api.js')
+// Serve static files from client build
+app.use(express.static(path.join(__dirname, "client/build")))
 
 app.post('/api/signup', api.signup)
 app.post('/api/login', api.login)
