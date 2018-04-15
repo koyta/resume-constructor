@@ -1,69 +1,36 @@
 // @flow
 
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const bodyParser = require('body-parser')
-const morgan = require('morgan')
-const jwt = require('jsonwebtoken')
+const express = require('express');
+const app = express();
+const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const jwt = require('jsonwebtoken');
+const mainRouter = require('./routes/mainRouter')
+const userRouter = require('./routes/userRouter')
+const resumeRouter = require('./routes/resumeRouter')
+const api = require('./api.js');
+const uristring = /*process.env.MONGOLAB_URI || */ 'mongodb://heroku_47zcn25r:25l8np37nbpfdoqq28dv42n69b@ds147518.mlab.com:47518/heroku_47zcn25r';
+const port = process.env.PORT || 5000;
 
-const uristring = /*process.env.MONGOLAB_URI || */ 'mongodb://heroku_47zcn25r:25l8np37nbpfdoqq28dv42n69b@ds147518.mlab.com:47518/heroku_47zcn25r'
 
-const port = process.env.PORT || 5000
-
-const app = express()
-app.use(morgan('dev'))
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.raw())
+app.use(morgan('dev'));
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: false,
-}))
+}));
+app.use('/api', mainRouter)
+app.use('/api/user', userRouter)
+app.use('/api/resume', resumeRouter)
+app.get('/api/resumes', api.listResumes);
+app.get('/api/users', api.listUsers);
 
-const api = require('./api.js')
 
-app.post('/api/signup', api.signup)
-app.post('/api/login', api.login)
-app.post('/api/resume', verifyToken, api.addResume)
-app.get('/api/users', api.listUsers)
-app.get('/api/regs', api.listRegs)
-app.get('/api/users/:userId', api.userId)
-app.get('/api/regs/:regId', api.registrationId)
-app.get('/api/:owner/resume', api.findResumes)
-
-// app.get('/api/test', verifyToken, (req, res) => {
-//   jwt.verify(req.token, 'secret', (error, user) => {
-//     if (error) {
-//       res.sendStatus(403)
-//     } else {
-//       res.sendStatus(200)
-//     }
-//   })
-// })
-// app.get('/api/token', (req, res) => {
-//   jwt.sign({test: 'test'}, 'secret', { expiresIn: '30s' }, (error, token) => {
-//     res.status(200).json({token})
-//   })
-// })
-
-function verifyToken (req, res, next) {
-  // get auth header value
-  const bearerHeader = req.headers['authorization']
-  if (typeof bearerHeader !== 'undefined') {
-    // Split at the space
-    const bearer = bearerHeader.split(' ')
-    // Get token from array
-    const bearerToken = bearer[1]
-    // Set token
-    req.token = bearerToken
-    next()
-  } else {
-    // Forbidden
-    res.sendStatus(403)
-  }
-}
-
-mongoose.Promise = global.Promise
+// MONGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOSE
+mongoose.Promise = global.Promise;
 mongoose.connect(uristring, function (error, response) {
   try {
     if (!error)
@@ -71,8 +38,8 @@ mongoose.connect(uristring, function (error, response) {
   } catch (e) {
     console.log('Не смог присоединиться к MongoDB ' + uristring + '. ' + error)
   }
-})
+});
 
 app.listen(port, function () {
   console.log('Listening on port: ' + port)
-})
+});
