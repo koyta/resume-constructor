@@ -4,11 +4,11 @@ const User = require('../models/user')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {default500Error, verifyToken} = require("./utils");
+const {default500Error} = require("./utils");
 const {SECRET_KEY} = require('./constants')
 
 
-router.get('/login', verifyToken, login)
+router.post('/login', login)
 router.post('/signup', signup)
 
 
@@ -31,6 +31,7 @@ function signup(request, response) {
 }
 
 function login(req, res) {
+  console.log("Logging in")
   User.findOne({login: req.body.login})
     .exec()
     .then(user => {
@@ -44,7 +45,7 @@ function login(req, res) {
         bcrypt.compare(req.body.password, user.password)
           .then(answer => {
             if (answer) {
-              const token = jwt.sign({id: user._id, login: user.login}, SECRET_KEY,
+              const token = jwt.sign({id: user._id, login: user.login }, SECRET_KEY,
                 {expiresIn: '24h'})
               res.status(200)
                 .json({

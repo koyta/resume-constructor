@@ -3,12 +3,26 @@ const router = express.Router();
 const {default500Error} = require('./utils')
 
 router.get('/:userId', getUserById);
+// router.delete('/:userId', deleteUserById);
+// router.put('/:userId', putUserById);
+// router.patch('/:userId', updateUserById); //смена пароля, например
+// router.post('/:userId', postUserById)
 
+
+router.get('/:owner', getUserByOwner);
+
+function getUserByOwner(req, res) {
+  User.findOne({owner: req.params.owner})
+    .exec()
+    .then(user => {
+      if (user) res.status(200).json(user)
+      else res.status(204)
+    })
+    .catch(e => default500Error(res, e))
+}
 
 function getUserById (req, res) {
-  User.findOne({
-    _id: req.params.userId,
-  })
+  User.findById(req.params.userId)
     .exec()
     .then(user => {
       res.status(200)

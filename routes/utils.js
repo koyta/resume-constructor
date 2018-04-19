@@ -6,6 +6,12 @@ exports.default500Error = function (response, error) {
     })
 }
 
+/**
+ * Вытаскивает token, присланный через <req.headers>. Токен будет доступен по req.token
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.verifyToken = function (req, res, next) {
   // get auth header value
   const bearerHeader = req.headers['authorization'];

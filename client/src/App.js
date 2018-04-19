@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import AccountRowContainer from './containers/content/AccountRow'
 import Header from './containers/header'
+import MenuComponent from './components/sider/Menu'
 import './App.css'
 import 'antd/dist/antd.css'
 import { Col, Icon, Input, Layout, Menu } from 'antd'
@@ -9,25 +10,17 @@ import TipPanel from './containers/content/TipPanel/'
 import Profile from './components/content/Profile'
 import { inject, observer } from 'mobx-react'
 import { Route, Switch } from 'react-router'
-import ResumeView from './components/content/ResumeView'
 import CreateResume from './components/content/CreateResume'
+import ResumeView from './containers/content/ResumeView'
 import PersonalInfo from './containers/blocks/PersonalInfo'
 import WelcomePage from './components/blocks/WelcomePage'
 
 
-const {Content, Sider} = Layout
-const {Item} = Menu
+const {Content} = Layout
 
 @inject('routing','user')
 @observer
 class App extends Component {
-  state = {
-    collapsed: false,
-  }
-
-  onCollapse = (collapsed) => {
-    this.setState({collapsed})
-  }
 
   removeRow = (e) => {
     const rows = document.querySelectorAll('.panel__body-row')
@@ -37,8 +30,6 @@ class App extends Component {
       if (buttonInRow[0] === e.target) {
         rows[i].remove()
         return
-      } else {
-        console.log('next')
       }
     }
   }
@@ -46,30 +37,7 @@ class App extends Component {
   render () {
     return (
       <Layout style={{minHeight: '100vh'}}>
-        <Sider
-          collapsible={true}
-          collapsed={this.state.collapsed}
-          onCollapse={this.onCollapse}>
-          <div className="App-logo"><span>logo</span></div>
-          <Menu theme="dark" defaultSelectedKeys={['1']}>
-            <Item key={1}>
-              <Icon type="user"/><span>Личная информация</span>
-              <Link to='/personal'></Link>
-            </Item>
-            <Item key={2}>
-              <Icon type="profile"/><span>Кратко о себе</span>
-              <Link to='/about-me'></Link>
-            </Item>
-            <Item key={3}>
-              <Icon type="github"/><span>Анализ GitHub</span>
-              <Link to='/github-analyser'></Link>
-            </Item>
-            <Item key={4}>
-              <Icon type="star-o"/><span>Навыки</span>
-              <Link to='/skills'></Link>
-            </Item>
-          </Menu>
-        </Sider>
+        <MenuComponent />
         <Layout>
           <Header/>
           <Content style={{padding: 20}}>

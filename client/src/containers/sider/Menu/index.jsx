@@ -17,6 +17,7 @@ class Menu extends Component {
     return <MenuComponent
       collapsed={this.state.collapsed}
       onCollapse={this.onCollapse}
+      {...this.props}
     />
   }
 }
