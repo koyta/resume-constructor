@@ -1,32 +1,41 @@
-import React, { Component }  from 'react'
-import { inject, observer } from 'mobx-react'
+import React, {Component} from 'react'
+import {inject, observer} from 'mobx-react'
 import ResumeViewComponent from '../../../components/content/ResumeView'
 import PropTypes from 'prop-types'
+import qs from 'querystring'
 
-@inject ('routing','user') @observer
+@inject('routing', 'user') @observer
 class ResumeView extends Component {
+
+  state = {
+    resumeToView: null,
+    user: null
+  }
 
   static propTypes = {
     user: PropTypes.object.isRequired,
     routing: PropTypes.object.isRequired,
-    id: PropTypes.number.isRequired
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   }
 
-  getResume = async () => {
-    if (user.resumes.length) {
-      await user.fetchResumes()
-    }
-    console.log(user.resumes)
+  fetchData = async () => {
+    const resume = await this.props.user.getResumeById(this.props.match.params.resumesId)
+    const user = await this.props.user.getUserIdByOwner(resume.owner)
+    this.setState({resume, user})
   }
 
-  componentDidMount () {
-    this.getResume(this.props.id)
+  componentWillMount() {
+    this.fetchData()
   }
 
   render() {
     return (
       <ResumeViewComponent
-
+        resume={this.state.resumeToView}
+        loading={this.props.user.isFetching}
+        user={this.state.user}
       />
     )
   }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   Checkbox,
   Input,
+  notification,
   Form,
   DatePicker,
   Calendar,
@@ -13,16 +14,18 @@ import {
   Timeline,
   Rate,
   Select,
-  Button
+  Button,
+  Divider
 } from "antd";
 import { inject, observer } from "mobx-react";
+import { observable } from 'mobx'
 
 const Step = Steps.Step;
 
 const CreateProgressSteps = props => {
   return (
-    <Steps size="small" current={props.current}>
-      <Step title="О Вас" />
+    <Steps current={props.current}>
+      <Step title="Основное"/>
       <Step title="Навыки" />
       <Step title="Опыт" />
     </Steps>
@@ -32,12 +35,28 @@ const CreateProgressSteps = props => {
 @inject("routing", "user")
 @observer
 class CreateResume extends Component {
+
+  @observable error = false
+
   state = {
     current: 0
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        this.props.user.createResume(values)
+          .then(() => {notification.info({
+            message: 'Новая анкета успешно создана!',
+            description: "Теперь вы можете найти её в своем профиле."
+          })})
+        // Если мы уже делали ошибку, когда пытались отправить форму, то вернуть состояние формы в "нормальное" состояние
+        if (this.error) this.error = false
+      } else {
+        this.error = true;
+      }
+    });
   };
 
   render() {
@@ -50,7 +69,7 @@ class CreateResume extends Component {
 
     return (
       <div
-        className="flex-row align-items-center m-auto w-50"
+        className="flex-row align-items-center m-auto w-75"
         style={{
           position: "relative",
           overflowY: "auto"
@@ -58,71 +77,10 @@ class CreateResume extends Component {
       >
         <CreateProgressSteps current={this.state.current} />
         <div className="mb-5"/>
-        <Form
-          layout="vertical"
-          onSubmit={e => this.handleSubmit(e)}
-          hideRequiredMark={false}
-          prefixCls="form"
-        >
-          <Button
-            type="dashed"
-            shape="circle"
-            icon="left"
-            size="large"
-            className="navigate prev"
-          />
-          <Button
-            type="dashed"
-            shape="circle"
-            icon="right"
-            size="large"
-            className="navigate next"
-          />
-          <Input.Group>
-            <Form.Item label="Имя" style={{ width: "50%" }}>
-              {getFieldDecorator("name", {
-                rules: [
-                  {
-                    type: "string",
-                    required: true,
-                    message: "Введите имя"
-                  }
-                ]
-              })(<Input type="text" placeholder="Иван" />)}
-            </Form.Item>
-            <Form.Item label="Фамилия" style={{ width: "50%" }}>
-              {getFieldDecorator("surname", {
-                rules: [
-                  {
-                    type: "string",
-                    required: true,
-                    message: "Введите фамилию"
-                  }
-                ]
-              })(<Input type="text" placeholder="Иванов" />)}
-            </Form.Item>
-          </Input.Group>
-          <Form.Item
-            label={
-              <span>
-                Дата рождения&nbsp;
-                <Tooltip title="Возраст сотрудников для различных профессий играет большую роль для работодателя">
-                  <Icon type="question-circle-o" />
-                </Tooltip>
-              </span>
-            }
-          >
-            {getFieldDecorator("birthdate", {
-              rules: [
-                {
-                  type: "object",
-                  required: true,
-                  message:
-                    "Укажите вашу дату рождения. Для многих работодателей возраст сотрудника очень важен."
-                }
-              ]
-            })(<DatePicker showToday={false} placeholder="1996-08-24" />)}
-          </Form.Item>
+        <Divider orientation="left">Главная информация</Divider>
+        <Form layout="vertical" onSubmit={e => this.handleSubmit(e)} hideRequiredMark={false} prefixCls="form w-50 m-auto">
+          <Button type="dashed" shape="circle" icon="left" size="large" className="navigate prev"/>
+          <Button type="dashed" shape="circle" icon="right" size="large" className="navigate next"/>
           <Form.Item label="Профессия">
             {getFieldDecorator("profession", {
               rules: [
@@ -134,7 +92,7 @@ class CreateResume extends Component {
               ]
             })(<Input type="text" placeholder="Например, работяга с завода" />)}
           </Form.Item>
-          <Form.Item label="E-mail">
+          <Form.Item label="E-mail для связи">
             {getFieldDecorator("email", {
               rules: [
                 {
@@ -148,7 +106,7 @@ class CreateResume extends Component {
               ]
             })(<Input addonBefore={<Icon type="inbox" style={InputIcon} />} />)}
           </Form.Item>
-          <Form.Item label="Номер телефона">
+          <Form.Item label="Номер телефона для связи">
             {getFieldDecorator("phone", {
               rules: [
                 {
@@ -160,7 +118,7 @@ class CreateResume extends Component {
               <Input
                 prefix="+"
                 addonBefore={<Icon type="phone" style={InputIcon} />}
-                placeholer="79315413241"
+                placeholer="12345678900"
               />
             )}
           </Form.Item>
@@ -178,15 +136,13 @@ class CreateResume extends Component {
               <Input addonBefore={<Icon type="behance" style={InputIcon} />} />
             </Form.Item>
             <Form.Item>
-              <Input addonBefore={<Icon type="twitter" style={InputIcon} />} />
-            </Form.Item>
-            <Form.Item>
               <Input addonBefore={<Icon type="linkedin" style={InputIcon} />} />
             </Form.Item>
             <Form.Item>
               <Input addonBefore={<Icon type="codepen" style={InputIcon} />} />
             </Form.Item>
           </Input.Group>
+          <Button type={this.error ? 'danger' : 'primary'} size="large" htmlType="submit" icon="form" loading={this.props.user.isFetching}>Create resume</Button>
         </Form>
       </div>
     );
