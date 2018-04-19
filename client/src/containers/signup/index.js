@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import SinginComponent from '../../components/signup'
 import { inject, observer } from 'mobx-react'
+import { Form } from 'antd'
+
+const WrappedLoginForm = Form.create(SinginComponent)
 
 @inject('routing', 'user')
 @observer
@@ -17,10 +20,14 @@ class Signin extends Component {
   handleSubmit = async (e) => {
     e.preventDefault()
     const { user, routing } = this.props
-    await user.registration(
-      this.state.login,
-      this.state.password,
-    )
+    await user.registration({
+      login: this.state.login,
+      password: this.state.password,
+      firstname: this.state.firstname,
+      secondname: this.state.secondname,
+      date_of_birth: this.state.date_of_birth
+    })
+    console.log("Form: ", this.props.form)
     if (user.statusCode === 200) {
       routing.go('/login')
     }
@@ -35,6 +42,12 @@ class Signin extends Component {
   handlePasswordChange = e => {
     this.setState({
       password: e.target.value,
+    })
+  }
+
+  handleInputChange = e => {
+    this.setState({
+
     })
   }
 

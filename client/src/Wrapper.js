@@ -4,7 +4,7 @@ import { Route, Switch, withRouter } from 'react-router'
 
 import App from './App'
 import Login from './containers/login'
-import Signup from './containers/signup'
+import Signup from './components/signup'
 
 @withRouter
 @inject('routing', 'user') @observer
