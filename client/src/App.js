@@ -49,46 +49,8 @@ class App extends Component {
               <Route exact path="/personal" component={PersonalInfo}/>
               <Route exact path="/resume/new" component={CreateResume}/>
               <Route exact path="/auth" component={AuthSocial}/>
-              {/* <Route exact path="/auth/github/success" component={AuthSuccess}/> */}
               <Route path="/resume/:resumesId" component={ResumeView}/>
             </Switch>
-            {/* <Route exact path="/auth/github/success" component={AuthSuccess}/> */}
-            {/*<div className="wrapper">*/}
-              {/*<div className="panel panel--white">*/}
-                {/*<div className="panel__body">*/}
-                  {/*<div className="form">*/}
-                    {/*<Input.Group>*/}
-                      {/*<Col span={12}>*/}
-                        {/*<Input placeholder="Иван" size="large"/>*/}
-                      {/*</Col>*/}
-                      {/*<Col span={12}>*/}
-                        {/*<Input placeholder="Иванов" size="large"/>*/}
-                      {/*</Col>*/}
-                    {/*</Input.Group>*/}
-                    {/*<br/>*/}
-                    {/*<Input placeholder="React-разработчик" size="large"/>*/}
-                  {/*</div>*/}
-                {/*</div>*/}
-              {/*</div>*/}
-
-            {/*<div className="panel panel--white">*/}
-            {/*<div className="panel__heading">*/}
-            {/*<span>Внешние ресурсы, которые помогут работодателю узнать о Вас больше</span>*/}
-            {/*/!* <span className="push--right"><Button size="small" onClick={() => this.addRow()}>Добавить ссылку</Button></span> *!/*/}
-            {/*</div>*/}
-            {/*<div className="panel__body">*/}
-            {/*<div className="form">*/}
-
-            {/*<AccountRowContainer icon="github" placeholder="username"/>*/}
-            {/*<AccountRowContainer icon="inbox"*/}
-            {/*placeholder="mail@inbox.com"/>*/}
-            {/*<AccountRowContainer icon="medium" placeholder="@username"/>*/}
-
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-
-            {/*</div>*/}
           </Content>
         </Layout>
       </Layout>

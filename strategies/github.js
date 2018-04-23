@@ -8,7 +8,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 passport.use(new GitHubStrategy({
     clientID: process.env.GH_CLIENT_ID,
     clientSecret: process.env.GH_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/github/callback"
+    callbackURL: "http://127.0.0.1:3000/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...

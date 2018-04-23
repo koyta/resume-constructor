@@ -6,11 +6,11 @@ const github = require('../strategies/github');
 const {default500Error} = require("./utils");
 const {SECRET_KEY} = require('./constants')
 
-router.get('/github', passport.authenticate('github', { display: 'popup' }), (req, res) => {
+router.get('/github', passport.authenticate('github', { display: 'popup',  }), (req, res) => {
     console.log('server!!!!!!!!!!!!!!!!!!')
     res.send('SERVER RESPONSE')
 })
-router.get('/github/callback', passport.authenticate('github'))
+router.get('/github/callback', passport.authenticate('github', {failureRedirect: '/failure', successRedirect: '/github-analyser'}))
 
 
 

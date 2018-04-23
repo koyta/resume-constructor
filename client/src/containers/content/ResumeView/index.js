@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {inject, observer} from 'mobx-react'
 import ResumeViewComponent from '../../../components/content/ResumeView'
 import PropTypes from 'prop-types'
-import qs from 'querystring'
 
 @inject('routing', 'user') @observer
 class ResumeView extends Component {

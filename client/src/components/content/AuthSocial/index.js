@@ -12,7 +12,9 @@ class AuthSocial extends Component {
   }
 
   onClick = async () => {
-    await fetch('/auth/github')
+    await fetch('/auth/github', {
+      mode: 'no-cors'
+    })
     const url = '/auth/github';
     const name = 'github_login';
     const specs = 'width=500,height=500';
@@ -23,8 +25,8 @@ class AuthSocial extends Component {
 
     return (
       <section className="auth-social">
-        <Button icon={'github'} onClick={() => this.onClick()} type="primary">Login with GitHub</Button>
-        <a href="http://localhost:3000/auth/github">Login with GitHub</a>
+        <Button icon={'github'} onClick={this.onClick} type="primary">Login with GitHub</Button>
+        <a href="http://127.0.0.1:3000/auth/github">Login with GitHub</a>
       </section>
     )
   }
