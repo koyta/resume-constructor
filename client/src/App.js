@@ -14,6 +14,8 @@ import CreateResume from './components/content/CreateResume'
 import ResumeView from './containers/content/ResumeView'
 import PersonalInfo from './containers/blocks/PersonalInfo'
 import WelcomePage from './components/blocks/WelcomePage'
+import AuthSocial from './components/content/AuthSocial'
+import AuthSuccess from './components/content/AuthSuccess';
 
 
 const {Content} = Layout
@@ -40,14 +42,17 @@ class App extends Component {
         <MenuComponent />
         <Layout>
           <Header/>
-          <Content style={{padding: 20}}>
+          <Content style={{padding: '3.5%'}}>
             <Switch>
               <Route exact path="/" component={WelcomePage}/>
               <Route exact path="/profile" component={Profile}/>
               <Route exact path="/personal" component={PersonalInfo}/>
               <Route exact path="/resume/new" component={CreateResume}/>
+              <Route exact path="/auth" component={AuthSocial}/>
+              {/* <Route exact path="/auth/github/success" component={AuthSuccess}/> */}
               <Route path="/resume/:resumesId" component={ResumeView}/>
             </Switch>
+            {/* <Route exact path="/auth/github/success" component={AuthSuccess}/> */}
             {/*<div className="wrapper">*/}
               {/*<div className="panel panel--white">*/}
                 {/*<div className="panel__body">*/}

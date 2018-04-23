@@ -12,6 +12,7 @@ const Header = ({routing, user, ...props}) => {
         <Menu>
           <Menu.Item><Link to={'/resume/new'}>Создать резюме</Link></Menu.Item>
           <Menu.Item><Link to={`/profile`}>Мои резюме</Link></Menu.Item>
+          <Menu.Item><Link to={`/auth`}>Auth</Link></Menu.Item>
         </Menu>
       }>
         <Button type="primary" icon="user"

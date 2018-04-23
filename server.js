@@ -1,4 +1,3 @@
-// @flow
 if (process.env.NODE_ENV != 'production') {
   require('dotenv').config()
 }
@@ -9,10 +8,13 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const passport = require('passport');
 const jwt = require('jsonwebtoken')
+const authRouter = require('./routes/authRouter');
 const mainRouter = require('./routes/mainRouter')
 const userRouter = require('./routes/userRouter')
 const resumeRouter = require('./routes/resumeRouter')
+const github = require('./strategies/github');
 const api = require('./api.js');
 const uristring = process.env.MONGODB_URI
 const port = process.env.PORT || 5000
@@ -22,15 +24,16 @@ app.use(morgan('dev'))
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.raw())
-app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
-  extended: false,
-}))
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/api', mainRouter)
+app.use('/auth', authRouter)
 app.use('/api/user', userRouter)
 app.use('/api/resume', resumeRouter)
+app.use(express.static(path.join(__dirname, "client/build"))) // Serve static files from client build
 app.get('/api/resumes', api.listResumes);
 app.get('/api/users', api.listUsers);
-app.use(express.static(path.join(__dirname, "client/build"))) // Serve static files from client build
 
 mongoose.Promise = global.Promise;
 mongoose.connect(uristring, function (error, response) {
