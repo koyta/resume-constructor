@@ -1,18 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const {default500Error} = require('./utils')
+const User = require('../models/user')
 
 router.get('/:userId', getUserById);
 // router.delete('/:userId', deleteUserById);
 // router.put('/:userId', putUserById);
 // router.patch('/:userId', updateUserById); //смена пароля, например
 // router.post('/:userId', postUserById)
+router.get('', resolveQuery)
+// router.get('/:login', getUserByLogin);
+// router.get('/:login/id', getUserIdByLogin);
 
+function resolveQuery(req, res) {
+  const query = req.query;
+  getUserByLogin(req, res);
+}
 
-router.get('/:owner', getUserByOwner);
-
-function getUserByOwner(req, res) {
-  User.findOne({owner: req.params.owner})
+function getUserByLogin(req, res) {
+  User.findOne({login: req.query.login})
     .exec()
     .then(user => {
       if (user) res.status(200).json(user)

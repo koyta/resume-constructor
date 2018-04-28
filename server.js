@@ -20,6 +20,14 @@ const uristring = process.env.MONGODB_URI
 const port = process.env.PORT || 5000
 const app = express()
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
 app.use(morgan('dev'))
 app.use(cors())
 app.use(bodyParser.json())
