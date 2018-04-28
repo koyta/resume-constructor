@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import AccountRowContainer from './containers/content/AccountRow'
 import Header from './containers/header'
-import MenuComponent from './components/sider/Menu'
 import './App.css'
 import 'antd/dist/antd.css'
-import { Col, Icon, Input, Layout, Menu } from 'antd'
-import TipPanel from './containers/content/TipPanel/'
+import { Layout } from 'antd'
 import Profile from './components/content/Profile'
 import { inject, observer } from 'mobx-react'
 import { Route, Switch } from 'react-router'
@@ -15,7 +12,6 @@ import ResumeView from './containers/content/ResumeView'
 import PersonalInfo from './containers/blocks/PersonalInfo'
 import WelcomePage from './components/blocks/WelcomePage'
 import AuthSocial from './components/content/AuthSocial'
-import AuthSuccess from './components/content/AuthSuccess';
 
 
 const {Content} = Layout
