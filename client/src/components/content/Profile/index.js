@@ -30,7 +30,7 @@ class Profile extends React.Component {
                   <Col key={i} xs={24} sm={12} md={12} lg={12} xl={8}
                        style={{padding: 24}}>
                     <Card title={resume.profession}
-                          extra={<Link to={`/resume/${resume._id}`}>Открыть</Link>}>
+                          extra={<Link to={`/resume/view/${resume._id}`}>Открыть</Link>}>
                     </Card>
                   </Col>
                 )

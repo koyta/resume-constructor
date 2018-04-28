@@ -27,7 +27,7 @@ class UserStore {
   @action updateProfile = async (data) => {
     try {
       this.isFetching = true;
-      const url = `${API_ROOT}/api/update`;
+      const url = `${API_ROOT}/update`;
       const request = await axios.post(url, {});
 
       if (request.status === 200) {
@@ -43,7 +43,7 @@ class UserStore {
   @action getResumesOfCurrentUser = async () => {
     try {
       this.isFetching = true;
-      const url = `${API_ROOT}/api/resume/by/${this.profile.login}`;
+      const url = `${API_ROOT}/resume/by/${this.profile.login}`;
       const response = await axios.get(url);
       if (response.status === 200) {
         this.statusCode = 200;
@@ -70,11 +70,11 @@ class UserStore {
     }
   };
 
-  @action getUserIdByOwner = async (owner) => {
+  @action getUserByLogin = async (login) => {
     try {
       this.isFetching = true;
-      const url = `${API_ROOT}/user`;
-      const config = {params: {owner}};
+      const url = `${API_ROOT}/user?login=${login}`;
+      const config = {};
       const response = await axios.get(url, config);
       this.statusCode = response.status;
       return response.data;
@@ -88,7 +88,7 @@ class UserStore {
   @action getResumeById = async (id) => {
     try {
       this.isFetching = true;
-      const url = `${API_ROOT}/api/resume/${id}`
+      const url = `${API_ROOT}/resume/${id}`
       const response = await axios.get(url)
       if (response.status >= 200 && response.status < 300) {
         this.statusCode = response.status;
@@ -106,7 +106,7 @@ class UserStore {
   @action authentication = async (login, password) => {
     try {
       this.isFetching = true;
-      const url = `${API_ROOT}/api/login`;
+      const url = `${API_ROOT}/login`;
       const response = await axios.post(url, {
         login: login,
         password: password
@@ -132,7 +132,7 @@ class UserStore {
   @action registration = async (data) => {
     try {
       this.isFetching = true;
-      const url = `${API_ROOT}/api/signup`
+      const url = `${API_ROOT}/signup`
       const body = {login: data.login, password: data.password, firstname: data.firstname, secondname: data.secondname, date_of_birth: data.date_of_birth}
       const request = await axios.post(url, body);
       if (request.status >= 200 && request.status < 300) {
@@ -155,7 +155,7 @@ class UserStore {
   @action createResume = async (data) => {
     try {
       this.isFetching = true;
-      const url = `${API_ROOT}/api/resume/${this.profile.login}`;
+      const url = `${API_ROOT}/resume/${this.profile.login}`;
       const body = {
         profession: data.profession,
         email: data.email,

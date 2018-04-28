@@ -20,7 +20,7 @@ import AuthSuccess from './components/content/AuthSuccess';
 
 const {Content} = Layout
 
-@inject('routing','user')
+@inject('routing','user', 'app')
 @observer
 class App extends Component {
 
@@ -37,21 +37,26 @@ class App extends Component {
   }
 
   render () {
+
+    const contentStyle = {
+      padding: '3.5%'
+    }
+
     return (
       <Layout style={{minHeight: '100vh'}}>
-        <MenuComponent />
+        {/* <MenuComponent /> */}
         <Layout>
           <Header/>
-          <Content style={{padding: '3.5%'}}>
+          <Route path="/resume/view/:resumesId" component={ResumeView}/>
+          {!this.props.app.isResumeOpened && <Content style={contentStyle}>
             <Switch>
               <Route exact path="/" component={WelcomePage}/>
               <Route exact path="/profile" component={Profile}/>
               <Route exact path="/personal" component={PersonalInfo}/>
               <Route exact path="/resume/new" component={CreateResume}/>
               <Route exact path="/auth" component={AuthSocial}/>
-              <Route path="/resume/:resumesId" component={ResumeView}/>
             </Switch>
-          </Content>
+          </Content>}
         </Layout>
       </Layout>
     )
