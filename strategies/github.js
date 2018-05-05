@@ -1,7 +1,8 @@
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 const mongoose = require('mongoose');
-const User = require('../models/user')
+const User = require('../models/user');
+const Resume = require('../models/resume');
 const { default500Error } = require("../routes/utils");
 
 // Use the GitHubStrategy within Passport.
@@ -14,12 +15,20 @@ passport.use(new GitHubStrategy({
   callbackURL: "http://127.0.0.1:5000/auth/github/callback"
 },
   (accessToken, refreshToken, profile, done) => {
-    console.log(accessToken);
-    User.findOne({ owner: profile.username })
+    console.log('====================================');
+    Resume.find({'accounts.github': profile.username})
       .exec()
-      .then(user => {
-        console.log("User by github: ", user);
-      })
+      .then(resume => {
+        if (resume.length > 0) {
+          console.log("resume: ", resume);
+          User.find({login: resume.owner})
+            .then(user => {
+              console.log(user);
+            })
+        } else {
+          console.log('User not found');
+        }
+      })  
     process.nextTick(function () {
 
       // To keep the example simple, the user's GitHub profile is returned to

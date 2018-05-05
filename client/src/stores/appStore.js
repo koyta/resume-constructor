@@ -1,24 +1,19 @@
-import {observable, action} from 'mobx'
+import { observable, action } from 'mobx';
 
 class AppStore {
+  @observable isResumeOpened = false;
+  @observable sidebar = false;
 
-    @observable isResumeOpened;
+  constructor(rootStore) {
+    this.store = rootStore;
+    this.sidebar = false;
+    this.isResumeOpened = false;
+  }
 
-    constructor(rootStore) {
-        this.store = rootStore;
-        this.isResumeOpened = false;
-    }
-
-    @action openResume () {
-        this.isResumeOpened = true;
-    }
-
-    @action closeResume () {
-        this.isResumeOpened = false;
-    }
-
-    
-
+  @action openResume() { this.isResumeOpened = true; }
+  @action closeResume() { this.isResumeOpened = false; }
+  @action openSidebar() { this.sidebar = true; }
+  @action closeSidebar() { this.sidebar = false; }
 }
 
 export default AppStore;

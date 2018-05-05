@@ -21,7 +21,7 @@ const FormStyles = {
   maxWidth: '80%',
 }
 
-const Login_ = ({routing, user, form, ...props}) => {
+const Login_ = ({routing, user, form}, ...props) => {
   return (
     <Layout style={LayoutStyles}>
       <Content style={ContentStyles}>
@@ -70,7 +70,7 @@ const Login_ = ({routing, user, form, ...props}) => {
   )
 }
 
-const Login = ({routing, user, form, ...props}) => {
+const Login = (props) => {
   return (
     <Layout style={LayoutStyles}>
       <Content style={ContentStyles}>
@@ -87,7 +87,7 @@ const Login = ({routing, user, form, ...props}) => {
             <Input
               onChange={e => props.handlePasswordChange(e)}
               addonBefore={<Icon type="lock"/>}
-              disabled={user.isFetching}
+              disabled={props.user.isFetching}
               type="password" placeholder="Password"/>
           </Form.Item>
           <Form.Item>
@@ -96,7 +96,7 @@ const Login = ({routing, user, form, ...props}) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-              <Button loading={user.isFetching} type="primary" htmlType="submit"
+              <Button loading={props.user.isFetching} type="primary" htmlType="submit"
                       className="login-form-button">Sign in</Button>
               <span>If you don't have an account, <Link
                 to='/signup'>sign up now!</Link></span>

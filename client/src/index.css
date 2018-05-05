@@ -20,3 +20,10 @@ h1,h2,h3,h4,h5,h6, strong {
 p, span, input, a, textarea {
   font-family: 'Roboto', sans-serif;
 }
+
+:root {
+  --medium-color: #1C9963;
+  --medium-color-border: #02B875;
+  --medium-color-link: #03a87c;
+  --github-color: #333;
+}
