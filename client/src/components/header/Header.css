@@ -1,3 +1,17 @@
+.header {
+  background-color: white;
+  box-shadow: 0 0 5px -2px black; 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 40px;
+}
+
+.header--resume {
+  background-color: #231f20;
+  color: white;
+}
+
 .header-username {
   margin: 0 10px;
 }
@@ -7,6 +21,46 @@
   height: 100%;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+}
+
+.sider-toggler-container {
+  background-color: #333;
+  height: 85px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sider-toggler {
+  box-shadow: none;
+  border: 0;
+  padding: 0;
+  height: 45px;
+  line-height: 1;
+  width: 50px;
+  background: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.sider-toggler-container > .sider-toggler {
+  width: 90%;
+}
+
+@media screen and (max-width: 580px) {
+
+  .header {
+    padding: 20px 3.5%;
+  }
+
+  .header-content {
+    justify-content: space-between;
+  }
+
+  .header-username {
+    margin: 0;
+  }
 }

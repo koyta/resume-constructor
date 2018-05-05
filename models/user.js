@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     firstname: {type: String, required: true},
     secondname: {type: String, required: true}
   },
-  date_of_birth: {type: Number, required: false}
+  date_of_birth: {type: Number, required: false},
 })
 
 UserSchema.pre('save', function (next) {

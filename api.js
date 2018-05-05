@@ -8,9 +8,10 @@ exports.listUsers = function (req, res) {
   User.find()
     .exec()
     .then(users => {
-      user.status(200)
+      res
+        .status(200)
         .json({
-          users: regs.map(user => {
+          users: users.map(user => {
             return {
               ...user._doc,
               requestReg: {
@@ -21,7 +22,7 @@ exports.listUsers = function (req, res) {
               requestResumes: {
                 name: 'Получить все резюме пользователя',
                 type: 'GET',
-                url: `http://localhost:5000/api/resume/owner/${user.login}`,
+                url: `http://localhost:5000/api/resume/by/${user.login}`,
               },
             }
           }),

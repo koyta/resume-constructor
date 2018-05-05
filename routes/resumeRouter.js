@@ -97,16 +97,14 @@ function addResume(req, res) {
         profession: req.body.profession,
         email: req.body.email,
         phone: req.body.phone,
-        accounts: {
-          github: req.body.github,
-          medium: req.body.medium,
-          vk: req.body.vk,
-          linkedin: req.body.linkedin,
-          twitter: req.body.twitter,
-          facebook: req.body.facebook,
-          skype: req.body.skype,
-          telegram: req.body.telegram,
-        },
+        github: req.body.github,
+        medium: req.body.medium,
+        vk: req.body.vk,
+        linkedin: req.body.linkedin,
+        twitter: req.body.twitter,
+        facebook: req.body.facebook,
+        skype: req.body.skype,
+        telegram: req.body.telegram,
         owner: req.params.owner
       })
       user.save()
