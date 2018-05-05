@@ -1,94 +1,78 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import AccountRowContainer from './containers/content/AccountRow'
-import Header from './containers/header'
-import MenuComponent from './components/sider/Menu'
-import './App.css'
-import 'antd/dist/antd.css'
-import { Col, Icon, Input, Layout, Menu } from 'antd'
-import TipPanel from './containers/content/TipPanel/'
-import Profile from './components/content/Profile'
-import { inject, observer } from 'mobx-react'
-import { Route, Switch } from 'react-router'
-import CreateResume from './components/content/CreateResume'
-import ResumeView from './containers/content/ResumeView'
-import PersonalInfo from './containers/blocks/PersonalInfo'
-import WelcomePage from './components/blocks/WelcomePage'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
+import { Layout, Icon } from 'antd';
+import { inject, observer } from 'mobx-react';
+import { Route, Switch } from 'react-router';
+import 'antd/dist/antd.css';
+import Profile from './components/content/Profile';
+import CreateResume from './components/content/CreateResume/index.jsx';
+import ResumeView from './containers/content/ResumeView';
+import PersonalInfo from './containers/blocks/PersonalInfo';
+import WelcomePage from './components/blocks/WelcomePage';
+import AuthSocial from './components/content/AuthSocial';
+import Header from './containers/header';
+import './App.css';
 
+const { Content } = Layout;
 
-const {Content} = Layout
-
-@inject('routing','user')
+@inject('routing', 'user', 'app')
 @observer
 class App extends Component {
+  static propTypes = {
+    app: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    routing: PropTypes.object.isRequired,
+  }
 
   removeRow = (e) => {
-    const rows = document.querySelectorAll('.panel__body-row')
-    for (let i = 0; i < rows.length; i++) {
-      let row = rows[i]
-      let buttonInRow = row.getElementsByTagName('button')
+    const rows = document.querySelectorAll('.panel__body-row');
+    for (let i = 0; i < rows.length; i += 1) {
+      const row = rows[i];
+      const buttonInRow = row.getElementsByTagName('button');
       if (buttonInRow[0] === e.target) {
-        rows[i].remove()
-        return
+        rows[i].remove();
+        return;
       }
     }
   }
 
-  render () {
+  render() {
+    const contentStyle = {
+      padding: '3.5%',
+    };
+
+    const { app } = this.props;
+
     return (
-      <Layout style={{minHeight: '100vh'}}>
-        <MenuComponent />
+      <Layout style={{ minHeight: '100vh' }}>
+        <aside className={`sider${!app.sidebar ? ' sider-collapsed' : ''}`}>
+          <div className="sider-toggler-container">
+            <button className="sider-toggler" onClick={app.sidebar ? app.openSidebar : app.closeSidebar}>
+              <Icon type={!app.sidebar ? 'menu-unfold' : 'menu-fold'} />
+            </button>
+          </div>
+          <nav className="sider-nav">
+            <div className="sider-nav-item"><NavLink to="/profile">Профиль</NavLink></div>
+            <div className="sider-nav-item"><NavLink to="/resume/new">Создать анкету</NavLink></div>
+          </nav>
+        </aside>
         <Layout>
           <Header/>
-          <Content style={{padding: 20}}>
+          <Route path="/resume/view/:resumesId" component={ResumeView}/>
+          {!app.isResumeOpened && <Content style={contentStyle} className="slide">
             <Switch>
               <Route exact path="/" component={WelcomePage}/>
               <Route exact path="/profile" component={Profile}/>
               <Route exact path="/personal" component={PersonalInfo}/>
               <Route exact path="/resume/new" component={CreateResume}/>
-              <Route path="/resume/:resumesId" component={ResumeView}/>
+              <Route exact path="/auth" component={AuthSocial}/>
             </Switch>
-            {/*<div className="wrapper">*/}
-              {/*<div className="panel panel--white">*/}
-                {/*<div className="panel__body">*/}
-                  {/*<div className="form">*/}
-                    {/*<Input.Group>*/}
-                      {/*<Col span={12}>*/}
-                        {/*<Input placeholder="Иван" size="large"/>*/}
-                      {/*</Col>*/}
-                      {/*<Col span={12}>*/}
-                        {/*<Input placeholder="Иванов" size="large"/>*/}
-                      {/*</Col>*/}
-                    {/*</Input.Group>*/}
-                    {/*<br/>*/}
-                    {/*<Input placeholder="React-разработчик" size="large"/>*/}
-                  {/*</div>*/}
-                {/*</div>*/}
-              {/*</div>*/}
-
-            {/*<div className="panel panel--white">*/}
-            {/*<div className="panel__heading">*/}
-            {/*<span>Внешние ресурсы, которые помогут работодателю узнать о Вас больше</span>*/}
-            {/*/!* <span className="push--right"><Button size="small" onClick={() => this.addRow()}>Добавить ссылку</Button></span> *!/*/}
-            {/*</div>*/}
-            {/*<div className="panel__body">*/}
-            {/*<div className="form">*/}
-
-            {/*<AccountRowContainer icon="github" placeholder="username"/>*/}
-            {/*<AccountRowContainer icon="inbox"*/}
-            {/*placeholder="mail@inbox.com"/>*/}
-            {/*<AccountRowContainer icon="medium" placeholder="@username"/>*/}
-
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-
-            {/*</div>*/}
-          </Content>
+          </Content>}
         </Layout>
       </Layout>
-    )
+    );
   }
 }
 
-export default App
+export default App;

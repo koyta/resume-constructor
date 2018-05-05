@@ -106,3 +106,69 @@
 .push--right {
   float: right;
 }
+
+.sider {
+  position: fixed;
+  top: 0;
+  min-height: 100vh;
+  width: 250px;
+  z-index: 10;
+  transform: translateX(0);
+  transition: all 0.3s ease-in-out;
+  background-color: #333;
+}
+
+.sider-collapsed {
+  transform: translateX(-250px);
+}
+
+.sider-nav {
+  margin: 15px 0;
+  padding: 0;
+}
+
+.sider-nav-item {
+  padding: 10px 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.sider-nav-item > a, .sider-nav-item > a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+.sider-nav-item:hover {
+  background-color:white;
+}
+
+.sider-nav-item:hover > a {
+  color: #333
+}
+
+.slide {
+  transform: translateX(0);
+  transition: all 0.3s ease-in-out
+}
+
+.sider:not(.sider-collapsed) + div .slide {
+  transform: translateX(125px)
+}
+
+@media screen and (max-width: 580px) {
+
+  .sider {
+    width: 80vw;
+  }
+
+  .sider-collapsed {
+    transform: translateX(-80vw);
+  }
+
+  .sider:not(.sider-collapsed) {
+    box-shadow: 0 0 200px 0 rgba(0,0,0,0.5)
+  }
+
+  .sider:not(.sider-collapsed) + div .slide {
+    transform: translateX(0);
+  }
+}
