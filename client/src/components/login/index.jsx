@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Button, Form, Icon, Input, Layout } from 'antd';
 
 const { Content } = Layout;
@@ -52,7 +53,7 @@ const Login = props => (
               className="login-form-button"
             >Sign in
             </Button>
-            <span>If you dont have an account, <a href="/signup" >sign up now!</a>
+            <span>If you dont have an account, <Link to="/signup" >sign up now!</Link>
             </span>
           </div>
         </Form.Item>
