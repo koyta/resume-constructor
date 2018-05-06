@@ -27,9 +27,8 @@ class Step3 extends Component {
   };
 
   handleInputConfirm = () => {
-    const { state } = this;
-    const { inputValue } = state;
-    let { tags } = state;
+    const { inputValue } = this.state;
+    let { tags } = this.state;
     if (inputValue !== '' && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }

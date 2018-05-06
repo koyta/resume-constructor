@@ -1,4 +1,4 @@
-import jwt_decode from 'jsonwebtoken/decode'
+import jwtDecode from 'jsonwebtoken/decode';
 
 export const ID_TOKEN = 'id_token';
 
@@ -16,7 +16,7 @@ export function loadIdToken() {
 
 export function decodeUserProfile(idToken) {
   try {
-    return jwt_decode(idToken);
+    return jwtDecode(idToken);
   } catch (err) {
     return null;
   }
@@ -25,9 +25,9 @@ export function decodeUserProfile(idToken) {
 export function loadUserProfile() {
   try {
     const idToken = localStorage.getItem(ID_TOKEN);
-    const userProfile = jwt_decode(idToken);
-    const now = new Date().getTime() / 1000;   // Date().getTime() returns milliseconds.
-                                               // So divide by 1000 to get seconds
+    const userProfile = jwtDecode(idToken);
+    const now = new Date().getTime() / 1000; // Date().getTime() returns milliseconds.
+    // So divide by 1000 to get seconds
     if (now > userProfile.exp) {
       // user profile has expired.
       removeIdToken();

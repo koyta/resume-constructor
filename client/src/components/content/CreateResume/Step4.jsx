@@ -33,7 +33,8 @@ class Step4 extends Component {
         </Row>
         <Timeline className="m-5">
           {
-            this.state.data.map((item, i) => (<Timeline.Item key={i}>
+            this.state.data.map(item => (
+              <Timeline.Item key={Math.random()}>
                 <div>From {moment(item.dateStart).format('MMMM YYYY')} to {moment(item.dateEnd).format('MMMM YYYY')}</div>
                 <div>{item.place}</div>
                 <div>{item.position}</div>

@@ -1,10 +1,10 @@
-import {observable, action} from 'mobx'
-import {API_ROOT} from '../config/routes'
-import {loadIdToken, setIdToken, loadUserProfile, decodeUserProfile, removeIdToken} from '../utils/apiUtils'
-import axios from 'axios'
+import { observable, action } from 'mobx';
+import axios from 'axios';
+import { API_ROOT } from '../config/routes';
+import { loadIdToken, setIdToken, loadUserProfile, decodeUserProfile, removeIdToken } from '../utils/apiUtils';
 
 class UserStore {
-  @observable statusCode; //last http code response
+  @observable statusCode; // last http code response
   @observable isFetching;
   @observable isAuth;
   @observable profile = {};
@@ -15,27 +15,26 @@ class UserStore {
     this.store = rootStore;
     this.isAuth = !!loadIdToken();
     if (this.isAuth) {
-      this.profile = loadUserProfile()
+      this.profile = loadUserProfile();
     }
   }
 
-  @action updateProfile = async(data) => {
-    try {
-      this.isFetching = true;
-      const url = `${API_ROOT}/update`;
-      const request = await axios.post(url, {});
+  // @action updateProfile = async (data) => {
+  //   try {
+  //     this.isFetching = true;
+  //     const url = `${API_ROOT}/update`;
+  //     const request = await axios.post(url, {});
 
-      if (request.status === 200) {
-        this.statusCode = 200
+  //     if (request.status === 200) {
+  //       this.statusCode = 200;
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  //   this.isFetching = false;
+  // };
 
-      }
-    } catch (err) {
-      console.error(err)
-    }
-    this.isFetching = false
-  };
-
-  @action getResumesOfCurrentUser = async() => {
+  @action getResumesOfCurrentUser = async () => {
     try {
       this.isFetching = true;
       const url = `${API_ROOT}/resume/by/${this.profile.login}`;
@@ -44,30 +43,27 @@ class UserStore {
         this.statusCode = 200;
         // Fetching the data from resume IDs
         const resumesID = response.data;
-        const resumes = resumesID.map(async(data) => {
-          const promiseResume = await axios({method: data.request.type, url: data.request.url})
+        const resumes = resumesID.map(async (data) => {
+          const promiseResume = await axios({ method: data.request.type, url: data.request.url });
           return Promise.resolve(promiseResume);
-        })
+        });
         // Saving the data from fetched resume data
-        Promise
-          .all(resumes)
-          .then(response => this.resumes = response.map(resumeFromResponse => {
-            return resumeFromResponse.data
-          }))
+        const resumesResponse = await Promise.all(resumes);
+        this.resumes = resumesResponse.map(resumeFromResponse => resumeFromResponse.data);
       } else if (response.status === 204) {
-        this.statusCode = 204
+        this.statusCode = 204;
       }
     } catch (error) {
-      console.error(error)
+      throw new Error('Error catched in MobXX store. Error: ', error);
     } finally {
-      this.isFetching = false
+      this.isFetching = false;
     }
   };
 
   /**
    * @login {string}
    */
-  @action getResumesByOwner = async(login) => {
+  @action getResumesByOwner = async (login) => {
     try {
       this.isFetching = true;
       const url = `${API_ROOT}/resume/by/${login}`;
@@ -76,7 +72,7 @@ class UserStore {
       this.statusCode = response.status;
       return response.data;
     } catch (error) {
-      console.error("Error catched in mobx store", error)
+      throw new Error('Error catched in MobXX store. Error: ', error);
     } finally {
       this.isFetching = false;
     }
@@ -85,7 +81,7 @@ class UserStore {
   /**
    * @login {string}
    */
-  @action getUserByLogin = async(login) => {
+  @action getUserByLogin = async (login) => {
     try {
       this.isFetching = true;
       const url = `${API_ROOT}/user?login=${login}`;
@@ -93,45 +89,45 @@ class UserStore {
       const response = await axios.get(url, config);
       this.statusCode = response.status;
       return response.data;
-    } catch (e) {
-      console.error("Error catched in mobx store", e)
+    } catch (error) {
+      throw new Error('Error catched in MobXX store. Error: ', error);
     } finally {
-      this.isFetching = false
+      this.isFetching = false;
     }
   }
 
   /**
    * @id {string} - resume id
    */
-  @action getResumeById = async(id) => {
+  @action getResumeById = async (id) => {
     try {
       this.isFetching = true;
-      const url = `${API_ROOT}/resume/${id}`
-      const response = await axios.get(url)
+      const url = `${API_ROOT}/resume/${id}`;
+      const response = await axios.get(url);
       if (response.status >= 200 && response.status < 300) {
         this.statusCode = response.status;
-        return response.data
-      } else {
-        this.statusCode = response.status
+        return response.data;
       }
-    } catch (e) {
-      console.error("Error catched in mobx store", e)
+      this.statusCode = response.status;
+    } catch (error) {
+      throw new Error('Error catched in MobXX store. Error: ', error);
     } finally {
-      this.isFetching = false
+      this.isFetching = false;
     }
+    return Promise.resolve();
   };
 
   /**
    * @login {string} - user login
    * @password {string} - user password
    */
-  @action authentication = async(login, password) => {
+  @action authentication = async (login, password) => {
     try {
       this.isFetching = true;
       const url = `${API_ROOT}/login`;
       const response = await axios.post(url, {
-        login: login,
-        password: password
+        login,
+        password,
       });
 
       if (response.status === 200) {
@@ -145,52 +141,53 @@ class UserStore {
           .store
           .routing
           .history
-          .push('/')
+          .push('/');
       } else if (response.status === 401) {
-        this.statusCode = 401
+        this.statusCode = 401;
       }
     } catch (err) {
-      console.error("Error catched in mobx store. ", err)
+      throw new Error('Error catched in mobx store. ', err);
     }
-    this.isFetching = false
+    this.isFetching = false;
   };
 
   /**
    * @data {object} - User Model object (login, password, fullname {firstname, secondname}, date_of_birth)
    */
-  @action registration = async(data) => {
+  @action registration = async (data) => {
     try {
       this.isFetching = true;
-      const url = `${API_ROOT}/signup`
+      const url = `${API_ROOT}/signup`;
       const body = {
         login: data.login,
         password: data.password,
         firstname: data.firstname,
         secondname: data.secondname,
-        date_of_birth: data.date_of_birth
-      }
+        date_of_birth: data.date_of_birth,
+      };
       const request = await axios.post(url, body);
       if (request.status >= 200 && request.status < 300) {
         this.statusCode = 200;
         this
           .store
           .routing
-          .push('/login')
+          .push('/login');
       }
     } catch (err) {
       console.error(err);
       this.statusCode = 500;
-      throw new Error(err)
+      throw new Error(err);
     }
-    this.isFetching = false
+    this.isFetching = false;
   };
 
   @action logout() {
+    console.log(this.profile);
     console.log('Logout...');
-    removeIdToken()
+    removeIdToken();
   }
 
-  @action createResume = async(data) => {
+  @action createResume = async (data) => {
     try {
       this.isFetching = true;
       const url = `${API_ROOT}/resume/${this.profile.login}`;
@@ -205,12 +202,12 @@ class UserStore {
         twitter: data.twitter,
         facebook: data.facebook,
         skype: data.skype,
-        telegram: data.telegram
+        telegram: data.telegram,
       };
       const config = {
         headers: {
-          'authorization': `Bearer ${loadIdToken()}`
-        }
+          authorization: `Bearer ${loadIdToken()}`,
+        },
       };
       const response = await axios.post(url, body, config);
       console.log(response);
@@ -220,14 +217,13 @@ class UserStore {
       } else {
         this.statusCode = response.status;
       }
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
       this.statusCode = 500;
+      throw new Error('Error catched in MobXX store. Error: ', error);
     } finally {
-      this.isFetching = false
+      this.isFetching = false;
     }
   }
-
 }
 
 export default UserStore;

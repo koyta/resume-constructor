@@ -1,45 +1,50 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
-  Input,
   notification,
   Form,
-  Icon,
-  Tooltip,
-  Steps,
+  // Steps,
   Button,
   Col,
   Row,
-  Divider
-} from "antd";
-import {inject, observer} from "mobx-react";
-import {observable} from 'mobx'
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
-import Step4 from "./Step4";
+} from 'antd';
+import { inject, observer } from 'mobx-react';
+import { observable } from 'mobx';
+import Step1 from './Step1';
+import Step2 from './Step2';
+import Step3 from './Step3';
+import Step4 from './Step4';
 
-const Step = Steps.Step;
+// const Step = Steps.Step;
 
-const CreateProgressSteps = props => {
-  return (
-    <Steps size="small" current={props.current}>
-      <Step title="Контактная информация"/>
-      <Step title="Внешние ресурсы"/>
-      <Step title="Навыки"/>
-      <Step title="Опыт работы"/>
-    </Steps>
-  );
-};
+// const CreateProgressSteps = props => (
+//   <Steps size="small" current={props.current}>
+//     <Step title="Контактная информация" />
+//     <Step title="Внешние ресурсы" />
+//     <Step title="Навыки" />
+//     <Step title="Опыт работы" />
+//   </Steps>
+// );
 
-@inject("routing", "user")
+@inject('routing', 'user')
 @observer
 class CreateResume extends Component {
-
-  @observable error = false
+  static propTypes = {
+    form: PropTypes.shape({
+      validateFieldsAndScroll: PropTypes.func,
+    }).isRequired,
+    user: PropTypes.shape({
+      createResume: PropTypes.func,
+      statusCode: PropTypes.number,
+      isFetching: PropTypes.bool,
+    }).isRequired,
+  }
 
   state = {
-    current: 0
+    current: 0,
   };
+
+  @observable error = false
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -49,15 +54,17 @@ class CreateResume extends Component {
           this.props.user.createResume(values)
             .then(() => {
               if (this.props.user.statusCode >= 200 && this.props.user.statusCode < 300) {
-                notification.info({message: 'Новая анкета успешно создана!', description: "Теперь вы можете найти её в своем профиле."})
+                notification.info({
+                  message: 'Новая анкета успешно создана!',
+                  description: 'Теперь вы можете найти её в своем профиле.',
+                });
               } else {
-                notification.error({message: `Ошибка ${this.props.user.statusCode}`})
+                notification.error({ message: `Ошибка ${this.props.user.statusCode}` });
               }
-            })
+            });
           // Если мы уже делали ошибку, когда пытались отправить форму, то вернуть
           // состояние формы в "нормальное" состояние
-          if (this.error) 
-            this.error = false
+          if (this.error) { this.error = false; }
         } else {
           this.error = true;
         }
@@ -65,7 +72,7 @@ class CreateResume extends Component {
   };
 
   handleStepChange = (value) => {
-    const {current} = this.state;
+    const { current } = this.state;
     if (current === 0 && value === -1) {
       return;
     }
@@ -73,24 +80,23 @@ class CreateResume extends Component {
       return;
     }
     this.setState(prevState => ({
-      current: prevState.current + value
-    }))
+      current: prevState.current + value,
+    }));
   }
 
   render() {
-    const {user, routing, form} = this.props;
-
     const inputIconStyle = {
-      fontSize: 20
+      fontSize: 20,
     };
 
     return (
       <div
         className="flex-row align-items-center m-auto h-100"
         style={{
-        position: "relative",
-        overflow: "visible"
-      }}>
+        position: 'relative',
+        overflow: 'visible',
+      }}
+      >
         {/* <CreateProgressSteps current={this.state.current}/> */}
         {/* <div className="mb-5"/> */}
         <Row align="middle" justify="center" type="flex">
@@ -98,11 +104,12 @@ class CreateResume extends Component {
             <Form
               layout="vertical"
               hideRequiredMark={false}
-              onSubmit={e => this.handleSubmit(e)}>
-              <Step1 {...this.props} inputIconStyle={inputIconStyle}/>
-              <Step2 {...this.props} inputIconStyle={inputIconStyle}/>
-              <Step3 {...this.props} inputIconStyle={inputIconStyle}/>
-              <Step4 {...this.props} inputIconStyle={inputIconStyle}/>
+              onSubmit={e => this.handleSubmit(e)}
+            >
+              <Step1 {...this.props} inputIconStyle={inputIconStyle} />
+              <Step2 {...this.props} inputIconStyle={inputIconStyle} />
+              <Step3 {...this.props} inputIconStyle={inputIconStyle} />
+              <Step4 {...this.props} inputIconStyle={inputIconStyle} />
               <Row type="flex" justify="space-between">
                 {/* <Button.Group>
                   <Button onClick={() => this.handleStepChange(-1)}>Back</Button>
@@ -116,7 +123,8 @@ class CreateResume extends Component {
                     : 'primary'}
                     htmlType="submit"
                     icon="plus"
-                    loading={this.props.user.isFetching}>
+                    loading={this.props.user.isFetching}
+                  >
                     Завершить создание
                   </Button>
                 }
@@ -129,6 +137,6 @@ class CreateResume extends Component {
   }
 }
 
-CreateResume = Form.create({})(CreateResume);
+const createResume = Form.create({})(CreateResume);
 
-export default CreateResume;
+export default createResume;
