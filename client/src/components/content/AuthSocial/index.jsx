@@ -1,31 +1,20 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-import { Button } from 'antd'
-import axios from 'axios'
-import { observer, inject } from 'mobx-react'
+import { Button } from 'antd';
+import axios from 'axios';
+import { observer, inject } from 'mobx-react';
 
 @inject('routing') @observer
 class AuthSocial extends Component {
-
-  componentDidMount() {
-    console.log(this.props.routing);
-  }
+  componentDidMount() {}
 
   onClick = async () => {
     try {
-      // const response = await fetch('/auth/github', {
-      //   mode: 'no-cors',
-      //   method: 'GET',
-      //   headers: {
-      //     'Access-Control-Allow-Origin': '*'
-      //   }
-      // })
       const response = await axios.get('/auth/github', {
         mode: 'no-cors',
         headers: {
-          'Access-Control-Allow-Origin': '*'
-        }
-      })
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
       console.log(response);
       // Возвращает ошибку: OPTIONS <ссылка на авторизацию приложения, которую я их хотел открыть в popup'е> net::ERR_ABORTED и ошибка о CORS
       /** Возвращает ошибку:
@@ -39,7 +28,7 @@ class AuthSocial extends Component {
        * If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
        */
     } catch (e) {
-      console.error("Error: ", e);
+      console.error('Error: ', e);
     }
 
     const url = 'http://127.0.0.1:5000/auth/github';
@@ -49,13 +38,12 @@ class AuthSocial extends Component {
   }
 
   render() {
-
     return (
       <section className="auth-social">
-        <Button icon={'github'} onClick={() => this.onClick()} type="primary">Login with GitHub</Button>
+        <Button icon="github" onClick={() => this.onClick()} type="primary">Login with GitHub</Button>
       </section>
-    )
+    );
   }
 }
 
-export default AuthSocial
+export default AuthSocial;
