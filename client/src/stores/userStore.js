@@ -19,21 +19,6 @@ class UserStore {
     }
   }
 
-  // @action updateProfile = async (data) => {
-  //   try {
-  //     this.isFetching = true;
-  //     const url = `${API_ROOT}/update`;
-  //     const request = await axios.post(url, {});
-
-  //     if (request.status === 200) {
-  //       this.statusCode = 200;
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  //   this.isFetching = false;
-  // };
-
   @action getResumesOfCurrentUser = async () => {
     try {
       this.isFetching = true;
@@ -43,8 +28,8 @@ class UserStore {
         this.statusCode = 200;
         // Fetching the data from resume IDs
         const resumesID = response.data;
-        const resumes = resumesID.map(async (data) => {
-          const promiseResume = await axios({ method: data.request.type, url: data.request.url });
+        const resumes = resumesID.map(async (item) => {
+          const promiseResume = await axios({ method: item.request.type, url: item.request.url });
           return Promise.resolve(promiseResume);
         });
         // Saving the data from fetched resume data
