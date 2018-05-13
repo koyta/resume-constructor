@@ -29,8 +29,10 @@ class Step4 extends Component {
         dateStart: getFieldValue('time')[0],
         dateEnd: getFieldValue('time')[1],
       };
+      const newState = [...this.state.data, newValue].sort((a, b) => a.dateStart > b.dateStart);
+      console.log(newState);
       this.setState({
-        data: [...this.state.data, newValue],
+        data: newState,
       });
       setFieldsValue({
         place: '',
