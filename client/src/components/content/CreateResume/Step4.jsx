@@ -43,8 +43,10 @@ const Step4 = (props) => {
         </Row>
       </div>
       <div className={cx({ block: true, 'd-none': props.isExperienced })}>
-        <Timeline className="m-5 preview-experience">
-          {
+        <h2>Таймлайн</h2>
+        {props.data.length > 0 ?
+          <Timeline className="m-5 preview-experience">
+            {
             props.data.map(item => (
               <Timeline.Item key={Math.random()} className="preview-experience_item">
                 <Button className="remove-experience" icon="minus" type="danger" size="small">Удалить</Button>
@@ -52,8 +54,10 @@ const Step4 = (props) => {
                 <div>{item.place}</div>
                 <div>{item.position}</div>
               </Timeline.Item>))
-          }
-        </Timeline>
+            }
+          </Timeline>
+        : <center>Добавьте хотя бы один раз информацию об опыте работы, чтобы увидеть превью.</center>
+        }
       </div>
     </React.Fragment>
   );

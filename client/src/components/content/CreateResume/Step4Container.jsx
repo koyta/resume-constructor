@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import Step4Component from './Step4';
 
 class Step4 extends Component {
@@ -14,14 +13,7 @@ class Step4 extends Component {
   }
 
   state = {
-    data: [
-      {
-        place: 'Yandex LLC.',
-        position: 'Intern Web Developer',
-        dateStart: moment() - 10000000,
-        dateEnd: moment() - 700000,
-      },
-    ],
+    data: [],
     isExperienced: false,
     RangePickerMode: ['month', 'month'],
   }

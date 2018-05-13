@@ -97,11 +97,15 @@ h2 {
 
 .preview-experience {
   position: relative;
-  margin-left: 150px !important;
 }
 
 .preview-experience_item {
   position: relative;
+  margin-left: 150px !important;
+}
+
+.preview-experience_item:hover .remove-experience {
+  opacity: 1;
 }
 
 .remove-experience {
