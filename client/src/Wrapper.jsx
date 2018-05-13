@@ -6,13 +6,14 @@ import { Route, Switch, withRouter } from 'react-router';
 import App from './App';
 import Login from './containers/login';
 import Signup from './components/signup';
+import ResumeView from './containers/content/ResumeView';
 
 @withRouter
 @inject('routing', 'user') @observer
 class Wrapper extends Component {
   static propTypes = {
     routing: PropTypes.shape({
-      location: PropTypes.string,
+      location: PropTypes.object,
       push: PropTypes.func,
     }).isRequired,
     user: PropTypes.shape({
@@ -41,6 +42,7 @@ class Wrapper extends Component {
   render() {
     return (
       <Switch>
+        <Route path="/resume/view/resumeId" component={ResumeView} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
         <Route path="/" component={App} />

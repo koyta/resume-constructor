@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ResumeViewComponent from '../../../components/content/ResumeView';
 
 
-@inject('routing', 'user', 'app') @observer
+@inject('user', 'app') @observer
 class ResumeView extends Component {
   static propTypes = {
     user: PropTypes.shape({
@@ -28,9 +28,9 @@ class ResumeView extends Component {
 
   async componentWillMount() {
     this.props.app.openResume();
-    this.setState({ isLoading: true });
+    this.setState(prevState => ({ isLoading: !prevState.isLoading }));
     await this.fetchData();
-    this.setState({ isLoading: false });
+    this.setState(prevState => ({ isLoading: !prevState.isLoading }));
   }
 
   componentWillUnmount() {

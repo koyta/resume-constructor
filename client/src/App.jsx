@@ -48,7 +48,7 @@ class App extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <aside className={`sider${!app.sidebar ? ' sider-collapsed' : ''}`}>
           <div className="sider-toggler-container">
-            <button className="sider-toggler" onClick={app.sidebar ? app.openSidebar : app.closeSidebar}>
+            <button className="sider-toggler" onClick={app.toggleSidebar}>
               <Icon type={!app.sidebar ? 'menu-unfold' : 'menu-fold'} />
             </button>
           </div>

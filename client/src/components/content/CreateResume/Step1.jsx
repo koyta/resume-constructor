@@ -7,7 +7,7 @@ class Step1 extends Component {
     form: PropTypes.shape({
       getFieldDecorator: PropTypes.func,
     }).isRequired,
-    inputIconStyle: PropTypes.shape.isRequired,
+    inputIconStyle: PropTypes.shape({}).isRequired,
   }
 
   componentDidMount() {}
@@ -49,14 +49,7 @@ class Step1 extends Component {
                 message: 'Пожалуйста, укажите ваш E-mail!',
               },
             ],
-          })(<Input
-            addonBefore={<Icon
-              type="inbox"
-              style={
-              inputIconStyle
-            }
-            />}
-          />)}
+          })(<Input addonBefore={<Icon type="inbox" style={inputIconStyle} />} />)}
         </Form.Item>
         <Form.Item label="Номер телефона">
           {getFieldDecorator('phone', {

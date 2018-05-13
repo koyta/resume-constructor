@@ -90,6 +90,28 @@ h2 {
   margin: 5px !important;
 }
 
+.add-experience {
+  display: block;
+  margin: 0 auto;
+}
+
+.preview-experience {
+  position: relative;
+  margin-left: 150px !important;
+}
+
+.preview-experience_item {
+  position: relative;
+}
+
+.remove-experience {
+  position: absolute;
+  left: -100px;
+  top: 0;
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+}
+
 @media screen and (max-width: 580px) {
   .block {
     padding: 25px 25px;

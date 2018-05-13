@@ -13,6 +13,7 @@ class Header extends Component {
     app: PropTypes.shape({
       closeSidebar: PropTypes.func.isRequired,
       openSidebar: PropTypes.func.isRequired,
+      toggleSidebar: PropTypes.func.isRequired,
       sidebar: PropTypes.bool.isRequired,
     }).isRequired,
     routing: PropTypes.shape({
@@ -37,6 +38,7 @@ class Header extends Component {
         logout={this.logout}
         closeSidebar={this.props.app.closeSidebar}
         openSidebar={this.props.app.openSidebar}
+        toggleSidebar={this.props.app.toggleSidebar}
         sidebar={this.props.app.sidebar}
       />
     );

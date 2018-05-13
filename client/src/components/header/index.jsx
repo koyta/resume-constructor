@@ -12,7 +12,7 @@ const Header = (props) => {
     <Layout.Header prefixCls={headerClassName}>
       <section className="header-content">
         <div>
-          <button className="sider-toggler" onClick={props.app.sidebar ? props.app.closeSidebar : props.app.openSidebar}>
+          <button className="sider-toggler" onClick={props.toggleSidebar}>
             <Icon type={props.app.sidebar ? 'menu-unfold' : 'menu-fold'} />
           </button>
         </div>
@@ -44,10 +44,9 @@ Header.propTypes = {
   }).isRequired,
   app: PropTypes.shape({
     sidebar: PropTypes.bool,
-    closeSidebar: PropTypes.func,
-    openSidebar: PropTypes.func,
     isResumeOpened: PropTypes.bool,
   }).isRequired,
+  toggleSidebar: PropTypes.func.isRequired,
 };
 
 export default Header;

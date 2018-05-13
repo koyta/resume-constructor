@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Icon,
   AutoComplete,
@@ -10,6 +11,12 @@ import {
 import DataSource from './DataSource';
 
 class Step3 extends Component {
+  static propTypes = {
+    form: PropTypes.shape({
+      setFieldsValue: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
   state = {
     tags: ['React', 'Redux'],
     inputVisible: false,
@@ -32,6 +39,9 @@ class Step3 extends Component {
     if (inputValue !== '' && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
+    this.props.form.setFieldsValue({
+      skills: [...tags],
+    });
     this.setState({
       tags,
       inputVisible: false,
@@ -50,13 +60,17 @@ class Step3 extends Component {
     });
   };
 
+  handleInputChange = (e) => {
+    console.log(e);
+  }
+
   saveInputRef = (input) => { this.input = input; };
 
   render() {
     const { tags, inputVisible, displayedData } = this.state;
     return (
-      <Row type="flex" justify="center" className="block">
-        <h2>Основные навыки</h2>
+      <Row className="block">
+        <h2 className="d-block">Основные навыки</h2>
         <Col xl={16}>
           {tags.map((tag) => {
             const isLongTag = tag.length > 20;

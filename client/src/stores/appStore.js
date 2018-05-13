@@ -6,14 +6,15 @@ class AppStore {
 
   constructor(rootStore) {
     this.store = rootStore;
-    this.sidebar = false;
-    this.isResumeOpened = false;
   }
 
-  @action openResume() { this.isResumeOpened = true; }
-  @action closeResume() { this.isResumeOpened = false; }
-  @action openSidebar() { this.sidebar = true; }
-  @action closeSidebar() { this.sidebar = false; }
+  @action.bound openResume() { this.isResumeOpened = true; }
+  @action.bound closeResume() { this.isResumeOpened = false; }
+  @action.bound openSidebar() { this.sidebar = true; }
+  @action.bound closeSidebar() { this.sidebar = false; }
+  @action.bound toggleSidebar() {
+    this.sidebar = !this.sidebar;
+  }
 }
 
 export default AppStore;
