@@ -12,13 +12,12 @@ import DataSource from './DataSource';
 
 class Step3 extends Component {
   static propTypes = {
-    form: PropTypes.shape({
-      setFieldsValue: PropTypes.func.isRequired,
-    }).isRequired,
+    skills: PropTypes.array.isRequired, // eslint-disable-line
+    setSkills: PropTypes.func.isRequired,
   }
 
   state = {
-    tags: ['React', 'Redux'],
+    tags: [],
     inputVisible: false,
     inputValue: '',
     displayedData: DataSource,
@@ -30,6 +29,7 @@ class Step3 extends Component {
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
+    this.props.setSkills(tags);
     this.setState({ tags });
   };
 
@@ -39,9 +39,7 @@ class Step3 extends Component {
     if (inputValue !== '' && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
-    this.props.form.setFieldsValue({
-      skills: [...tags],
-    });
+    this.props.setSkills(tags);
     this.setState({
       tags,
       inputVisible: false,

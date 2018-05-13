@@ -31,9 +31,10 @@ class CreateResume extends Component {
 
   state = {
     current: 0,
+    skills: [],
   };
 
-  @observable error = false
+  @observable error = false //eslint-disable-line
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -60,6 +61,10 @@ class CreateResume extends Component {
       });
   };
 
+  setSkills = (value) => {
+    this.setState({ skills: value });
+  }
+
   render() {
     const inputIconStyle = {
       fontSize: 20,
@@ -81,7 +86,7 @@ class CreateResume extends Component {
             >
               <Step1 {...this.props} inputIconStyle={inputIconStyle} />
               <Step2 {...this.props} inputIconStyle={inputIconStyle} />
-              <Step3 {...this.props} inputIconStyle={inputIconStyle} />
+              <Step3 {...this.props} skills={this.state.skills} setSkills={this.setSkills} inputIconStyle={inputIconStyle} />
               <Step4Container {...this.props} inputIconStyle={inputIconStyle} />
               <Row type="flex" justify="space-between">
                 {
