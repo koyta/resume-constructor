@@ -48,6 +48,10 @@ class Step4 extends Component {
     }
   }
 
+  handleRemove = () => {
+    // TODO Реализовать
+  }
+
   handleExperienceToggle = () => {
     this.setState({ isExperienced: !this.state.isExperienced });
   }
