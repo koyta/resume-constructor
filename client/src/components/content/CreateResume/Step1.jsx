@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Input, Icon, Form } from 'antd';
 
 class Step1 extends Component {
+  static propTypes = {
+    form: PropTypes.shape({
+      getFieldDecorator: PropTypes.func,
+    }).isRequired,
+    inputIconStyle: PropTypes.shape({}).isRequired,
+  }
+
+  componentDidMount() {}
+
   render() {
     const { inputIconStyle } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -18,11 +28,15 @@ class Step1 extends Component {
               },
             ],
           })(<Input
-              addonBefore={< Icon type = "rocket" style = {
+            addonBefore={<Icon
+              type="rocket"
+              style={
               inputIconStyle
-            } />}
-              type="text"
-              placeholder="Например, работяга с завода"/>)}
+            }
+            />}
+            type="text"
+            placeholder="Например, работяга с завода"
+          />)}
         </Form.Item>
         <Form.Item label="Email">
           {getFieldDecorator('email', {
@@ -35,10 +49,7 @@ class Step1 extends Component {
                 message: 'Пожалуйста, укажите ваш E-mail!',
               },
             ],
-          })(<Input
-              addonBefore={< Icon type = "inbox" style = {
-              inputIconStyle
-            } />}/>)}
+          })(<Input addonBefore={<Icon type="inbox" style={inputIconStyle} />} />)}
         </Form.Item>
         <Form.Item label="Номер телефона">
           {getFieldDecorator('phone', {
@@ -49,11 +60,15 @@ class Step1 extends Component {
               },
             ],
           })(<Input
-              prefix="+"
-              addonBefore={< Icon type = "phone" style = {
+            prefix="+"
+            addonBefore={<Icon
+              type="phone"
+              style={
               inputIconStyle
-            } />}
-              placeholer="79315413241"/>)}
+            }
+            />}
+            placeholer="79315413241"
+          />)}
         </Form.Item>
       </div>
     );

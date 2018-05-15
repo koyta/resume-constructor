@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 import { Route, Switch } from 'react-router';
 import 'antd/dist/antd.css';
 import Profile from './components/content/Profile';
-import CreateResume from './components/content/CreateResume/index.jsx';
+import CreateResume from './components/content/CreateResume';
 import ResumeView from './containers/content/ResumeView';
 import PersonalInfo from './containers/blocks/PersonalInfo';
 import WelcomePage from './components/blocks/WelcomePage';
@@ -20,9 +20,9 @@ const { Content } = Layout;
 @observer
 class App extends Component {
   static propTypes = {
-    app: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    routing: PropTypes.object.isRequired,
+    app: PropTypes.shape({
+
+    }).isRequired,
   }
 
   removeRow = (e) => {
@@ -48,7 +48,7 @@ class App extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <aside className={`sider${!app.sidebar ? ' sider-collapsed' : ''}`}>
           <div className="sider-toggler-container">
-            <button className="sider-toggler" onClick={app.sidebar ? app.openSidebar : app.closeSidebar}>
+            <button className="sider-toggler" onClick={app.toggleSidebar}>
               <Icon type={!app.sidebar ? 'menu-unfold' : 'menu-fold'} />
             </button>
           </div>
@@ -58,15 +58,16 @@ class App extends Component {
           </nav>
         </aside>
         <Layout>
-          <Header/>
-          <Route path="/resume/view/:resumesId" component={ResumeView}/>
-          {!app.isResumeOpened && <Content style={contentStyle} className="slide">
+          <Header />
+          <Route path="/resume/view/:resumesId" component={ResumeView} />
+          {!app.isResumeOpened &&
+          <Content style={contentStyle} className="slide">
             <Switch>
-              <Route exact path="/" component={WelcomePage}/>
-              <Route exact path="/profile" component={Profile}/>
-              <Route exact path="/personal" component={PersonalInfo}/>
-              <Route exact path="/resume/new" component={CreateResume}/>
-              <Route exact path="/auth" component={AuthSocial}/>
+              <Route exact path="/" component={WelcomePage} />
+              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/personal" component={PersonalInfo} />
+              <Route exact path="/resume/new" component={CreateResume} />
+              <Route exact path="/auth" component={AuthSocial} />
             </Switch>
           </Content>}
         </Layout>

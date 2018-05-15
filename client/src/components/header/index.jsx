@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Layout, Button, Icon } from 'antd';
 import cx from 'classnames';
 
@@ -11,8 +12,8 @@ const Header = (props) => {
     <Layout.Header prefixCls={headerClassName}>
       <section className="header-content">
         <div>
-          <button className="sider-toggler" onClick={props.sidebar ? props.closeSidebar : props.openSidebar}>
-            <Icon type={props.sidebar ? 'menu-unfold' : 'menu-fold'} />
+          <button className="sider-toggler" onClick={props.toggleSidebar}>
+            <Icon type={props.app.sidebar ? 'menu-unfold' : 'menu-fold'} />
           </button>
         </div>
         <div>
@@ -32,6 +33,20 @@ const Header = (props) => {
       </section>
     </Layout.Header>
   );
+};
+Header.propTypes = {
+  logout: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    isFetching: PropTypes.bool,
+    profile: PropTypes.shape({
+      login: PropTypes.string,
+    }),
+  }).isRequired,
+  app: PropTypes.shape({
+    sidebar: PropTypes.bool,
+    isResumeOpened: PropTypes.bool,
+  }).isRequired,
+  toggleSidebar: PropTypes.func.isRequired,
 };
 
 export default Header;

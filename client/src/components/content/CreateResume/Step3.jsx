@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Icon,
   AutoComplete,
@@ -10,8 +11,13 @@ import {
 import DataSource from './DataSource';
 
 class Step3 extends Component {
+  static propTypes = {
+    skills: PropTypes.array.isRequired, // eslint-disable-line
+    setSkills: PropTypes.func.isRequired,
+  }
+
   state = {
-    tags: ['React', 'Redux'],
+    tags: [],
     inputVisible: false,
     inputValue: '',
     displayedData: DataSource,
@@ -23,16 +29,17 @@ class Step3 extends Component {
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
+    this.props.setSkills(tags);
     this.setState({ tags });
   };
 
   handleInputConfirm = () => {
-    const { state } = this;
-    const { inputValue } = state;
-    let { tags } = state;
+    const { inputValue } = this.state;
+    let { tags } = this.state;
     if (inputValue !== '' && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
+    this.props.setSkills(tags);
     this.setState({
       tags,
       inputVisible: false,
@@ -51,13 +58,17 @@ class Step3 extends Component {
     });
   };
 
+  handleInputChange = (e) => {
+    console.log(e);
+  }
+
   saveInputRef = (input) => { this.input = input; };
 
   render() {
     const { tags, inputVisible, displayedData } = this.state;
     return (
-      <Row type="flex" justify="center" className="block">
-        <h2>Основные навыки</h2>
+      <Row className="block">
+        <h2 className="d-block">Основные навыки</h2>
         <Col xl={16}>
           {tags.map((tag) => {
             const isLongTag = tag.length > 20;

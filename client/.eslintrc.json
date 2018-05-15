@@ -1,0 +1,10 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "max-len": [1, 120, 2, {
+      "ignoreComments": true
+    }],
+    "jsx-a11y/anchor-is-valid": 0
+  },
+  "extends": ["react-app", "airbnb"]
+}

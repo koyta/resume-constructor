@@ -1,10 +1,28 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import HeaderComponent from '../../components/header';
 
 @inject('routing', 'user', 'app')
 @observer
 class Header extends Component {
+  static propTypes = {
+    user: PropTypes.shape({
+      logout: PropTypes.func.isRequired,
+    }).isRequired,
+    app: PropTypes.shape({
+      closeSidebar: PropTypes.func.isRequired,
+      openSidebar: PropTypes.func.isRequired,
+      toggleSidebar: PropTypes.func.isRequired,
+      sidebar: PropTypes.bool.isRequired,
+    }).isRequired,
+    routing: PropTypes.shape({
+      history: PropTypes.shape({
+        go: PropTypes.func,
+      }),
+    }).isRequired,
+  }
+
   logout = () => {
     const { user, routing } = this.props;
     user.logout();
@@ -20,6 +38,7 @@ class Header extends Component {
         logout={this.logout}
         closeSidebar={this.props.app.closeSidebar}
         openSidebar={this.props.app.openSidebar}
+        toggleSidebar={this.props.app.toggleSidebar}
         sidebar={this.props.app.sidebar}
       />
     );

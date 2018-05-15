@@ -4,6 +4,7 @@ const {verifyToken, default500Error} = require('./utils');
 const {SECRET_KEY} = require('./constants')
 const jwt = require('jsonwebtoken')
 const Resume = require('../models/resume')
+const User = require('../models/user')
 
 router.get('/:resumeId', getResumeById);
 router.post('/:owner', verifyToken, addResume);

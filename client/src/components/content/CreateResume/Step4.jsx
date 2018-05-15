@@ -1,48 +1,81 @@
-import React, { Component } from 'react';
-import { Input, Timeline, DatePicker, Row } from 'antd';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Input, Timeline, DatePicker, Row, Button, Switch, Form } from 'antd';
 import moment from 'moment';
+import cx from 'classnames';
 
 const { RangePicker } = DatePicker;
+const FormItem = Form.Item;
 
-class Step4 extends Component {
-  state = {
-    data: [
-      {
-        place: 'Yandex LLC.',
-        position: 'Intern Web Developer',
-        dateStart: moment.now() - 10000000,
-        dateEnd: moment.now() - 700000,
-      },
-    ],
+const Step4 = (props) => {
+  const { getFieldDecorator } = props.form;
+  const formItemLayout = {
+    labelCol: { span: 6 },
+    wrapperCol: { span: 16 },
   };
 
-  render() {
-    return (
+  return (
+    <React.Fragment>
       <div className="block">
         <h2>Опыт работы</h2>
-        <Row>
-          <Input placeholder="Место работы" />
-          <Input placeholder="Должность" />
-          <RangePicker
-            placeholder={['Начало работы', 'Окончание работы']}
-            mode={['month', 'month']}
-            showTime={false}
-            ranges={{ Today: [moment(), moment()] }}
-            format="MMMM YYYY"
-          />
+        <FormItem
+          {...formItemLayout}
+          label="Без опыта"
+        >
+          <Switch checked={props.isExperienced} onChange={props.handleExperienceToggle} />
+        </FormItem>
+        <Row className={cx({ 'd-none': props.isExperienced })}>
+          <FormItem {...formItemLayout} label="Место работы">
+            {getFieldDecorator('place')(<Input placeholder="Место работы" />)}
+          </FormItem>
+          <FormItem {...formItemLayout} label="Должность">
+            {getFieldDecorator('position')(<Input placeholder="Должность" />)}
+          </FormItem>
+          <FormItem {...formItemLayout} label="Период">
+            {getFieldDecorator('time')(<RangePicker
+              placeholder={['Начало', 'Окончание']}
+              mode={props.RangePickerMode}
+              onPanelChange={props.handlePanelChange}
+              format="MMMM YYYY"
+            />)}
+          </FormItem>
+          <Button onClick={props.handleAdd} icon="plus" className="add-experience">Добавить в список</Button>
         </Row>
-        <Timeline className="m-5">
-          {
-            this.state.data.map((item, i) => (<Timeline.Item key={i}>
-                <div>From {moment(item.dateStart).format('MMMM YYYY')} to {moment(item.dateEnd).format('MMMM YYYY')}</div>
+      </div>
+      <div className={cx({ block: true, 'd-none': props.isExperienced })}>
+        <h2>Таймлайн</h2>
+        {props.data.length > 0 ?
+          <Timeline className="m-5 preview-experience">
+            {
+            props.data.map(item => (
+              <Timeline.Item key={Math.random()} className="preview-experience_item">
+                <Button className="remove-experience" icon="minus" type="danger" size="small">Удалить</Button>
+                <div>С {moment(item.dateStart).format('MMMM YYYY')} по {moment(item.dateEnd).format('MMMM YYYY')}</div>
                 <div>{item.place}</div>
                 <div>{item.position}</div>
               </Timeline.Item>))
-          }
-        </Timeline>
+            }
+          </Timeline>
+        : <center>Добавьте хотя бы один раз информацию об опыте работы, чтобы увидеть превью.</center>
+        }
       </div>
-    );
-  }
-}
+    </React.Fragment>
+  );
+};
+
+Step4.propTypes = {
+  form: PropTypes.shape({
+    getFieldsValue: PropTypes.func,
+    getFieldValue: PropTypes.func,
+    getFieldDecorator: PropTypes.func,
+    setFieldsValue: PropTypes.func,
+  }).isRequired,
+  isExperienced: PropTypes.bool.isRequired,
+  RangePickerMode: PropTypes.array.isRequired, //eslint-disable-line
+  data: PropTypes.array.isRequired, //eslint-disable-line
+  handleAdd: PropTypes.func.isRequired,
+  handleExperienceToggle: PropTypes.func.isRequired,
+  handlePanelChange: PropTypes.func.isRequired,
+};
 
 export default Step4;

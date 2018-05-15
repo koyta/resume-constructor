@@ -1,0 +1,6 @@
+**/*.test.js
+src/registerServiceWorker.js
+config/
+scripts/
+config/
+public/

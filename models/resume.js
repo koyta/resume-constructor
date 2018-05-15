@@ -1,7 +1,7 @@
 // The Resume model
 
-const mongoose = require('mongoose'),
-  Schema = mongoose.Schema
+const mongoose = require("mongoose"),
+  Schema = mongoose.Schema;
 
 const resumeSchema = new Schema({
   profession: {
@@ -60,14 +60,14 @@ const resumeSchema = new Schema({
     type: String,
     required: true
   }
-})
+});
 
-resumeSchema.pre('validate', function (next) {
+resumeSchema.pre("validate", function (next) {
   if (this.email || this.phone) {
-    next()
+    next();
   } else {
-    next(new Error('Email or Phone: you must specify one of the options'))
+    next(new Error("Email or Phone: you must specify one of the options"));
   }
-})
+});
 
-module.exports = mongoose.model('Resume', resumeSchema)
+module.exports = mongoose.model("Resume", resumeSchema);

@@ -1,15 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const User = require('../models/user')
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const User = require("../models/user");
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const {default500Error} = require("./utils");
-const {SECRET_KEY} = require('./constants')
+const {SECRET_KEY} = require("./constants");
 
 
-router.post('/login', login)
-router.post('/signup', signup)
+router.post("/login", login);
+router.post("/signup", signup);
 
 
 function signup(request, response) {
@@ -22,16 +22,16 @@ function signup(request, response) {
       secondname: request.body.secondname
     },
     date_of_birth: request.body.date_of_birth
-  })
+  });
   user.save()
     .then(user => {
-      response.status(201).json({user})
+      response.status(201).json({user});
     })
-    .catch(error => default500Error(response, error))
+    .catch(error => default500Error(response, error));
 }
 
 function login(req, res) {
-  console.log("Logging in")
+  console.log("Logging in");
   User.findOne({login: req.body.login})
     .exec()
     .then(user => {
@@ -39,29 +39,29 @@ function login(req, res) {
         res
           .status(401)
           .json({
-            message: 'Нет такого пользователя',
-          })
+            message: "Нет такого пользователя",
+          });
       } else {
         bcrypt.compare(req.body.password, user.password)
           .then(answer => {
             if (answer) {
               const token = jwt.sign({id: user._id, login: user.login }, SECRET_KEY,
-                {expiresIn: '24h'})
+                {expiresIn: "24h"});
               res.status(200)
                 .json({
                   token: token,
-                })
+                });
             } else {
               res.status(401)
                 .json({
-                  message: 'Пароли не совпадают',
+                  message: "Пароли не совпадают",
                   answer,
-                })
+                });
             }
-          })
+          });
       }
     })
-    .catch(err => default500Error(res, err))
+    .catch(err => default500Error(res, err));
 }
 
 module.exports = router;
