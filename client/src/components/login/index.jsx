@@ -1,75 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Button, Form, Icon, Input, Layout } from 'antd';
+import { Button, Form, Icon, Input, Row, Col, Spin } from 'antd';
+import styled from 'styled-components';
 
-const { Content } = Layout;
-
-const LayoutStyles = {
-  minHeight: '100vh',
+const containerLayout = {
+  sm: 24,
+  md: 16,
+  xl: 12,
+};
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 },
+  },
 };
 
-const ContentStyles = {
-  height: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'column',
-};
-
-const FormStyles = {
-  minWidth: '30%',
-  maxWidth: '80%',
-};
+const FormHeading = styled.h1`
+  font-size: 18px;
+  font-weight: 400px;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
 
 const Login = props => (
-  <Layout style={LayoutStyles}>
-    <Content style={ContentStyles}>
-      <h1>Sign in</h1>
-      <Form onSubmit={e => props.handleSubmit(e)} style={FormStyles}>
-        <Form.Item>
+  <Row type="flex" align="center" justify="center" style={{ height: '100vh', position: 'relative' }}>
+    {props.loading && <Spin spinning={props.loading} tip="Вход..." />}
+    <Col {...containerLayout} style={{ margin: 'auto 0' }}>
+      <FormHeading>Вход в профиль</FormHeading>
+      {props.isError && <p>Проверьте корректность данных.</p>}
+      <Form onSubmit={e => props.handleSubmit(e)}>
+        <Form.Item {...formItemLayout} label="Имя пользователя">
           <Input
             onChange={e => props.handleLoginChange(e)}
             addonBefore={<Icon type="user" />}
-            disabled={props.loading}
-            placeholder="Username"
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item {...formItemLayout} label="Пароль">
           <Input
             onChange={e => props.handlePasswordChange(e)}
             addonBefore={<Icon type="lock" />}
-            disabled={props.user.isFetching}
             type="password"
-            placeholder="Password"
           />
         </Form.Item>
         <Form.Item>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Button
-              loading={props.user.isFetching}
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-            >Sign in
-            </Button>
-            <span>If you dont have an account, <Link to="/signup" >sign up now!</Link>
-            </span>
-          </div>
+          <Row type="flex" justify="space-between">
+            <Col sm={10} md={8} lg={6}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="login-form-button"
+              >Sign in
+              </Button>
+            </Col>
+            <Col sm={14} md={16} lg={18}>
+              <span style={{ textAlign: 'right' }}>Нет аккаунта? <Link to="/signup">Создайте прямо сейчас!</Link></span>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
-    </Content>
-  </Layout>
+    </Col>
+  </Row>
 );
 
 Login.propTypes = {
-  loading: PropTypes.bool.isRequired,
   handleLoginChange: PropTypes.func.isRequired,
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    isFetching: PropTypes.bool,
-  }).isRequired,
+  isError: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default Login;

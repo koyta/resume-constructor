@@ -5,7 +5,7 @@ import { Route, Switch, withRouter } from 'react-router';
 
 import App from './App';
 import Login from './containers/login';
-import Signup from './components/signup';
+import Registration from './containers/signup';
 import ResumeView from './containers/content/ResumeView';
 
 @withRouter
@@ -44,7 +44,7 @@ class Wrapper extends Component {
       <Switch>
         <Route path="/resume/view/resumeId" component={ResumeView} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/signup" component={Registration} />
         <Route path="/" component={App} />
       </Switch>
     );

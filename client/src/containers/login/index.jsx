@@ -19,6 +19,7 @@ class Login extends Component {
     this.state = {
       login: '',
       password: '',
+      error: false,
     };
   }
 
@@ -37,6 +38,10 @@ class Login extends Component {
     );
     if (user.statusCode >= 200 && user.statusCode < 300) {
       routing.history.go('/');
+    } else {
+      this.setState({
+        error: true,
+      });
     }
   }
 
@@ -64,6 +69,7 @@ class Login extends Component {
         login={this.state.login}
         password={this.state.password}
         loading={this.props.user.isFetching}
+        isError={this.state.error}
       />
     );
   }

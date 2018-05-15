@@ -133,18 +133,15 @@ class UserStore {
         // Save profile data from token
         this.profile = decodeUserProfile();
         // Push user to '/' page
-        this
-          .store
-          .routing
-          .history
-          .push('/');
+        this.store.routing.history.push('/');
       } else if (response.status === 401) {
-        throw new Error('401 Unauthorized');
+        console.error('401 Неверный логин или пароль');
       }
     } catch (err) {
-      throw new Error('Error catched in mobx store. ', err);
+      console.error('Error catched in mobx store. ', err);
+    } finally {
+      this.fetchingOff();
     }
-    this.isFetching = false;
   };
 
   /**
@@ -162,7 +159,7 @@ class UserStore {
         date_of_birth: data.date_of_birth,
       };
       const response = await axios.post(url, body);
-      if (response.status >= 200 && response.status < 300) {
+      if (response.status === 201) {
         this.setStatusCode(response.status);
         this.store.routing.push('/login');
       }
