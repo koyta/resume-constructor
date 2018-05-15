@@ -52,7 +52,7 @@ class Registration extends Component {
         }
       }
     });
-    if (user.statusCode === 200) {
+    if (user.statusCode === 201) {
       routing.go('/login');
     }
   }
