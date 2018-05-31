@@ -4,6 +4,7 @@
 @import './components/content/Profile/Profile.css';
 @import './components/content/ResumeView/ResumeView.css';
 @import './components/content/CreateResume/CreateResume.css';
+@import './components/login/login.css';
 
 
 #root {
@@ -66,7 +67,7 @@
 }
 
 .form {
-  
+
 }
 
 

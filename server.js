@@ -9,7 +9,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
 const authRouter = require("./routes/authRouter");
 const mainRouter = require("./routes/mainRouter");
 const userRouter = require("./routes/userRouter");
