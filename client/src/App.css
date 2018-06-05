@@ -5,171 +5,59 @@
 @import './components/content/ResumeView/ResumeView.css';
 @import './components/content/CreateResume/CreateResume.css';
 @import './components/login/login.css';
-
+@import './components/content/ResumeView/components/GithubInfo.css';
+@import './components/content/CreateResume/Preview.css';
+@import './components/content/CreateResume/Button.css';
+@import './components/content/ResumeView/components/socialCard.css';
+@import './components/content/ResumeView/components/summaryInfo.css';
 
 #root {
   min-height: 100vh;
   overflow: hidden;
 }
 
-.App {
-  text-align: center;
+.main-layout {
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
-.App-logo {
-  height: 32px;
-  line-height: 1;
-  font-size: 160%;
-  text-transform: uppercase;
-  text-align: center;
-  color: #ccc;
-  margin: 16px;
+.flex-centering {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.wrapper {
-  height: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.App-logo > * {
-  margin: auto auto;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.group {
-  width: 100%;
-  height: 100%;
-  display: block;
-  position: relative;
-}
-
-.form {
-
-}
-
-
-
-.panel {
-  margin-bottom: 15px;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.panel--white {
-  background-color: white;
-}
-
-.panel__heading {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
-  line-height: 1;
-  font-size: 105%;
-  padding: 15px 15px 0;
+.main-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-.panel__body {
-  padding: 15px;
+.main-button {
+  display: block;
+  padding: 0 25px;
+  border: 5px solid;
+  border-image: linear-gradient(to right, #89F7FE, #66A6FF) 1;
+  background: transparent;
+  color: white;
+  transition: all .2s ease;
+
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 48px;
 }
 
-.panel__body-row {
-  margin-bottom: 16px;
-}
-
-.push--left{
-  float:left;
-}
-.push--right {
-  float: right;
-}
-
-.sider {
-  position: fixed;
-  top: 0;
-  min-height: 100vh;
-  width: 250px;
-  z-index: 10;
-  transform: translateX(0);
-  transition: all 0.3s ease-in-out;
-  background-color: #333;
-}
-
-.sider-collapsed {
-  transform: translateX(-250px);
-}
-
-.sider-nav {
-  margin: 15px 0;
-  padding: 0;
-}
-
-.sider-nav-item {
-  padding: 10px 15px;
-  transition: all 0.3s ease-in-out;
-}
-
-.sider-nav-item > a, .sider-nav-item > a:visited {
+.main-button:hover, .main-button:visited, .main-button:focus {
+  background: transparent;
   color: white;
   text-decoration: none;
 }
 
-.sider-nav-item:hover {
-  background-color:white;
+.main-gradient {
+  background: linear-gradient(to right, #232526, #414345);
 }
 
-.sider-nav-item:hover > a {
-  color: #333
-}
-
-.slide {
-  transform: translateX(0);
-  transition: all 0.3s ease-in-out
-}
-
-.sider:not(.sider-collapsed) + div .slide {
-  transform: translateX(125px)
-}
-
-@media screen and (max-width: 580px) {
-
-  .sider {
-    width: 80vw;
-  }
-
-  .sider-collapsed {
-    transform: translateX(-80vw);
-  }
-
-  .sider:not(.sider-collapsed) {
-    box-shadow: 0 0 200px 0 rgba(0,0,0,0.5)
-  }
-
-  .sider:not(.sider-collapsed) + div .slide {
-    transform: translateX(0);
-  }
+.welcome-page {
+  height: 100%;
+  width: 100%;
 }

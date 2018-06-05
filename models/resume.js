@@ -16,45 +16,16 @@ const resumeSchema = new Schema({
     type: Number
   },
   github: {
-    type: String,
-    trim: true
-  },
-  medium: {
-    type: String,
-    trim: true
-  },
-  vk: {
-    type: String,
-    trim: true
-  },
-  linkedin: {
-    type: String,
-    trim: true
-  },
-  twitter: {
-    type: String,
-    trim: true
-  },
-  facebook: {
-    type: String,
-    trim: true
-  },
-  skype: {
-    type: String,
-    trim: true
-  },
-  telegram: {
-    type: String,
-    trim: true
-  },
-  skills: {
     type: Object
   },
+  medium: {
+    type: Object
+  },
+  skills: {
+    type: Array,
+  },
   experience: {
-    dateStart: { type: String, required: true },
-    dateEnd: { type: String, required: true },
-    employer: { type: String, required: true },
-    more: { type: String }
+    type: Object,
   },
   owner: {
     type: String,

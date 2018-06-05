@@ -24,10 +24,10 @@ class Step4 extends Component {
       console.log('no');
     } else {
       const newValue = {
-        place: getFieldValue('place'),
+        employer: getFieldValue('place'),
         position: getFieldValue('position'),
-        dateStart: getFieldValue('time')[0],
-        dateEnd: getFieldValue('time')[1],
+        dateStart: getFieldValue('time')[0].format('x'),
+        dateEnd: getFieldValue('time')[1].format('x'),
       };
       const newState = [...this.state.data, newValue].sort((a, b) => a.dateStart > b.dateStart);
       console.log(newState);
@@ -35,15 +35,26 @@ class Step4 extends Component {
         data: newState,
       });
       setFieldsValue({
-        place: '',
+        employer: '',
         position: '',
         time: [],
       });
     }
   }
 
-  handleRemove = () => {
-    // TODO Реализовать
+  handleRemove = (e) => {
+    const { target } = e;
+    const node = target.parentNode.parentNode;
+    const place = node.querySelector('.preview-experience-place').textContent;
+    const position = node.querySelector('.preview-experience-position').textContent;
+    node.remove();
+    this.setState({
+      data: this.state.data.filter((job) => {
+        console.log(job.employer, place);
+        console.log(job.position, position);
+        return job.employer === place && job.position === position;
+      }),
+    });
   }
 
   handleExperienceToggle = () => {
@@ -68,6 +79,7 @@ class Step4 extends Component {
         isExperienced={this.state.isExperienced}
         RangePickerMode={this.state.RangePickerMode}
         handleAdd={this.handleAdd}
+        handleRemove={this.handleRemove}
         handleExperienceToggle={this.handleExperienceToggle}
         handlePanelChange={this.handlePanelChange}
       />

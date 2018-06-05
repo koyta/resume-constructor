@@ -50,10 +50,10 @@
 
 .connect-social-container {
   display: grid;
-  grid-template-columns: repeat(3, 150px);
+  grid-template-columns: repeat(2, 150px);
   grid-template-rows: repeat(1, 150px);
   grid-gap: 15px;
-  width: calc(150px * 3 + 15px * 2);
+  width: calc(150px * 2 + 15px);
   margin: 15px auto;
 }
 

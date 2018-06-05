@@ -68,12 +68,15 @@ class UserStore {
       const config = {};
       const response = await axios.get(url, config);
       this.setStatusCode(response.status);
-      return response.data;
+      if (this.statusCode === 200) {
+        return response.data;
+      }
     } catch (error) {
       throw new Error('Error catched in MobXX store. Error: ', error);
     } finally {
       this.fetchingOff();
     }
+    return Promise.resolve();
   }
 
   /**
@@ -82,7 +85,7 @@ class UserStore {
   @action getUserByLogin = async (login) => {
     try {
       this.fetchingOn();
-      const url = `${API_ROOT}/user?login=${login}`;
+      const url = `${API_ROOT}/user/${login}/profile`;
       const config = {};
       const response = await axios.get(url, config);
       this.setStatusCode(response.status);
@@ -179,29 +182,15 @@ class UserStore {
     try {
       this.fetchingOn();
       const url = `${API_ROOT}/resume/${this.profile.login}`;
-      const body = {
-        profession: data.profession,
-        email: data.email,
-        phone: data.phone,
-        github: data.github,
-        medium: data.medium,
-        vk: data.vk,
-        linkedin: data.linkedin,
-        twitter: data.twitter,
-        facebook: data.facebook,
-        skype: data.skype,
-        telegram: data.telegram,
-      };
+      const body = Object.assign({}, data);
       const config = {
         headers: {
           authorization: `Bearer ${loadIdToken()}`,
         },
       };
       const response = await axios.post(url, body, config);
-      console.log(response);
       if (response.status === 200) {
         this.setStatusCode(200);
-        console.log('$: ', url, '. Response: ', response);
       } else {
         this.setStatusCode(response.status);
       }

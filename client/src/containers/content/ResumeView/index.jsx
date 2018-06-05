@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ResumeViewComponent from '../../../components/content/ResumeView';
 
 
-@inject('user', 'app') @observer
+@inject('user', 'app', 'fetch') @observer
 class ResumeView extends Component {
   static propTypes = {
     user: PropTypes.shape({
@@ -17,20 +17,22 @@ class ResumeView extends Component {
     app: PropTypes.shape({
       closeResume: PropTypes.func,
       openResume: PropTypes.func,
+      setScene: PropTypes.func,
+    }).isRequired,
+    fetch: PropTypes.shape({
+      fetchGithub: PropTypes.func,
     }).isRequired,
   }
 
   state = {
     resume: null,
     user: null,
-    isLoading: false,
   }
 
   async componentWillMount() {
     this.props.app.openResume();
-    this.setState(prevState => ({ isLoading: !prevState.isLoading }));
+    this.props.app.setScene('Резюме');
     await this.fetchData();
-    this.setState(prevState => ({ isLoading: !prevState.isLoading }));
   }
 
   componentWillUnmount() {
@@ -38,20 +40,26 @@ class ResumeView extends Component {
   }
 
   fetchData = async () => {
-    const resume = await this.props.user.getResumeById(this.props.match.params.resumesId);
-    // TODO Можно юзать инфу из токена, если resume.owner === mobx.user.profile.login
-    const user = await this.props.user.getUserByLogin(resume.owner);
-    this.setState({ resume, user });
+    const fetchedResume = await this.props.user.getResumeById(this.props.match.params.resumesId);
+    const fetchedUser = await this.props.user.getUserByLogin(fetchedResume.owner);
+    this.setState({
+      resume: fetchedResume,
+      user: fetchedUser,
+    });
+    this.props.fetch.fetchGithub(fetchedResume.github.login);
   }
 
   render() {
-    if (this.state.isLoading || (this.state.user === null && this.state.resume === null)) {
-      return <center>Loading...</center>;
+    const { user, resume } = this.state;
+    const { fetch } = this.props;
+    if (!user && !resume) {
+      return <p style={{ textAlign: 'center', margin: 0 }}>Loading...</p>;
     }
     return (
       <ResumeViewComponent
-        resume={this.state.resume}
-        user={this.state.user}
+        resume={resume}
+        user={user}
+        fetch={fetch}
       />
     );
   }

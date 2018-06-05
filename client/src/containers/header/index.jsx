@@ -10,12 +10,6 @@ class Header extends Component {
     user: PropTypes.shape({
       logout: PropTypes.func.isRequired,
     }).isRequired,
-    app: PropTypes.shape({
-      closeSidebar: PropTypes.func.isRequired,
-      openSidebar: PropTypes.func.isRequired,
-      toggleSidebar: PropTypes.func.isRequired,
-      sidebar: PropTypes.bool.isRequired,
-    }).isRequired,
     routing: PropTypes.shape({
       history: PropTypes.shape({
         go: PropTypes.func,
@@ -32,14 +26,9 @@ class Header extends Component {
   render() {
     return (
       <HeaderComponent
-        app={this.props.app}
         user={this.props.user}
         routing={this.props.routing}
         logout={this.logout}
-        closeSidebar={this.props.app.closeSidebar}
-        openSidebar={this.props.app.openSidebar}
-        toggleSidebar={this.props.app.toggleSidebar}
-        sidebar={this.props.app.sidebar}
       />
     );
   }

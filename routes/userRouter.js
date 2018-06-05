@@ -3,29 +3,19 @@ const router = express.Router();
 const {default500Error} = require("./utils");
 const User = require("../models/user");
 
-router.get("/:userId", getUserById);
+router.get("/find/:userId", getUserById);
 // router.delete('/:userId', deleteUserById);
 // router.put('/:userId', putUserById);
 // router.patch('/:userId', updateUserById); //смена пароля, например
 // router.post('/:userId', postUserById)
 // router.get("", resolveQuery);
-// router.get('/:login', getUserByLogin);
+router.get("/:login/profile", getUserByLogin);
 // router.get('/:login/id', getUserIdByLogin);
 
 // function resolveQuery(req, res) {
 //   const query = req.query;
 //   getUserByLogin(req, res);
 // }
-
-function getUserByLogin(req, res) {
-  User.findOne({login: req.query.login})
-    .exec()
-    .then(user => {
-      if (user) res.status(200).json(user);
-      else res.status(204);
-    })
-    .catch(e => default500Error(res, e));
-}
 
 function getUserById (req, res) {
   User.findById(req.params.userId)
@@ -42,6 +32,18 @@ function getUserById (req, res) {
         });
     })
     .catch(err => default500Error(res, err));
+}
+
+function getUserByLogin(req, res) {
+  User.findOne({login: req.params.login}, "fullname _id login date_of_birth")
+    .exec()
+    .then(user => {
+      if (user) {
+        res.status(200).json(user);
+      }
+      else res.status(204);
+    })
+    .catch(e => default500Error(res, e));
 }
 
 module.exports = router;

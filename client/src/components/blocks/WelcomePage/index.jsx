@@ -1,14 +1,30 @@
 import React from 'react';
-import { Col, Row } from 'antd';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
+import Profile from '../../../components/content/Profile';
 
-const WelcomePage = () => (
-  <Row>
-    <Col offset={4} span={8}>
-      <section className="welcome">
-        <h1>Привет!</h1>
+@inject('app') @observer
+class WelcomePage extends React.Component {
+  static propTypes = {
+    app: PropTypes.shape({
+      setScene: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+  componentDidMount() {
+    this.props.app.setScene('welcome');
+  }
+
+  render() {
+    return (
+      <section className="welcome-page">
+        <div className="flex-centering">
+          <Link to="/resume/new" className="main-button">Создать анкету</Link>
+        </div>
+        <Profile />
       </section>
-    </Col>
-  </Row>
-);
+    );
+  }
+}
 
 export default WelcomePage;
