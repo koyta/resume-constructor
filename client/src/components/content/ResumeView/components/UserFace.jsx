@@ -26,7 +26,7 @@ class UserFace extends React.Component {
     );
   }
 }
-
+        
 UserFace.propTypes = {
   user: PropTypes.shape({
     fullname: PropTypes.shape({

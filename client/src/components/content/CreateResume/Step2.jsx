@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */
-import React from 'react';
+import React from 'react
+
 import PropTypes from 'prop-types';
 import { Icon, Input, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';

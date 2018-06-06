@@ -102,6 +102,7 @@ class CreateResume extends Component {
               <Step3 {...this.props} skills={this.state.skills} setSkills={this.setSkills} inputIconStyle={inputIconStyle} />
               <Step4Container {...this.props} inputIconStyle={inputIconStyle} />
               <Row type="flex" justify="center">
+
                 {
                   <Button
                     type={this.error ? 'danger' : 'primary'}
