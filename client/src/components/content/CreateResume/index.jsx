@@ -8,17 +8,20 @@ import {
   Col,
   Row,
 } from 'antd';
+import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { observable } from 'mobx';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
 import Step4Container from './Step4Container';
 
-@inject('routing', 'user')
+@inject('routing', 'user', 'app', 'create')
 @observer
 class CreateResume extends Component {
   static propTypes = {
+    app: PropTypes.shape({
+      setScene: PropTypes.func,
+    }).isRequired,
     form: PropTypes.shape({
       validateFieldsAndScroll: PropTypes.func,
     }).isRequired,
@@ -27,43 +30,53 @@ class CreateResume extends Component {
       statusCode: PropTypes.number,
       isFetching: PropTypes.bool,
     }).isRequired,
+    create: PropTypes.shape({
+      github: PropTypes.object,
+      medium: PropTypes.object,
+      skills: PropTypes.object,
+    }).isRequired,
   }
 
   state = {
-    current: 0,
     skills: [],
+    error: false,
   };
 
-  @observable error = false //eslint-disable-line
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form
-      .validateFieldsAndScroll((err, values) => {
-        if (!err) {
-          this.props.user.createResume(values)
-            .then(() => {
-              if (this.props.user.statusCode >= 200 && this.props.user.statusCode < 300) {
-                notification.info({
-                  message: 'Новая анкета успешно создана!',
-                  description: 'Теперь вы можете найти её в своём профиле.',
-                });
-              } else {
-                notification.error({ message: `Ошибка ${this.props.user.statusCode}` });
-              }
-            });
-          // Если мы уже делали ошибку, когда пытались отправить форму, то вернуть
-          // состояние формы в "нормальное" состояние
-          if (this.error) { this.error = false; }
-        } else {
-          this.error = true;
-        }
-      });
-  };
+  componentDidMount() {
+    this.props.app.setScene('Creating');
+  }
 
   setSkills = (value) => {
     this.setState({ skills: value });
   }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        const extendedValues = Object.assign(values, { github: toJS(this.props.create.github) }, { medium: toJS(this.props.create.medium) }, { skills: toJS(this.props.create.skills) });
+        console.log(extendedValues);
+        this.props.user.createResume(extendedValues)
+          .then(() => {
+            if (this.props.user.statusCode >= 200 && this.props.user.statusCode < 300) {
+              notification.info({
+                message: 'Новая анкета успешно создана!',
+                description: 'Теперь вы можете найти её в своём профиле.',
+              });
+            } else {
+              notification.error({ message: `Ошибка ${this.props.user.statusCode}` });
+            }
+          });
+        // Если мы уже делали ошибку, когда пытались отправить форму, то вернуть
+        // состояние формы в "нормальное" состояние
+        if (this.state.error) {
+          this.setState({ error: false });
+        }
+      } else {
+        this.setState({ error: true });
+      }
+    });
+  };
 
   render() {
     const inputIconStyle = {
@@ -72,7 +85,7 @@ class CreateResume extends Component {
 
     return (
       <div
-        className="flex-row align-items-center m-auto h-100"
+        className="flex-row align-items-center m-auto h-100 w-100"
         style={{
         position: 'relative',
         overflow: 'visible',
@@ -88,16 +101,15 @@ class CreateResume extends Component {
               <Step2 {...this.props} inputIconStyle={inputIconStyle} />
               <Step3 {...this.props} skills={this.state.skills} setSkills={this.setSkills} inputIconStyle={inputIconStyle} />
               <Step4Container {...this.props} inputIconStyle={inputIconStyle} />
-              <Row type="flex" justify="space-between">
+              <Row type="flex" justify="center">
+
                 {
-                  this.state.current === 3 &&
                   <Button
-                    type={this.error
-                    ? 'danger'
-                    : 'primary'}
+                    type={this.error ? 'danger' : 'primary'}
                     htmlType="submit"
                     icon="plus"
                     loading={this.props.user.isFetching}
+                    prefixCls="create-button"
                   >
                     Завершить создание
                   </Button>

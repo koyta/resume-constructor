@@ -39,14 +39,20 @@ class Registration extends Component {
           );
         } else if (user.statusCode === 409) {
           this.openNotificationWithIcon(
-            'error',
+            'warning',
             'Ошибка при создании',
             'Пользователь с таким логином уже существует',
+          );
+        } else if (user.statusCode === 500) {
+          this.openNotificationWithIcon(
+            'error',
+            'Непредвиденная ошибка',
+            'Произошла непредвиденная ошибка. Проблема на стороне сервера.',
           );
         }
       }
     });
-    if (user.statusCode === 200) {
+    if (user.statusCode === 201) {
       routing.go('/login');
     }
   }

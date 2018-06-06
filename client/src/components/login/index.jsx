@@ -1,71 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Button, Form, Icon, Input, Row, Col, Spin } from 'antd';
+import { Button, Form, Input, Col, Spin } from 'antd';
 import styled from 'styled-components';
+import cx from 'classnames';
 
 const containerLayout = {
-  sm: 24,
+  xs: 22,
+  sm: 20,
   md: 16,
-  xl: 12,
-};
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 18 },
-  },
+  lg: 12,
+  xl: 8,
+  xxl: 6,
 };
 
 const FormHeading = styled.h1`
   font-size: 18px;
-  font-weight: 400px;
+  font-weight: 400;
   text-align: center;
+  color: white;
   margin-bottom: 1rem;
 `;
 
-const Login = props => (
-  <Row type="flex" align="center" justify="center" style={{ height: '100vh', position: 'relative' }}>
-    {props.loading && <Spin spinning={props.loading} tip="Вход..." />}
-    <Col {...containerLayout} style={{ margin: 'auto 0' }}>
-      <FormHeading>Вход в профиль</FormHeading>
-      {props.isError && <p>Проверьте корректность данных.</p>}
-      <Form onSubmit={e => props.handleSubmit(e)}>
-        <Form.Item {...formItemLayout} label="Имя пользователя">
-          <Input
-            onChange={e => props.handleLoginChange(e)}
-            addonBefore={<Icon type="user" />}
-          />
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Пароль">
-          <Input
-            onChange={e => props.handlePasswordChange(e)}
-            addonBefore={<Icon type="lock" />}
-            type="password"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Row type="flex" justify="space-between">
-            <Col sm={10} md={8} lg={6}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
-              >Sign in
-              </Button>
-            </Col>
-            <Col sm={14} md={16} lg={18}>
-              <span style={{ textAlign: 'right' }}>Нет аккаунта? <Link to="/signup">Создайте прямо сейчас!</Link></span>
-            </Col>
-          </Row>
-        </Form.Item>
-      </Form>
-    </Col>
-  </Row>
-);
+const Login = ({
+  loading, isError, handleSubmit, handleLoginChange, handlePasswordChange,
+}) => {
+  const containerClass = cx('login-container', { loading });
+  return (
+    <div className="login-container">
+      <div className={containerClass}>
+        <Col {...containerLayout}>
+          <FormHeading>Вход в профиль</FormHeading>
+          {isError && <p className="login-form-error">Проверьте корректность данных.</p>}
+          <Form onSubmit={e => handleSubmit(e)} prefixCls="login">
+            <Form.Item label="Имя пользователя" prefixCls="login">
+              <Input
+                onChange={e => handleLoginChange(e)}
+                prefixCls="input-custom"
+              />
+            </Form.Item>
+            <Form.Item label="Пароль" prefixCls="login">
+              <Input
+                onChange={e => handlePasswordChange(e)}
+                type="password"
+                prefixCls="input-custom"
+              />
+            </Form.Item>
+            <Form.Item>
+              <div className="login-form-last">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                  prefixCls="input-custom"
+                >Sign in
+                </Button>
+                <span className="login-form-tip">Нет аккаунта? <Link to="/signup">Создайте прямо сейчас!</Link></span>
+              </div>
+            </Form.Item>
+          </Form>
+        </Col>
+      </div>
+      {loading && <Spin className="login-form-loading-wrapper" spinning={loading} tip="Вход..." />}
+    </div>
+  );
+};
 
 Login.propTypes = {
   handleLoginChange: PropTypes.func.isRequired,

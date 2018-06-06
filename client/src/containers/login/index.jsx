@@ -46,12 +46,18 @@ class Login extends Component {
   }
 
   handleLoginChange = (e) => {
+    if (this.state.error) {
+      this.setState({ error: false });
+    }
     this.setState({
       login: e.target.value,
     });
   }
 
   handlePasswordChange = (e) => {
+    if (this.state.error) {
+      this.setState({ error: false });
+    }
     this.setState({
       password: e.target.value,
     });

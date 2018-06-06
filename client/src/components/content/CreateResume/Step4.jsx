@@ -49,14 +49,14 @@ const Step4 = (props) => {
             {
             props.data.map(item => (
               <Timeline.Item key={Math.random()} className="preview-experience_item">
-                <Button className="remove-experience" icon="minus" type="danger" size="small">Удалить</Button>
-                <div>С {moment(item.dateStart).format('MMMM YYYY')} по {moment(item.dateEnd).format('MMMM YYYY')}</div>
-                <div>{item.place}</div>
-                <div>{item.position}</div>
+                <Button className="remove-experience" icon="minus" type="danger" size="small" onClick={e => props.handleRemove(e)}>Удалить</Button>
+                <div className="preview-experience-date">С {moment(item.dateStart).format('MMMM YYYY')} по {moment(item.dateEnd).format('MMMM YYYY')}</div>
+                <div className="preview-experience-place">{item.employer}</div>
+                <div className="preview-experience-position">{item.position}</div>
               </Timeline.Item>))
             }
           </Timeline>
-        : <center>Добавьте хотя бы один раз информацию об опыте работы, чтобы увидеть превью.</center>
+        : <span style={{ textAlign: 'center' }}>Добавьте хотя бы один раз информацию об опыте работы, чтобы увидеть превью</span>
         }
       </div>
     </React.Fragment>
@@ -74,6 +74,7 @@ Step4.propTypes = {
   RangePickerMode: PropTypes.array.isRequired, //eslint-disable-line
   data: PropTypes.array.isRequired, //eslint-disable-line
   handleAdd: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
   handleExperienceToggle: PropTypes.func.isRequired,
   handlePanelChange: PropTypes.func.isRequired,
 };

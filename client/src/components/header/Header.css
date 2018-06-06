@@ -1,10 +1,9 @@
 .header {
-  background-color: white;
-  box-shadow: 0 0 5px -2px black; 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 20px 40px;
+  background-color: transparent;
 }
 
 .header--resume {
@@ -12,8 +11,15 @@
   color: white;
 }
 
+.header-controls {
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+}
+
 .header-username {
-  margin: 0 10px;
+  color: white;
+  margin-right: 25px;
 }
 
 .header-content {
@@ -25,42 +31,91 @@
   align-items: center;
 }
 
-.sider-toggler-container {
-  background-color: #333;
-  height: 85px;
-  width: 100%;
+.header-logo-container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-flow: row nowrap;
 }
 
-.sider-toggler {
-  box-shadow: none;
-  border: 0;
-  padding: 0;
-  height: 45px;
+.header-logo-bg {
+  display: block;
+  padding: 0 25px;
+  border: 2px solid white;
+  border-image: linear-gradient(to right, #89F7FE, #66A6FF) 1;
+  margin-right: 25px;
+}
+
+.header-logo-name {
+  font-size: 32px;
+  font-weight: 300;
+  text-align: center;
+  line-height: 46px;
+  color: white;
+}
+
+.header-logo-scene {
+  font-size: 20px;
   line-height: 1;
-  width: 50px;
-  background: white;
-  font-size: 24px;
-  cursor: pointer;
+  text-transform: uppercase;
+  color: white;
 }
 
-.sider-toggler-container > .sider-toggler {
-  width: 90%;
+.header-logout-btn {
+  display: block;
+  padding: 0 25px;
+  border: 2px solid;
+  border-image: linear-gradient(to right, #89F7FE, #66A6FF) 1;
+  background: transparent;
+  color: white;
+  transition: all .2s ease;
+}
+
+.header-logout-btn:hover {
+  background: transparent;
+  color: white;
 }
 
 @media screen and (max-width: 580px) {
 
   .header {
-    padding: 20px 3.5%;
-  }
-
-  .header-content {
-    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 2px solid;
+    border-image: linear-gradient(to right, #F8241C, #2699FB) 1;
+    margin-bottom: 24px;
   }
 
   .header-username {
     margin: 0;
+  }
+
+  .header-logo-bg {
+    padding: 0 10px;
+    margin-right: 8px;
+  }
+
+  .header-logo-name {
+    font-size: 18px;
+    line-height: 26px;
+    white-space: nowrap;
+  }
+
+  .header-logo-scene {
+    font-size: 14px;
+  }
+
+  .header-content {
+    align-items: flex-start;
+    flex-flow: row wrap;
+  }
+
+  .header-username {
+    display: none;
+  }
+
+  .header-logout-btn {
+    padding: 0 10px;
+    font-size: 12px;
+    font-weight: 300;
   }
 }

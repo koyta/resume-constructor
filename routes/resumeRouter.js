@@ -94,21 +94,18 @@ function addResume(req, res) {
     if (error) {
       res.status(403) // Forbidden
     } else {
-      const user = new Resume({
+      console.log("token data: ", tokenData);
+      const resume = new Resume({
         profession: req.body.profession,
         email: req.body.email,
         phone: req.body.phone,
         github: req.body.github,
         medium: req.body.medium,
-        vk: req.body.vk,
-        linkedin: req.body.linkedin,
-        twitter: req.body.twitter,
-        facebook: req.body.facebook,
-        skype: req.body.skype,
         telegram: req.body.telegram,
         owner: req.params.owner
       })
-      user.save()
+      console.log(resume);
+      resume.save()
         .then(result => {
           res.status(200)
             .json({

@@ -19,9 +19,6 @@ const UserTimeline = () => (
     <ul className="timeline timeline">
       <UserTimelineHeading title="Обо мне" icon={UserIcon} />
       <li className="timeline_item">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore, nesciunt perspiciatis optio numquam aut voluptatibus, reiciendis dicta expedita totam veniam in maiores iure? Velit, nesciunt.</li>
-      <li className="timeline_item">Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt quod numquam consectetur quam.</li>
-      <li className="timeline_item">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt.</li>
-      <li className="timeline_item">Lorem, ipsum dolor.</li>
     </ul>
   </div>
 );

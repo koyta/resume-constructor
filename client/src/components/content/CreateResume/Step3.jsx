@@ -8,18 +8,23 @@ import {
   Tag,
   Tooltip,
 } from 'antd';
+import { inject, observer } from 'mobx-react';
 import DataSource from './DataSource';
 
+@inject('create') @observer
 class Step3 extends Component {
   static propTypes = {
     skills: PropTypes.array.isRequired, // eslint-disable-line
     setSkills: PropTypes.func.isRequired,
+    create: PropTypes.shape({
+      setSkills: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   state = {
     tags: [],
     inputVisible: false,
-    inputValue: '',
+    value: '',
     displayedData: DataSource,
   };
 
@@ -34,27 +39,28 @@ class Step3 extends Component {
   };
 
   handleInputConfirm = () => {
-    const { inputValue } = this.state;
+    const { value } = this.state;
     let { tags } = this.state;
-    if (inputValue !== '' && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
+    if (value !== '' && tags.indexOf(value) === -1) {
+      tags = [...tags, value];
     }
     this.props.setSkills(tags);
+    this.props.create.setSkills(tags);
     this.setState({
       tags,
       inputVisible: false,
-      inputValue: '',
+      value: '',
     });
   };
 
   handleInputSelect = (value) => {
-    this.setState({ inputValue: value });
+    this.setState({ value });
   }
 
   handleInputSearch = (searchValue) => {
     this.setState({
       displayedData: DataSource.filter(value => value.includes(searchValue)),
-      inputValue: searchValue,
+      value: searchValue,
     });
   };
 
