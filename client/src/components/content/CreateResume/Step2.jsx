@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */
-import React from 'react
+import React from 'react';
 
 import PropTypes from 'prop-types';
 import { Icon, Input, Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 
-@inject('fetch', 'create') @observer
+@inject('fetch', 'create')
+@observer
 class Step2 extends React.Component {
   static propTypes = {
     fetch: PropTypes.shape({
@@ -50,26 +51,26 @@ class Step2 extends React.Component {
       setGithub: PropTypes.func,
       setMedium: PropTypes.func,
     }).isRequired,
-  }
+  };
 
   state = {
     modal: false,
     current: '',
-  }
+  };
 
   showModal = (service) => {
     this.setState({
       modal: true,
       current: service || '',
     });
-  }
+  };
 
   hideModal = () => {
     this.setState({
       modal: false,
       current: '',
     });
-  }
+  };
 
   handleOk = () => {
     console.log(this.props.form.getFieldsValue());
@@ -83,11 +84,11 @@ class Step2 extends React.Component {
     }
     console.log(this.props.form.getFieldsValue());
     this.hideModal();
-  }
+  };
 
   handleCancel = () => {
     this.hideModal();
-  }
+  };
 
   handleEnter = () => {
     if (this.state.current === 'github') {
@@ -95,7 +96,7 @@ class Step2 extends React.Component {
     } else if (this.state.current === 'medium') {
       this.props.fetch.fetchMedium(this.props.form.getFieldValue('github'));
     }
-  }
+  };
 
   render() {
     const { fetch } = this.props;
@@ -105,8 +106,18 @@ class Step2 extends React.Component {
       <div className="block connect-social-block">
         <h2>Социальные профили</h2>
         <div className="connect-social-container">
-          <div className="connect-social gh" onClick={() => this.showModal('github')}><Icon type="github" /></div>
-          <div className="connect-social md" onClick={() => this.showModal('medium')}><Icon type="medium" /></div>
+          <div
+            className="connect-social gh"
+            onClick={() => this.showModal('github')}
+          >
+            <Icon type="github" />
+          </div>
+          <div
+            className="connect-social md"
+            onClick={() => this.showModal('medium')}
+          >
+            <Icon type="medium" />
+          </div>
         </div>
         <Modal
           title={`Введите ваш юзернейм на ${current}`}
@@ -117,31 +128,36 @@ class Step2 extends React.Component {
           cancelText="Закрыть"
         >
           <div className="preview-account">
-            {!(fetch.status >= 200 && fetch.status < 300) &&
-            <p>Нет такого пользователя</p>}
+            {!(fetch.status >= 200 && fetch.status < 300) && (
+              <p>Нет такого пользователя</p>
+            )}
             {current === 'github' &&
-            fetch.github &&
-            !fetch.loading &&
-            fetch.status === 200 &&
-            <React.Fragment>
-              <h3 className="preview-account-title">Это вы?</h3>
-              <div className="preview-account-photo">
-                <img src={fetch.github.avatar_url} alt="" />
-                <div className="preview-account-name">{fetch.github.name}<br /><div className="preview-account-desc">{fetch.github.bio}</div></div>
-              </div>
-            </React.Fragment>}
+              fetch.github &&
+              !fetch.loading &&
+              fetch.status === 200 && (
+                <React.Fragment>
+                  <h3 className="preview-account-title">Это вы?</h3>
+                  <div className="preview-account-photo">
+                    <img src={fetch.github.avatar_url} alt="" />
+                    <div className="preview-account-name">
+                      {fetch.github.name}
+                      <br />
+                      <div className="preview-account-desc">
+                        {fetch.github.bio}
+                      </div>
+                    </div>
+                  </div>
+                </React.Fragment>
+              )}
             {current === 'medium' &&
-            fetch.medium &&
-            !fetch.loading &&
-            fetch.status === 200 &&
-            <div>
-              Privet medium
-            </div>
-            }
-            {current && getFieldDecorator(current)(<Input
-              disabled={fetch.loading}
-              onPressEnter={this.handleEnter}
-            />)}
+              fetch.medium &&
+              !fetch.loading &&
+              fetch.status === 200 && <div>Privet medium</div>}
+            {current &&
+              getFieldDecorator(current)(<Input
+                disabled={fetch.loading}
+                onPressEnter={this.handleEnter}
+              />)}
           </div>
         </Modal>
       </div>

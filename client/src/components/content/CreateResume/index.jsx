@@ -35,7 +35,7 @@ class CreateResume extends Component {
       medium: PropTypes.object,
       skills: PropTypes.object,
     }).isRequired,
-  }
+  };
 
   state = {
     skills: [],
@@ -48,25 +48,34 @@ class CreateResume extends Component {
 
   setSkills = (value) => {
     this.setState({ skills: value });
-  }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const extendedValues = Object.assign(values, { github: toJS(this.props.create.github) }, { medium: toJS(this.props.create.medium) }, { skills: toJS(this.props.create.skills) });
+        const extendedValues = Object.assign(
+          values,
+          { github: toJS(this.props.create.github) },
+          { medium: toJS(this.props.create.medium) },
+          { skills: toJS(this.props.create.skills) },
+        );
         console.log(extendedValues);
-        this.props.user.createResume(extendedValues)
-          .then(() => {
-            if (this.props.user.statusCode >= 200 && this.props.user.statusCode < 300) {
-              notification.info({
-                message: 'Новая анкета успешно создана!',
-                description: 'Теперь вы можете найти её в своём профиле.',
-              });
-            } else {
-              notification.error({ message: `Ошибка ${this.props.user.statusCode}` });
-            }
-          });
+        this.props.user.createResume(extendedValues).then(() => {
+          if (
+            this.props.user.statusCode >= 200 &&
+            this.props.user.statusCode < 300
+          ) {
+            notification.info({
+              message: 'Новая анкета успешно создана!',
+              description: 'Теперь вы можете найти её в своём профиле.',
+            });
+          } else {
+            notification.error({
+              message: `Ошибка ${this.props.user.statusCode}`,
+            });
+          }
+        });
         // Если мы уже делали ошибку, когда пытались отправить форму, то вернуть
         // состояние формы в "нормальное" состояние
         if (this.state.error) {
@@ -87,22 +96,23 @@ class CreateResume extends Component {
       <div
         className="flex-row align-items-center m-auto h-100 w-100"
         style={{
-        position: 'relative',
-        overflow: 'visible',
-      }}
+          position: 'relative',
+          overflow: 'visible',
+        }}
       >
         <Row align="middle" justify="center" type="flex">
           <Col xs={24} sm={20} md={14} xl={12}>
-            <Form
-              hideRequiredMark={false}
-              onSubmit={e => this.handleSubmit(e)}
-            >
+            <Form hideRequiredMark={false} onSubmit={e => this.handleSubmit(e)}>
               <Step1 {...this.props} inputIconStyle={inputIconStyle} />
               <Step2 {...this.props} inputIconStyle={inputIconStyle} />
-              <Step3 {...this.props} skills={this.state.skills} setSkills={this.setSkills} inputIconStyle={inputIconStyle} />
+              <Step3
+                {...this.props}
+                skills={this.state.skills}
+                setSkills={this.setSkills}
+                inputIconStyle={inputIconStyle}
+              />
               <Step4Container {...this.props} inputIconStyle={inputIconStyle} />
               <Row type="flex" justify="center">
-
                 {
                   <Button
                     type={this.error ? 'danger' : 'primary'}
