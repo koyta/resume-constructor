@@ -1,25 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import { Route, Switch, withRouter } from 'react-router';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
+import { Route, Switch, withRouter } from "react-router";
 
-import App from './App';
-import Login from './containers/login';
-import Registration from './containers/signup';
-import ResumeView from './containers/content/ResumeView';
+import App from "./App";
+import Login from "./containers/login";
+import Registration from "./containers/signup";
+import ResumeView from "./containers/content/ResumeView";
 
 @withRouter
-@inject('routing', 'user') @observer
+@inject("routing", "user")
+@observer
 class Wrapper extends Component {
   static propTypes = {
     routing: PropTypes.shape({
       location: PropTypes.object,
-      push: PropTypes.func,
+      push: PropTypes.func
     }).isRequired,
     user: PropTypes.shape({
-      isAuth: PropTypes.bool,
-    }).isRequired,
-  }
+      isAuth: PropTypes.bool
+    }).isRequired
+  };
 
   componentWillMount() {
     this.checkLocation();
@@ -30,12 +31,15 @@ class Wrapper extends Component {
   }
 
   checkLocation() {
-    const { location, push } = this.props.routing;
+    const {
+      location: { pathname },
+      push
+    } = this.props.routing;
     const { isAuth } = this.props.user;
-    if (isAuth && (location.pathname === '/login' || location.pathname === '/signup')) {
-      push('/');
-    } else if (!isAuth && (location.pathname !== '/signup' && location.pathname !== '/login')) {
-      push('/login');
+    if (isAuth && (pathname === "/login" || pathname === "/signup")) {
+      push("/");
+    } else if (!isAuth && (pathname !== "/signup" && pathname !== "/login")) {
+      push("/login");
     }
   }
 

@@ -31,7 +31,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api", mainRouter);
@@ -43,15 +43,21 @@ app.get("/api/resumes", api.listResumes);
 app.get("/api/users", api.listUsers);
 
 mongoose.Promise = global.Promise;
-mongoose.connect(uristring, function (error, response) {
-  try {
-    if (!error)
-      console.log("Установлено соединение: " + uristring);
-  } catch (e) {
-    console.log("Не смог присоединиться к MongoDB " + uristring + ". " + error);
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useCreateIndex", true);
+mongoose.connect(
+  uristring,
+  function(error, response) {
+    try {
+      if (!error) console.log("Установлено соединение: " + uristring);
+    } catch (e) {
+      console.log(
+        "Не смог присоединиться к MongoDB " + uristring + ". " + error
+      );
+    }
   }
-});
+);
 
-app.listen(port, function () {
+app.listen(port, function() {
   console.log("Listening on port: " + port);
 });

@@ -1,20 +1,6 @@
 {
-  "parser": "babel-eslint",
+  "extends": ["react-app"],
   "rules": {
-    "max-len": [
-      1,
-      240,
-      2,
-      {
-        "ignoreComments": true
-      }
-    ],
-    "jsx-a11y/anchor-is-valid": 0,
-    "no-trailing-spaces": "warn",
-    "no-console": "off",
-    "comma-dangle": "warn",
-    "class-methods-use-this": "warn",
-    "no-did-mount-set-state": "off"
-  },
-  "extends": ["react-app", "airbnb"]
+    "no-unused-vars": "off"
+  }
 }

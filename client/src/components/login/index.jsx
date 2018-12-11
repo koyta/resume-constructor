@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Button, Form, Input, Col, Spin } from 'antd';
-import styled from 'styled-components';
-import cx from 'classnames';
+import React from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { Button, Form, Input, Col, Spin } from "antd";
+import styled from "styled-components";
+import cx from "classnames";
 
 const containerLayout = {
   xs: 22,
@@ -11,7 +11,7 @@ const containerLayout = {
   md: 16,
   lg: 12,
   xl: 8,
-  xxl: 6,
+  xxl: 6
 };
 
 const FormHeading = styled.h1`
@@ -23,15 +23,21 @@ const FormHeading = styled.h1`
 `;
 
 const Login = ({
-  loading, isError, handleSubmit, handleLoginChange, handlePasswordChange,
+  loading,
+  isError,
+  handleSubmit,
+  handleLoginChange,
+  handlePasswordChange
 }) => {
-  const containerClass = cx('login-container', { loading });
+  const containerClass = cx("login-container", { loading });
   return (
     <div className="login-container">
       <div className={containerClass}>
         <Col {...containerLayout}>
           <FormHeading>Вход в профиль</FormHeading>
-          {isError && <p className="login-form-error">Проверьте корректность данных.</p>}
+          {isError && (
+            <p className="login-form-error">Проверьте корректность данных.</p>
+          )}
           <Form onSubmit={e => handleSubmit(e)} prefixCls="login">
             <Form.Item label="Имя пользователя" prefixCls="login">
               <Input
@@ -53,15 +59,24 @@ const Login = ({
                   htmlType="submit"
                   className="login-form-button"
                   prefixCls="input-custom"
-                >Sign in
+                >
+                  Sign in
                 </Button>
-                <span className="login-form-tip">Нет аккаунта? <Link to="/signup">Создайте прямо сейчас!</Link></span>
+                <span className="login-form-tip">
+                  Нет аккаунта? <Link to="/signup">Создайте прямо сейчас!</Link>
+                </span>
               </div>
             </Form.Item>
           </Form>
         </Col>
       </div>
-      {loading && <Spin className="login-form-loading-wrapper" spinning={loading} tip="Вход..." />}
+      {loading && (
+        <Spin
+          className="login-form-loading-wrapper"
+          spinning={loading}
+          tip="Вход..."
+        />
+      )}
     </div>
   );
 };
@@ -71,7 +86,7 @@ Login.propTypes = {
   handlePasswordChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   isError: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default Login;

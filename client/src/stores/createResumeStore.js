@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action } from "mobx";
 
 class CreateResumeStore {
   @observable skills = [];
@@ -18,13 +18,13 @@ class CreateResumeStore {
     this.experience = data;
   }
 
-  @action.bound setGithub = (data) => {
+  @action.bound setGithub = data => {
     this.github = data;
-  }
+  };
 
-  @action.bound setMedium = (data) => {
+  @action.bound setMedium = data => {
     this.medium = data;
-  }
+  };
 }
 
 export default CreateResumeStore;

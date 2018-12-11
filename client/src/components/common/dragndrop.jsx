@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 // import PropTypes from 'prop-types';
-import { Upload, Icon } from 'antd';
-
+import { Upload, Icon } from "antd";
 
 const { Dragger } = Upload;
 
@@ -15,8 +14,8 @@ export default class DragDrop extends React.Component {
 
   static defaultProps = {
     name: `Photo_${Math.random()}`,
-    multiple: false,
-  }
+    multiple: false
+  };
 
   render() {
     return (
@@ -25,8 +24,9 @@ export default class DragDrop extends React.Component {
           <Icon type="inbox" />
         </p>
         <p className="upload-text">Click or drag file to this area to upload</p>
-        <p className="upload-hint">Support for a single upload. Better if photo
-          size is rectangle, like 500x500
+        <p className="upload-hint">
+          Support for a single upload. Better if photo size is rectangle, like
+          500x500
         </p>
       </Dragger>
     );

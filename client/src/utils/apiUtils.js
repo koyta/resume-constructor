@@ -1,6 +1,6 @@
-import jwtDecode from 'jsonwebtoken/decode';
+import jwtDecode from "jsonwebtoken/decode";
 
-export const ID_TOKEN = 'id_token';
+export const ID_TOKEN = "id_token";
 
 export function setIdToken(idToken) {
   localStorage.setItem(ID_TOKEN, idToken);

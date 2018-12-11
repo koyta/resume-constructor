@@ -1,17 +1,17 @@
-import React from 'react';
-import { Input, Row, Col, Form, Button } from 'antd';
-import PropTypes from 'prop-types';
-import TipPanel from '../../content/TipPanel';
-import DragDrop from '../../common/dragndrop';
+import React from "react";
+import { Input, Row, Col, Form, Button } from "antd";
+import PropTypes from "prop-types";
+import TipPanel from "../../content/TipPanel";
+import DragDrop from "../../common/dragndrop";
 
 class PersonalInfo extends React.PureComponent {
   static propTypes = {
     form: PropTypes.shape({
-      getFieldDecorator: PropTypes.func,
+      getFieldDecorator: PropTypes.func
     }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
-  }
+    loading: PropTypes.bool.isRequired
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -32,25 +32,38 @@ class PersonalInfo extends React.PureComponent {
                   <Input.Group>
                     <Col span={12}>
                       <Form.Item>
-                        {getFieldDecorator('name', {
+                        {getFieldDecorator("name", {
                           rules: [
-                            { required: true, message: 'Это поле обязательно для заполнения' },
-                            { min: 1, message: 'Укажите настоящее имя' },
-                          ],
+                            {
+                              required: true,
+                              message: "Это поле обязательно для заполнения"
+                            },
+                            { min: 1, message: "Укажите настоящее имя" }
+                          ]
                         })(<Input placeholder="Иван" size="large" />)}
                       </Form.Item>
                     </Col>
                     <Col span={12}>
                       <Form.Item>
-                        {getFieldDecorator('surname', {
-                          rules: [{ required: true, message: 'Это поле обязательно для заполнения' }],
+                        {getFieldDecorator("surname", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "Это поле обязательно для заполнения"
+                            }
+                          ]
                         })(<Input placeholder="Иванов" size="large" />)}
                       </Form.Item>
                     </Col>
                   </Input.Group>
                   <Form.Item>
-                    {getFieldDecorator('profession', {
-                      rules: [{ required: true, message: 'Это поле обязательно для заполнения' }],
+                    {getFieldDecorator("profession", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Это поле обязательно для заполнения"
+                        }
+                      ]
                     })(<Input placeholder="React-разработчик" size="large" />)}
                   </Form.Item>
                   <Button
@@ -58,7 +71,8 @@ class PersonalInfo extends React.PureComponent {
                     size="large"
                     loading={this.props.loading}
                     onClick={this.props.handleSubmit}
-                  >Сохранить
+                  >
+                    Сохранить
                   </Button>
                 </Form>
               </div>

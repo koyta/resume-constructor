@@ -1,8 +1,8 @@
-import { RouterStore } from 'mobx-react-router';
-import UserStore from './userStore';
-import AppStore from './appStore';
-import FetchStore from './fetchStore';
-import CreateResumeStore from './createResumeStore';
+import { RouterStore } from "mobx-react-router";
+import UserStore from "./userStore";
+import AppStore from "./appStore";
+import FetchStore from "./fetchStore";
+import CreateResumeStore from "./createResumeStore";
 
 class RootStore {
   constructor() {

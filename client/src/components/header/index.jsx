@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Layout, Button } from 'antd';
-import cx from 'classnames';
-import { inject, observer } from 'mobx-react';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { Layout, Button } from "antd";
+import cx from "classnames";
+import { inject, observer } from "mobx-react";
 
-@inject('app')
+@inject("app")
 @observer
 class Header extends Component {
   static propTypes = {
@@ -13,18 +13,18 @@ class Header extends Component {
     user: PropTypes.shape({
       isFetching: PropTypes.bool,
       profile: PropTypes.shape({
-        login: PropTypes.string,
-      }),
+        login: PropTypes.string
+      })
     }).isRequired,
     app: PropTypes.shape({
       isResumeOpened: PropTypes.bool,
-      scene: PropTypes.string,
-    }).isRequired,
+      scene: PropTypes.string
+    }).isRequired
   };
 
   render() {
-    const headerClassName = cx('header', {
-      'header--resume': this.props.app.isResumeOpened,
+    const headerClassName = cx("header", {
+      "header--resume": this.props.app.isResumeOpened
     });
 
     return (
@@ -36,17 +36,23 @@ class Header extends Component {
                 <div className="header-logo-name">IT Analytics</div>
               </div>
             </Link>
-            <div className="header-logo-scene">{this.props.app.scene || 'Профиль'}</div>
+            <div className="header-logo-scene">
+              {this.props.app.scene || "Профиль"}
+            </div>
           </div>
           <div className="header-controls">
-            {this.props.user.profile && <span className="header-username">{this.props.user.profile.login}</span>}
+            {this.props.user.profile && (
+              <span className="header-username">
+                {this.props.user.profile.login}
+              </span>
+            )}
             <Button
               onClick={() => this.props.logout()}
               loading={this.props.user.isFetching}
               icon="logout"
               className="header-logout-btn"
             >
-              {window.innerWidth > 575 && 'Выход'}
+              {window.innerWidth > 575 && "Выход"}
             </Button>
           </div>
         </section>

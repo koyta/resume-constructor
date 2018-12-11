@@ -1,67 +1,64 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { inject, observer } from 'mobx-react';
-import LoginComponent from '../../components/login';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
+import LoginComponent from "../../components/login";
 
 class Login extends Component {
   static propTypes = {
     user: PropTypes.shape({
       isAuth: PropTypes.bool,
-      isFetching: PropTypes.bool,
+      isFetching: PropTypes.bool
     }).isRequired,
     routing: PropTypes.shape({
-      history: PropTypes.object,
-    }).isRequired,
-  }
+      history: PropTypes.object
+    }).isRequired
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      login: '',
-      password: '',
-      error: false,
+      login: "",
+      password: "",
+      error: false
     };
   }
 
   componentWillMount() {
     if (this.props.user.isAuth) {
-      this.props.routing.history.push('/login');
+      this.props.routing.history.push("/login");
     }
   }
 
-  handleSubmit = async (e) => {
+  handleSubmit = async e => {
     const { user, routing } = this.props;
     e.preventDefault();
-    await user.authentication(
-      this.state.login,
-      this.state.password,
-    );
+    await user.authentication(this.state.login, this.state.password);
     if (user.statusCode >= 200 && user.statusCode < 300) {
-      routing.history.go('/');
+      routing.history.go("/");
     } else {
       this.setState({
-        error: true,
+        error: true
       });
     }
-  }
+  };
 
-  handleLoginChange = (e) => {
+  handleLoginChange = e => {
     if (this.state.error) {
       this.setState({ error: false });
     }
     this.setState({
-      login: e.target.value,
+      login: e.target.value
     });
-  }
+  };
 
-  handlePasswordChange = (e) => {
+  handlePasswordChange = e => {
     if (this.state.error) {
       this.setState({ error: false });
     }
     this.setState({
-      password: e.target.value,
+      password: e.target.value
     });
-  }
+  };
 
   render() {
     return (
@@ -81,4 +78,4 @@ class Login extends Component {
   }
 }
 
-export default inject('routing', 'user')(observer(Login));
+export default inject("routing", "user")(observer(Login));

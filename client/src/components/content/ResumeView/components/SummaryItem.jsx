@@ -1,13 +1,13 @@
 /* eslint-disable react/no-typos */
-import React from 'react';
-import { string, number, oneOf } from 'prop-types';
-import cx from 'classnames';
+import React from "react";
+import { string, number, oneOf } from "prop-types";
+import cx from "classnames";
 
-const SummaryItem = (props) => {
-  const itemClass = cx('summary-item-data', {
-    'summary-item-fork': props.type === 'fork',
-    'summary-item-total': props.type === 'total',
-    'summary-item-self': props.type === 'self',
+const SummaryItem = props => {
+  const itemClass = cx("summary-item-data", {
+    "summary-item-fork": props.type === "fork",
+    "summary-item-total": props.type === "total",
+    "summary-item-self": props.type === "self"
   });
   return (
     <div className="summary-item">
@@ -20,7 +20,7 @@ const SummaryItem = (props) => {
 SummaryItem.propTypes = {
   data: number.isRequired,
   title: string.isRequired,
-  type: oneOf(['self', 'total', 'fork']).isRequired,
+  type: oneOf(["self", "total", "fork"]).isRequired
 };
 
 export default SummaryItem;

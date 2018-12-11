@@ -1,56 +1,56 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   notification,
   Form,
   // Steps,
   Button,
   Col,
-  Row,
-} from 'antd';
-import { toJS } from 'mobx';
-import { inject, observer } from 'mobx-react';
-import Step1 from './Step1';
-import Step2 from './Step2';
-import Step3 from './Step3';
-import Step4Container from './Step4Container';
+  Row
+} from "antd";
+import { toJS } from "mobx";
+import { inject, observer } from "mobx-react";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4Container from "./Step4Container";
 
-@inject('routing', 'user', 'app', 'create')
+@inject("routing", "user", "app", "create")
 @observer
 class CreateResume extends Component {
   static propTypes = {
     app: PropTypes.shape({
-      setScene: PropTypes.func,
+      setScene: PropTypes.func
     }).isRequired,
     form: PropTypes.shape({
-      validateFieldsAndScroll: PropTypes.func,
+      validateFieldsAndScroll: PropTypes.func
     }).isRequired,
     user: PropTypes.shape({
       createResume: PropTypes.func,
       statusCode: PropTypes.number,
-      isFetching: PropTypes.bool,
+      isFetching: PropTypes.bool
     }).isRequired,
     create: PropTypes.shape({
       github: PropTypes.object,
       medium: PropTypes.object,
-      skills: PropTypes.object,
-    }).isRequired,
+      skills: PropTypes.object
+    }).isRequired
   };
 
   state = {
     skills: [],
-    error: false,
+    error: false
   };
 
   componentDidMount() {
-    this.props.app.setScene('Creating');
+    this.props.app.setScene("Creating");
   }
 
-  setSkills = (value) => {
+  setSkills = value => {
     this.setState({ skills: value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -58,21 +58,20 @@ class CreateResume extends Component {
           values,
           { github: toJS(this.props.create.github) },
           { medium: toJS(this.props.create.medium) },
-          { skills: toJS(this.props.create.skills) },
+          { skills: toJS(this.props.create.skills) }
         );
-        console.log(extendedValues);
         this.props.user.createResume(extendedValues).then(() => {
           if (
             this.props.user.statusCode >= 200 &&
             this.props.user.statusCode < 300
           ) {
             notification.info({
-              message: 'Новая анкета успешно создана!',
-              description: 'Теперь вы можете найти её в своём профиле.',
+              message: "Новая анкета успешно создана!",
+              description: "Теперь вы можете найти её в своём профиле."
             });
           } else {
             notification.error({
-              message: `Ошибка ${this.props.user.statusCode}`,
+              message: `Ошибка ${this.props.user.statusCode}`
             });
           }
         });
@@ -89,15 +88,15 @@ class CreateResume extends Component {
 
   render() {
     const inputIconStyle = {
-      fontSize: 20,
+      fontSize: 20
     };
 
     return (
       <div
         className="flex-row align-items-center m-auto h-100 w-100"
         style={{
-          position: 'relative',
-          overflow: 'visible',
+          position: "relative",
+          overflow: "visible"
         }}
       >
         <Row align="middle" justify="center" type="flex">
@@ -115,7 +114,7 @@ class CreateResume extends Component {
               <Row type="flex" justify="center">
                 {
                   <Button
-                    type={this.error ? 'danger' : 'primary'}
+                    type={this.error ? "danger" : "primary"}
                     htmlType="submit"
                     icon="plus"
                     loading={this.props.user.isFetching}

@@ -1,38 +1,31 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Icon,
-  AutoComplete,
-  Row,
-  Col,
-  Tag,
-  Tooltip,
-} from 'antd';
-import { inject, observer } from 'mobx-react';
-import DataSource from './DataSource';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Icon, AutoComplete, Row, Col, Tag, Tooltip } from "antd";
+import { inject, observer } from "mobx-react";
+import DataSource from "./DataSource";
 
-@inject('create') @observer
+@inject("create")
+@observer
 class Step3 extends Component {
   static propTypes = {
-    skills: PropTypes.array.isRequired, // eslint-disable-line
     setSkills: PropTypes.func.isRequired,
     create: PropTypes.shape({
-      setSkills: PropTypes.func.isRequired,
-    }).isRequired,
-  }
+      setSkills: PropTypes.func.isRequired
+    }).isRequired
+  };
 
   state = {
     tags: [],
     inputVisible: false,
-    value: '',
-    displayedData: DataSource,
+    value: "",
+    displayedData: DataSource
   };
 
   showInput = () => {
     this.setState({ inputVisible: true }, () => this.input.focus());
   };
 
-  handleClose = (removedTag) => {
+  handleRemoveTag = removedTag => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
     this.props.setSkills(tags);
     this.setState({ tags });
@@ -41,7 +34,7 @@ class Step3 extends Component {
   handleInputConfirm = () => {
     const { value } = this.state;
     let { tags } = this.state;
-    if (value !== '' && tags.indexOf(value) === -1) {
+    if (value !== "" && tags.indexOf(value) === -1) {
       tags = [...tags, value];
     }
     this.props.setSkills(tags);
@@ -49,37 +42,42 @@ class Step3 extends Component {
     this.setState({
       tags,
       inputVisible: false,
-      value: '',
+      value: ""
     });
   };
 
-  handleInputSelect = (value) => {
+  handleInputSelect = value => {
     this.setState({ value });
-  }
+  };
 
-  handleInputSearch = (searchValue) => {
+  handleInputSearch = searchValue => {
     this.setState({
-      displayedData: DataSource.filter(value => value.includes(searchValue)),
-      value: searchValue,
+      displayedData: DataSource.filter(value =>
+        value.toLowerCase().includes(searchValue.toLowerCase())
+      ),
+      value: searchValue
     });
   };
 
-  handleInputChange = (e) => {
-    console.log(e);
-  }
-
-  saveInputRef = (input) => { this.input = input; };
+  saveInputRef = input => {
+    this.input = input;
+  };
 
   render() {
     const { tags, inputVisible, displayedData } = this.state;
     return (
       <Row className="block">
-        <h2 className="d-block">Основные навыки</h2>
+        <h2>Main skills</h2>
         <Col xl={16}>
-          {tags.map((tag) => {
+          {tags.map(tag => {
             const isLongTag = tag.length > 20;
             const tagElem = (
-              <Tag className="custom-tag" key={tag} closable afterClose={() => this.handleClose(tag)}>
+              <Tag
+                className="custom-tag"
+                key={tag}
+                closable
+                afterClose={() => this.handleRemoveTag(tag)}
+              >
                 {isLongTag ? `${tag.slice(0, 20)}...` : tag}
               </Tag>
             );
@@ -100,17 +98,15 @@ class Step3 extends Component {
               dataSource={displayedData}
               onSelect={this.handleInputSelect}
               onSearch={this.handleInputSearch}
-              onChange={this.handleInputChange}
               onBlur={this.handleInputConfirm}
-              onPressEnter={this.handleInputConfirm}
             />
           )}
           {!inputVisible && (
             <Tag
               onClick={this.showInput}
-              style={{ background: '#fff', borderStyle: 'dashed' }}
+              style={{ background: "#fff", borderStyle: "dashed" }}
             >
-              <Icon type="plus" /> Добавить
+              <Icon type="plus" /> Add
             </Tag>
           )}
         </Col>

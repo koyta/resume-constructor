@@ -1,9 +1,8 @@
-exports.default500Error = function (response, error) {
+exports.default500Error = function(response, error) {
   console.log(error);
-  response.status(500)
-    .json({
-      error: error,
-    });
+  response.status(500).json({
+    error: error
+  });
 };
 
 /**
@@ -12,7 +11,7 @@ exports.default500Error = function (response, error) {
  * @param res
  * @param next
  */
-exports.verifyToken = function (req, res, next) {
+exports.verifyToken = function(req, res, next) {
   // get auth header value
   const bearerHeader = req.headers["authorization"];
   if (typeof bearerHeader !== "undefined") {

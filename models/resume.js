@@ -1,7 +1,7 @@
 // The Resume model
 
-const mongoose = require("mongoose"),
-  Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const resumeSchema = new Schema({
   profession: {
@@ -22,10 +22,10 @@ const resumeSchema = new Schema({
     type: Object
   },
   skills: {
-    type: Array,
+    type: Array
   },
   experience: {
-    type: Object,
+    type: Object
   },
   owner: {
     type: String,
@@ -33,7 +33,7 @@ const resumeSchema = new Schema({
   }
 });
 
-resumeSchema.pre("validate", function (next) {
+resumeSchema.pre("validate", function(next) {
   if (this.email || this.phone) {
     next();
   } else {
