@@ -13,7 +13,7 @@
     "postinstall": "npm install --prefix client",
     "heroku-postbuild": "cd client && npm run build",
     "start": "node server.js && cd client && npm start",
-    "prettify": "yarn run prettier --write './**/*.{js,jsx}'"
+    "prettify": "prettier --write './**/*.{js,jsx}'"
   },
   "dependencies": {
     "bcrypt": "^3.0.2",
