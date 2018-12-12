@@ -1,7 +1,12 @@
+/**
+ * Default server-side error handler
+ * @param response Response reference for client
+ * @param error Error from server
+ */
 exports.default500Error = function(response, error) {
   console.log(error);
   response.status(500).json({
-    error: error
+    error
   });
 };
 

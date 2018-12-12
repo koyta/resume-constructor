@@ -14,6 +14,9 @@ router.put("/:resumeId", putResumeById);
 router.get("/by/:owner", getAllResumesIdByOwner);
 router.get("/:owner/id", getUserIdByOwner);
 
+/**
+ * Sends {@var User.id} by his login (a.k.a nickname/resume owner)
+ */
 function getUserIdByOwner(request, response) {
   User.findOne({
     login: request.params.owner
@@ -26,6 +29,11 @@ function getUserIdByOwner(request, response) {
     .catch(error => default500Error(response, error));
 }
 
+/**
+ * Updates resume by {@var Resume.id}
+ * @param {*} req
+ * @param {*} res
+ */
 function putResumeById(req, res) {
   Resume.findByIdAndUpdate(req.params.resumeId, req.body, { new: true })
     .exec()
@@ -34,24 +42,27 @@ function putResumeById(req, res) {
     });
 }
 
+// TODO Not implemented
 function updateResumeById(req, res) {
-  console.log("update body: ", req.body);
-  res.sendStatus(200);
-  // Resume.update({_id: req.params.resumeId}, {
-  // })
+  res.sendStatus(501);
 }
 
+/**
+ * Delete resume by {@var Resume.id}
+ * @param {*} req
+ * @param {*} res
+ */
 function deleteResumeById(req, res) {
   Resume.findByIdAndRemove(req.params.resumeId)
     .exec()
-    .then(result => {
-      res.status(200).json({
-        message: "deleted",
-        result
-      });
-    });
+    .then(result => res.status(200));
 }
 
+/**
+ * Sends resume data by {@var Resume.id}
+ * @param {*} req
+ * @param {*} res
+ */
 function getResumeById(req, res) {
   Resume.findById(req.params.resumeId)
     .exec()
@@ -61,6 +72,11 @@ function getResumeById(req, res) {
     .catch(err => default500Error(res, err));
 }
 
+/**
+ * Sends all resumes created by {@var User.login}
+ * @param {*} request
+ * @param {*} response
+ */
 function getAllResumesIdByOwner(request, response) {
   Resume.find({ owner: request.params.owner }, "_id")
     .exec()
@@ -78,12 +94,18 @@ function getAllResumesIdByOwner(request, response) {
           })
         );
       } else {
+        // User not found
         response.sendStatus(204);
       }
     })
     .catch(error => default500Error(response, error));
 }
 
+/**
+ * Adding resume to a database
+ * @param {*} req
+ * @param {*} res
+ */
 function addResume(req, res) {
   jwt.verify(req.token, SECRET_KEY, (error, tokenData) => {
     if (error) {
@@ -99,12 +121,12 @@ function addResume(req, res) {
         telegram: req.body.telegram,
         owner: req.params.owner
       });
-      console.log(resume);
+      console.log("Adding a new resume: ", resume);
       resume
         .save()
         .then(result => {
           res.status(200).json({
-            message: "Резюме успешно добавлено!",
+            messageHumanized: "Резюме успешно добавлено",
             resume: result
           });
         })

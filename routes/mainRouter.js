@@ -10,6 +10,9 @@ const { SECRET_KEY } = require("./constants");
 router.post("/login", login);
 router.post("/signup", signup);
 
+/**
+ * Creates user in a database
+ */
 function signup(request, response) {
   const user = new User({
     _id: mongoose.Types.ObjectId(),
@@ -29,8 +32,10 @@ function signup(request, response) {
     .catch(error => default500Error(response, error));
 }
 
+/**
+ * Login action. Finds a user by credentials that he passed.
+ */
 function login(req, res) {
-  console.log("Logging in");
   User.findOne({ login: req.body.login })
     .exec()
     .then(user => {
